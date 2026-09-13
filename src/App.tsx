@@ -1,4 +1,29 @@
+import { lazy, Suspense, useEffect, useState } from 'react'
+
+// Paginas de diagnostico de la Fase 0. Carga diferida: no pesan en la pagina principal.
+const DiagnosticoGeometria = lazy(() => import('./dev/DiagnosticoGeometria.tsx'))
+
+function useHash(): string {
+  const [hash, setHash] = useState(() => location.hash)
+  useEffect(() => {
+    const alCambiar = () => setHash(location.hash)
+    addEventListener('hashchange', alCambiar)
+    return () => removeEventListener('hashchange', alCambiar)
+  }, [])
+  return hash
+}
+
 export default function App() {
+  const hash = useHash()
+
+  if (hash === '#/dev/geometria') {
+    return (
+      <Suspense fallback={null}>
+        <DiagnosticoGeometria />
+      </Suspense>
+    )
+  }
+
   return (
     <main className="flex min-h-svh flex-col items-center justify-center gap-4 bg-stone-50 p-6 text-center text-stone-900">
       <h1 className="text-4xl font-bold tracking-tight">3D Llaveros</h1>

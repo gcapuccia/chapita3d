@@ -12,15 +12,16 @@ Todo el procesamiento corre en el navegador de quien usa la web: sin servidor, s
 
 Requiere Node 24 y pnpm 10.
 
-| Comando                   | Qué hace                                                                                   |
-| ------------------------- | ------------------------------------------------------------------------------------------ |
-| `pnpm dev`                | Servidor de desarrollo                                                                     |
+| Comando                   | Qué hace                                                                                     |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| `pnpm dev`                | Servidor de desarrollo                                                                       |
+| `pnpm preview:red`        | Sirve el build en la red local (para probar en el celular)                                   |
 | `pnpm build`              | Build de producción. Incluye el chequeo de licencias del bundle y genera `dist/LICENSES.txt` |
-| `pnpm verificar`          | Todo lo que corre el CI: tipos → lint → licencias → tests → build                          |
-| `pnpm test`               | Tests con Vitest                                                                           |
-| `pnpm lint`               | oxlint, con las reglas de capas del plan (§5.3)                                            |
-| `pnpm chequear-licencias` | Revisa el árbol instalado de dependencias de producción                                    |
-| `pnpm format`             | Prettier                                                                                   |
+| `pnpm verificar`          | Todo lo que corre el CI: tipos → lint → licencias → tests → build                            |
+| `pnpm test`               | Tests con Vitest                                                                             |
+| `pnpm lint`               | oxlint, con las reglas de capas del plan (§5.3)                                              |
+| `pnpm chequear-licencias` | Revisa el árbol instalado de dependencias de producción                                      |
+| `pnpm format`             | Prettier                                                                                     |
 
 > No usar `pnpm ci`: es un comando reservado de pnpm y no ejecuta el script. El equivalente es `pnpm verificar`.
 

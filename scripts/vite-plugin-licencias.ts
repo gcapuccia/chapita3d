@@ -1,16 +1,20 @@
-// Capa 2 del chequeo de licencias: mira lo que REALMENTE entra al bundle.
+// Capa 2 del chequeo de licencias: mira lo que REALMENTE entra a lo que se publica.
+//
+// Vite compila cada Web Worker en un build SEPARADO, cuyo resultado no aparece en los
+// chunks del build principal. Por eso el chequeo tiene dos plugins que comparten un
+// registro: uno va en `worker.plugins` y el otro en `plugins`. Juntos cubren todo.
 //
 // En cada build:
 //  - toma los modulos que quedaron en los chunks y los agrupa por paquete npm
 //  - rompe si alguno esta en la lista negra, en EXCEPCIONES (una excepcion es
 //    "instalado pero nunca publicado"), o tiene una licencia no permitida
-//  - emite dist/LICENSES.txt con el texto de licencia y el NOTICE de cada paquete
+//  - el build principal emite dist/LICENSES.txt con TODO lo acumulado (app + workers)
 //
 // Esta capa no admite excepciones: lo que se publica tiene que estar limpio.
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import type { Plugin } from 'vite'
+import type { Plugin, Rolldown } from 'vite'
 import {
   licenciaDePackageJson,
   licenciaPermitida,
@@ -18,10 +22,10 @@ import {
   motivoListaNegra,
 } from './reglas-licencias.ts'
 
-type PaqueteBundle = { nombre: string; dir: string }
+type PaqueteBundle = { nombre: string; dir: string; version: string; licencia: string | undefined }
 
 /** "C:\\x\\node_modules\\.pnpm\\a@1\\node_modules\\@s\\p\\lib\\i.js" -> { nombre: "@s/p", dir } */
-function paqueteDeModulo(id: string): PaqueteBundle | null {
+function paqueteDeModulo(id: string): { nombre: string; dir: string } | null {
   const ruta = id.replace(/^\0/, '').split('?')[0]!.replace(/\\/g, '/')
   const corte = ruta.lastIndexOf('/node_modules/')
   if (corte === -1) return null
@@ -40,71 +44,104 @@ function leerTextos(dir: string): { licencia: string; notice: string } {
   return { licencia: leer(/^(licen[cs]e|copying)(\.|$)/i), notice: leer(/^notice(\.|$)/i) }
 }
 
-export function licencias(): Plugin {
+function erroresDe(p: PaqueteBundle): string | null {
+  const id = `${p.nombre}@${p.version}`
+  const negra = motivoListaNegra(p.nombre)
+  if (negra) return `LISTA NEGRA en el bundle: ${id} — ${negra}`
+  if (motivoExcepcion(p.nombre)) {
+    return (
+      `EXCEPCION en el bundle: ${id}. Estaba registrada como "instalada pero no publicada" ` +
+      'y llego al codigo que se publica: la excepcion ya no es valida.'
+    )
+  }
+  if (!licenciaPermitida(p.licencia)) {
+    return `LICENCIA NO PERMITIDA en el bundle: ${id} (${p.licencia ?? 'sin licencia'})`
+  }
+  return null
+}
+
+function textoLicencias(paquetes: PaqueteBundle[]): string {
+  const separador = `\n\n${'='.repeat(78)}\n\n`
+  const secciones = paquetes.map((p) => {
+    const { licencia, notice } = leerTextos(p.dir)
+    const pkg = JSON.parse(readFileSync(join(p.dir, 'package.json'), 'utf8')) as {
+      homepage?: string
+    }
+    const lineas = [`${p.nombre}@${p.version} — ${p.licencia ?? 'sin licencia declarada'}`]
+    if (pkg.homepage) lineas.push(pkg.homepage)
+    lineas.push('', licencia || '(el paquete no incluye archivo de licencia)')
+    if (notice) lineas.push('', '--- NOTICE ---', notice)
+    return lineas.join('\n')
+  })
+  return (
+    '3D Llaveros — licencias del software de terceros incluido en este sitio\n' +
+    `${paquetes.length} paquetes, generado automaticamente en el build.` +
+    separador +
+    secciones.join(separador) +
+    '\n'
+  )
+}
+
+export function crearChequeoLicencias() {
+  const registro = new Map<string, PaqueteBundle>()
+
+  /** Agrega al registro los paquetes de este bundle y devuelve los errores que encontro. */
+  function recolectar(bundle: Rolldown.OutputBundle): string[] {
+    const errores: string[] = []
+    for (const salida of Object.values(bundle)) {
+      if (salida.type !== 'chunk') continue
+      for (const id of Object.keys(salida.modules)) {
+        const ubicacion = paqueteDeModulo(id)
+        if (!ubicacion || registro.has(ubicacion.nombre)) continue
+        const pkg = JSON.parse(readFileSync(join(ubicacion.dir, 'package.json'), 'utf8'))
+        const paquete: PaqueteBundle = {
+          ...ubicacion,
+          version: String(pkg.version),
+          licencia: licenciaDePackageJson(pkg),
+        }
+        registro.set(paquete.nombre, paquete)
+        const error = erroresDe(paquete)
+        if (error) errores.push(error)
+      }
+    }
+    return errores
+  }
+
   return {
-    name: '3dllaveros:licencias',
-    apply: 'build',
-    generateBundle(_opciones, bundle) {
-      const paquetes = new Map<string, PaqueteBundle>()
-      for (const salida of Object.values(bundle)) {
-        if (salida.type !== 'chunk') continue
-        for (const id of Object.keys(salida.modules)) {
-          const p = paqueteDeModulo(id)
-          if (p) paquetes.set(p.nombre, p)
-        }
+    /** Va en `worker.plugins`: revisa el bundle de cada worker. */
+    worker(): Plugin {
+      return {
+        name: '3dllaveros:licencias-worker',
+        apply: 'build',
+        generateBundle(_opciones, bundle) {
+          const errores = recolectar(bundle)
+          if (errores.length)
+            this.error(`Chequeo de licencias del worker:\n  ${errores.join('\n  ')}`)
+        },
       }
+    },
 
-      const errores: string[] = []
-      const secciones: string[] = []
+    /** Va en `plugins`: revisa la app y emite LICENSES.txt con app + workers. */
+    principal(): Plugin {
+      return {
+        name: '3dllaveros:licencias',
+        apply: 'build',
+        generateBundle(_opciones, bundle) {
+          const errores = recolectar(bundle)
+          if (errores.length)
+            this.error(`Chequeo de licencias del bundle:\n  ${errores.join('\n  ')}`)
 
-      for (const p of [...paquetes.values()].sort((a, b) => a.nombre.localeCompare(b.nombre))) {
-        const pkg = JSON.parse(readFileSync(join(p.dir, 'package.json'), 'utf8'))
-        const licencia = licenciaDePackageJson(pkg)
-        const id = `${p.nombre}@${pkg.version}`
-
-        const negra = motivoListaNegra(p.nombre)
-        if (negra) errores.push(`LISTA NEGRA en el bundle: ${id} — ${negra}`)
-        else if (motivoExcepcion(p.nombre)) {
-          errores.push(
-            `EXCEPCION en el bundle: ${id}. Estaba registrada como "instalada pero no publicada" ` +
-              'y llego al codigo que se publica: la excepcion ya no es valida.',
+          const paquetes = [...registro.values()].sort((a, b) => a.nombre.localeCompare(b.nombre))
+          this.emitFile({
+            type: 'asset',
+            fileName: 'LICENSES.txt',
+            source: textoLicencias(paquetes),
+          })
+          this.info(
+            `LICENSES.txt: ${paquetes.length} paquetes (app + workers), todos con licencia permitida`,
           )
-        } else if (!licenciaPermitida(licencia)) {
-          errores.push(`LICENCIA NO PERMITIDA en el bundle: ${id} (${licencia ?? 'sin licencia'})`)
-        }
-
-        const { licencia: texto, notice } = leerTextos(p.dir)
-        secciones.push(
-          [
-            `${id} — ${licencia ?? 'sin licencia declarada'}`,
-            pkg.homepage ? `${pkg.homepage}` : '',
-            '',
-            texto || '(el paquete no incluye archivo de licencia)',
-            notice ? `\n--- NOTICE ---\n${notice}` : '',
-          ]
-            .filter((l, i) => i !== 1 || l)
-            .join('\n'),
-        )
+        },
       }
-
-      if (errores.length) {
-        this.error(`Chequeo de licencias del bundle:\n  ${errores.join('\n  ')}`)
-      }
-
-      const separador = `\n\n${'='.repeat(78)}\n\n`
-      this.emitFile({
-        type: 'asset',
-        fileName: 'LICENSES.txt',
-        source:
-          `3D Llaveros — licencias del software de terceros incluido en este sitio\n` +
-          `${paquetes.size} paquetes, generado automaticamente en el build.` +
-          separador +
-          secciones.join(separador) +
-          '\n',
-      })
-      this.info(
-        `LICENSES.txt: ${paquetes.size} paquetes en el bundle, todos con licencia permitida`,
-      )
     },
   }
 }
