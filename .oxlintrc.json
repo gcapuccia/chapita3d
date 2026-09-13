@@ -1,0 +1,102 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "ignorePatterns": ["dist", "spikes/**/salida"],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.ts", "src/**/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "manifold-3d",
+                  "manifold-3d/*",
+                  "d3-contour",
+                  "simplify-js",
+                  "ml-kmeans",
+                  "culori",
+                  "culori/*",
+                  "fflate",
+                  "opentype.js",
+                  "@techstark/opencv-js"
+                ],
+                "message": "Las librerias de motor solo se importan desde src/pipeline, src/geometria o src/export (plan §5.3)."
+              },
+              {
+                "group": ["**/spikes/**"],
+                "message": "spikes/ es codigo descartable de la Fase 0: si algo sirve, se muda a src/ (plan §6)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/pipeline/**", "src/geometria/**", "src/export/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**/spikes/**"],
+                "message": "spikes/ es codigo descartable de la Fase 0: si algo sirve, se muda a src/ (plan §6)."
+              },
+              {
+                "group": ["react", "react-dom", "react/*", "react-dom/*"],
+                "message": "Las capas de motor no conocen React: reciben datos y devuelven datos (plan §5.3)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/pipeline/**"],
+      "rules": {
+        "no-restricted-globals": [
+          "error",
+          {
+            "name": "window",
+            "message": "src/pipeline no toca el DOM: recibe pixeles y devuelve poligonos (plan §5.3)."
+          },
+          {
+            "name": "document",
+            "message": "src/pipeline no toca el DOM: recibe pixeles y devuelve poligonos (plan §5.3)."
+          },
+          {
+            "name": "navigator",
+            "message": "src/pipeline no toca el DOM: recibe pixeles y devuelve poligonos (plan §5.3)."
+          },
+          {
+            "name": "localStorage",
+            "message": "src/pipeline no persiste nada: eso es de src/estado (plan §6)."
+          },
+          {
+            "name": "sessionStorage",
+            "message": "src/pipeline no persiste nada: eso es de src/estado (plan §6)."
+          },
+          {
+            "name": "HTMLCanvasElement",
+            "message": "src/pipeline no usa canvas: la decodificacion de la imagen va en el worker (plan §5.3)."
+          },
+          {
+            "name": "OffscreenCanvas",
+            "message": "src/pipeline no usa canvas: la decodificacion de la imagen va en el worker (plan §5.3)."
+          },
+          {
+            "name": "createImageBitmap",
+            "message": "src/pipeline no decodifica imagenes: recibe ImagenNormalizada ya en pixeles (plan §5.3)."
+          }
+        ]
+      }
+    }
+  ]
+}

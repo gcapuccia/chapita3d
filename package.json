@@ -1,0 +1,54 @@
+{
+  "name": "3dllaveros",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Convierte una imagen en un llavero 3D multicolor listo para imprimir",
+  "type": "module",
+  "packageManager": "pnpm@10.33.4",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "lint": "oxlint --deny-warnings",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "chequear-licencias": "node scripts/chequear-licencias.ts",
+    "verificar": "pnpm typecheck && pnpm lint && pnpm chequear-licencias && pnpm test && pnpm build"
+  },
+  "dependencies": {
+    "comlink": "^4.4.2",
+    "culori": "^4.0.2",
+    "d3-contour": "^4.0.2",
+    "fflate": "^0.8.3",
+    "idb-keyval": "^6.3.0",
+    "manifold-3d": "^3.5.3",
+    "ml-kmeans": "^7.0.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "simplify-js": "^1.2.4",
+    "three": "^0.186.0",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/culori": "^4.0.1",
+    "@types/d3-contour": "^3.0.6",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "prettier": "^3.9.6",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.0"
+  }
+}
