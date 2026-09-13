@@ -953,7 +953,7 @@ Si falla la 3 pero pasa 1 y 2 → **Avanzado**. Si falla la 1 → **Oculto**.
 | `ladoMaxPxOriginal` | 8000 px | — | O | Si es mayor, downscale en 2 pasos |
 | `ladoMaxPxDesktop` | 900 px | 512–1400 | O | audit-01 §6.1 |
 | `ladoMaxPxMovil` | 640 px | 400–900 | O | Si `deviceMemory ≤ 4` o `hardwareConcurrency ≤ 4` |
-| `mmPorPixel` | **0,20** ⚠️ **PROVISORIO** | 0,10–0,25 | A | audit-02 §6.1 (0,20) contra audit-01 §6.1 (0,10). **Se fija por medición en F0.8**: se corre el banco a 0,10/0,15/0,20/0,25 contra una referencia a 0,05 y se elige el valor más grueso cuya desviación máxima de contorno siga por debajo de la tolerancia de RDP (0,05 mm) |
+| `mmPorPixel` | **0,10** ✅ medido en F0.8 (antes 0,20 provisorio; criterio ajustado a p95 ≤ 0,10 mm, ver `docs/pruebas/f0.8-pipeline.md`) | 0,10–0,25 | A | audit-02 §6.1 (0,20) contra audit-01 §6.1 (0,10). **Se fija por medición en F0.8**: se corre el banco a 0,10/0,15/0,20/0,25 contra una referencia a 0,05 y se elige el valor más grueso cuya desviación máxima de contorno siga por debajo de la tolerancia de RDP (0,05 mm) |
 | `formatos` | PNG, JPG, WEBP | — | O | SVG y HEIC **fuera** (decisiones 17 y 19) |
 
 ### 7.2 Máscara de fondo
@@ -964,7 +964,7 @@ Si falla la 3 pero pasa 1 y 2 → **Avanzado**. Si falla la 1 → **Oculto**.
 | `toleranciaFloodFill` | 10 (ΔOKLab × 100) | 2–40 | **V** | El slider "Cuánto fondo sacar", sin número visible |
 | `radioPincel` | 12 px de pantalla | 2–100 | **V** | En píxeles de pantalla, no de imagen |
 | `clustersPreviosFoto` | 6 | 4–8 | O | audit-01 §1.4 |
-| `erosionAntiHalo` | 1 px | 0–3 | O | Defringe obligatorio. Sin esto el antialias se vuelve un 5º color |
+| `erosionAntiHalo` | 1 px | 0–3 | O | Defringe obligatorio. Sin esto el antialias se vuelve un 5º color. **Corregido en F0.8:** se usa solo para estimar colores; aplicada a la geometría achicaba el llavero 1 px alrededor |
 | `pasosDeshacerMascara` | 20 | — | O | Buffer circular propio, **no entra al documento** |
 | `grabcutIteraciones` | 3 | 1–8 | A | Solo si se implementa (decisión 18) |
 | `grabcutLadoMaxPx` | 512 | 320–800 | O | Downscale antes, upscale la máscara después |
@@ -999,7 +999,7 @@ Si falla la 3 pero pasa 1 y 2 → **Avanzado**. Si falla la 1 → **Oculto**.
 |---|---|---|---|---|
 | `paddingGrilla` | 1 px de fondo en todo el borde | — | O | Antes de `d3-contour` |
 | `umbralContour` | 0,5 | — | O | Sobre cada máscara binaria, `smooth(true)` |
-| `correccionMedioPixel` | restar 0,5 px | — | O | **Gotcha de d3-contour.** Sin esto todo sale corrido medio píxel |
+| `correccionMedioPixel` | ~~restar 0,5 px~~ **no se aplica** | — | O | **Corregido en F0.8:** medido en d3-contour 4.0.2, ya devuelve coordenadas de borde de píxel; restar 0,5 corría todo medio píxel. Hay test |
 | `toleranciaRDP` | 0,05 mm | 0,02–0,10 | A | audit-02 §6.1. Sube a 0,08 con imágenes < 300 px |
 | `maxVerticesPorRegion` | 2.000 | 500–5.000 | O | Corte de seguridad de memoria |
 | `epsilonSolapeCapasXY` | **0,05 mm** | 0,02–0,10 | O | **Clave contra costuras.** Ver §3, los dos épsilon |

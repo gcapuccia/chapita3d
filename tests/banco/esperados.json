@@ -1,0 +1,275 @@
+{
+  "mmPorPixel": 0.1,
+  "generado": "spikes/05-pipeline/correr.ts",
+  "imagenes": {
+    "logo-01-sello-transparente": {
+      "exito": true,
+      "iou": 0.9991,
+      "colores": [
+        {
+          "hex": "#D62828",
+          "areaMm2": 1293.34
+        },
+        {
+          "hex": "#FFFFFF",
+          "areaMm2": 288.08
+        },
+        {
+          "hex": "#1C1B1B",
+          "areaMm2": 382.48
+        }
+      ],
+      "motivos": []
+    },
+    "logo-02-escudo-ruido": {
+      "exito": true,
+      "iou": 0.9989,
+      "colores": [
+        {
+          "hex": "#1D3A8A",
+          "areaMm2": 1069.4
+        },
+        {
+          "hex": "#F2C230",
+          "areaMm2": 285.62
+        },
+        {
+          "hex": "#FEFEFE",
+          "areaMm2": 252.86
+        }
+      ],
+      "motivos": []
+    },
+    "logo-03-formas-crema": {
+      "exito": true,
+      "iou": 0.9997,
+      "colores": [
+        {
+          "hex": "#2E9E5B",
+          "areaMm2": 503.42
+        },
+        {
+          "hex": "#F28C28",
+          "areaMm2": 612.01
+        },
+        {
+          "hex": "#44474F",
+          "areaMm2": 571.61
+        }
+      ],
+      "motivos": []
+    },
+    "logo-04-chico-320px": {
+      "exito": true,
+      "iou": 0.9902,
+      "colores": [
+        {
+          "hex": "#5B2A86",
+          "areaMm2": 1072.45
+        },
+        {
+          "hex": "#FEFDFE",
+          "areaMm2": 409.66
+        },
+        {
+          "hex": "#E02B90",
+          "areaMm2": 160.52
+        }
+      ],
+      "motivos": []
+    },
+    "logo-05-jpg-sucio": {
+      "exito": true,
+      "iou": 0.997,
+      "colores": [
+        {
+          "hex": "#1E4FD8",
+          "areaMm2": 619.06
+        },
+        {
+          "hex": "#27C3D8",
+          "areaMm2": 315.51
+        },
+        {
+          "hex": "#0B1F4B",
+          "areaMm2": 184.64
+        }
+      ],
+      "motivos": []
+    },
+    "dibujo-01-carita-sombreada": {
+      "exito": true,
+      "iou": 0.9996,
+      "colores": [
+        {
+          "hex": "#F5C518",
+          "areaMm2": 1748.83
+        },
+        {
+          "hex": "#1B1B1A",
+          "areaMm2": 142.68
+        },
+        {
+          "hex": "#DE4139",
+          "areaMm2": 74.53
+        }
+      ],
+      "motivos": []
+    },
+    "dibujo-02-gato-fondo-celeste": {
+      "exito": true,
+      "iou": 0.9986,
+      "colores": [
+        {
+          "hex": "#161616",
+          "areaMm2": 1585.65
+        },
+        {
+          "hex": "#FFFFFF",
+          "areaMm2": 73.36
+        },
+        {
+          "hex": "#EA93B0",
+          "areaMm2": 8.24
+        }
+      ],
+      "motivos": []
+    },
+    "dibujo-03-flor": {
+      "exito": true,
+      "iou": 0.9978,
+      "colores": [
+        {
+          "hex": "#EC6FA9",
+          "areaMm2": 489.6
+        },
+        {
+          "hex": "#F59E0C",
+          "areaMm2": 102.65
+        },
+        {
+          "hex": "#3F9C35",
+          "areaMm2": 120.68
+        }
+      ],
+      "motivos": []
+    },
+    "dibujo-04-escaneado": {
+      "exito": true,
+      "iou": 0.9941,
+      "colores": [
+        {
+          "hex": "#1F1E1E",
+          "areaMm2": 352.93
+        },
+        {
+          "hex": "#C8232C",
+          "areaMm2": 1026.87
+        }
+      ],
+      "motivos": []
+    },
+    "dibujo-05-lineas-finas": {
+      "exito": true,
+      "iou": 0.9986,
+      "colores": [
+        {
+          "hex": "#1F6FEB",
+          "areaMm2": 1588.25
+        },
+        {
+          "hex": "#FFD43B",
+          "areaMm2": 375.36
+        }
+      ],
+      "motivos": []
+    },
+    "sticker-01-borde-blanco-sombra": {
+      "exito": true,
+      "iou": 0.9991,
+      "colores": [
+        {
+          "hex": "#FFFFFF",
+          "areaMm2": 520.9
+        },
+        {
+          "hex": "#43A047",
+          "areaMm2": 1130.45
+        },
+        {
+          "hex": "#6D4D41",
+          "areaMm2": 27.16
+        }
+      ],
+      "motivos": []
+    },
+    "sticker-02-captura-degradado": {
+      "exito": true,
+      "iou": 0.9999,
+      "colores": [
+        {
+          "hex": "#F57C00",
+          "areaMm2": 1442.83
+        },
+        {
+          "hex": "#FFFFFF",
+          "areaMm2": 211.44
+        },
+        {
+          "hex": "#39484E",
+          "areaMm2": 120.03
+        }
+      ],
+      "motivos": []
+    },
+    "sticker-03-vinieta": {
+      "exito": true,
+      "iou": 0.9981,
+      "colores": [
+        {
+          "hex": "#00897B",
+          "areaMm2": 856.12
+        },
+        {
+          "hex": "#FFFFFF",
+          "areaMm2": 86.89
+        }
+      ],
+      "motivos": []
+    },
+    "horrible-01-oscura": {
+      "exito": false,
+      "iou": 0,
+      "colores": [
+        {
+          "hex": null,
+          "areaMm2": 0
+        },
+        {
+          "hex": null,
+          "areaMm2": 0
+        }
+      ],
+      "motivos": ["máscara IoU 0.000 < 0.97", "falta el color #513535", "falta el color #605737"]
+    },
+    "horrible-02-fondo-igual": {
+      "exito": false,
+      "iou": 0.2254,
+      "colores": [
+        {
+          "hex": null,
+          "areaMm2": 0
+        },
+        {
+          "hex": "#6D4C2F",
+          "areaMm2": 584.51
+        }
+      ],
+      "motivos": [
+        "máscara IoU 0.225 < 0.97",
+        "falta el color #DCD4C2",
+        "#6D4C2F: área 584.5 mm² contra 83.8 esperada"
+      ]
+    }
+  }
+}
