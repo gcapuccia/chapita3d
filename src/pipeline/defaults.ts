@@ -190,3 +190,25 @@ export const PERDIDA_TEXTO_AVISO = 0.05
  * "Guido" medía 5,9 mm y el texto nacía con el aviso de ilegible (medido en F1). Con 9 mide ~6,6 mm.
  */
 export const TAMANO_TEXTO_MM = 9
+
+// ------------------------------------------------------------------ arreglos de F2 (spikes/08-arreglos)
+// ⚠️ PROVISORIO: salen de 29 imagenes (13 escenas reales sinteticas, una foto y el banco). Se recalibran
+// con fotos reales.
+
+/** Grosor al que se engrosan las lineas mas finas que lo imprimible, en vez de borrarlas. */
+export const GROSOR_LINEAS_MM = { minimo: 0.8, porDefecto: 0.8, maximo: 2.0 } as const
+
+/** Una linea fina mas corta que esto es ruido (antialias, motas): no se engrosa. */
+export const LARGO_MINIMO_LINEA_MM = 1.5
+
+/** Fraccion del dibujo en lineas finas a partir de la cual "Automatico" engrosa. Separa las 29 sin errores. */
+export const FRACCION_LINEAS_AUTO = 0.04
+
+/** Una zona de fondo encerrado (o de degrade) mas chica que esto queda como dibujo. */
+export const FONDO_AREA_MINIMA_MM2 = 3
+
+/** Tolerancia del fondo encerrado en OKLab: base + sigmas × desvio del borde, entre min y max. */
+export const FONDO_TOLERANCIA = { base: 0.035, sigmas: 3, min: 0.05, max: 0.1 } as const
+
+/** Para la caja del dibujo solo cuentan las manchas de al menos esta fraccion de la mayor. */
+export const CAJA_FRACCION_MOTA = 0.01

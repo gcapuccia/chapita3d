@@ -252,3 +252,30 @@ export type ResultadoConversion = {
 - No se construyó geometría: la región de base y el agujero pasante se razonaron desde `cuerpoDelLlavero`, no se midieron con `construir()`. Tampoco se midieron los avisos de la DRC con las líneas engrosadas.
 - Los tiempos son de la PC de desarrollo en Node, con el runner corriendo en serie; en el worker del navegador hay que volver a medir.
 - El tope de resolución a 80 mm (`LADO_MAX_PX_TRABAJO`) y `R = grosor/2 + 0,5 px` son propuestas sin medir.
+
+## Portado a `src/` (2026-09-14)
+
+Se portó la **política** recomendada, con estos defaults en `paramsPorDefecto()`:
+
+| Arreglo | Dónde quedó | Default |
+|---|---|---|
+| Fondo encerrado + degradé, con guarda de la base | `src/pipeline/fondo.ts` (`ajustarModeloFondo`, `fondoEncerrado`) | `fondoEncerrado: true`, `fondoAreaMinimaMm2: 3` |
+| Relleno como región de base | `convertir()` pinta lo encerrado con el índice de la base (reusa un color de la paleta a ΔE2000 < 5 o agrega `#FFFFFF`); `crearDiseno` ya lo manda al filamento base | siempre que haya relleno |
+| Caja sin motas | `fondo.ts › cajaSinMotas` | `cajaSinMotas: true` |
+| Fundir intermedios (4b) | `src/pipeline/colores.ts` | `fusionarIntermedios: true` |
+| Conservar trazos + guarda anti-halo | `convertir()` y `limpiar.ts` | siempre |
+| Engrosar detrás del detector | `limpiar.ts` devuelve `{ etiquetas, informe }`; `grosorMinimoLineasMm: 'auto'` limpia borrando y, si `fraccionLineas ≥ 4 %`, **repite solo la limpieza** engrosando a 0,8 mm | `'auto'` |
+| Radio `grosor/2 + 0,5 px` | `limpiar.ts` | siempre |
+| Polaridad de Silueta | `fondo.ts › tintaClara` | `polaridadSilueta: true` |
+| Avisos nuevos | `lineas-engrosadas`, `fondo-rellenado` (este solo si el relleno pasa de 3 mm²); `fondo-complejo` se oculta si la segunda pasada sacó fondo | — |
+
+No se portó: 4a, 4c automático, `medioPx` sin engrosar, modo Líneas, ni que el tamaño reprocese.
+
+**Verificación:**
+- `node spikes/08-arreglos/verificar-port.ts`: antes del medio píxel, **idéntico al spike pixel a pixel en las 14 imágenes** (preset incluido), y más rápido cuando engrosa (La Ronda 778 ms contra 968; gato 711 contra 1216) porque la segunda corrida empieza en la limpieza.
+- `node spikes/08-arreglos/construir-reales.ts`: las 14 construyen en los dos modos, piezas disjuntas, sin errores de DRC. La Ronda sale llena al 70 % de su caja (sin agujero pasante). Con el medio píxel, el perro deja de avisar `detalle-fino`; La Ronda, el icono lineal y el texto largo lo siguen avisando (lo redondea la apertura en puntas y esquinas: es aviso, no bloquea).
+- Elementos de La Ronda con `src/`: círculo 100 %, LA RONDA 99 %, contorno del mate 100 %, bombilla 99 %, TIENDA 87 % (se pierde la T), relleno del mate 95 %. Con 3 colores queda base + relleno del mate + líneas.
+- `tests/arreglos.test.ts`: 8 tests (encerrados, esqueleto, aro sobre celeste relleno sin agujero, sin segunda pasada queda como antes, Z de 0,5 mm engrosada a ≥ 0,8, con `null` se borra, caja sin motas, polaridad).
+- En la app (navegador): La Ronda da disco macizo con las líneas, textos y mate; 5 avisos.
+
+**Pendiente:** con 4 colores, La Ronda gasta un filamento en un gris claro de antialias que 4b no funde (no es ≥ 85 % fino); la T de TIENDA; las motas del mate; los textos de la DRC siguen diciendo «0,8 mm» para lo que la apertura redondea.

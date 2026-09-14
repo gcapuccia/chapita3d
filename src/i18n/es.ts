@@ -52,7 +52,7 @@ export const es = {
       'Algo se me trabó procesando la imagen. Suele pasar con imágenes muy grandes. ¿La proceso más chica?',
     // Texto 6
     sinDibujo:
-      'Me llevé casi todo el dibujo. Bajá «cuánto fondo sacar», o traé de vuelta lo que falta con el pincel ✏️.',
+      'Me llevé casi todo el dibujo. Probá con otro tipo de imagen (Foto suele andar mejor), o con una imagen de fondo liso.',
     proyectoInvalido: (archivo: string) =>
       `«${archivo}» no parece un proyecto guardado desde acá. Probá con el proyecto.json que viene adentro del ZIP.`,
     entendido: 'Entendido',

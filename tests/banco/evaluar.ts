@@ -55,7 +55,12 @@ export function areaRegionMm2(contornos: [number, number][][]): number {
 export function evaluar(
   escena: Escena,
   verdad: Verdad,
-  r: ResultadoConversion,
+  r: Pick<ResultadoConversion, 'regiones'> & {
+    diagnostico: Pick<
+      ResultadoConversion['diagnostico'],
+      'recorte' | 'ancho' | 'alto' | 'etiquetas' | 'mmPorPixel'
+    >
+  },
   ladoMayorMm: number,
 ): Evaluacion {
   const motivos: string[] = []

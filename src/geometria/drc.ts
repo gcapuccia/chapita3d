@@ -143,7 +143,7 @@ export function drcDetalle(
       {
         codigo: 'detalle-fino',
         nivel: 'aviso',
-        mensaje: `${reg.nombre} tiene partes más finas que ${anchoMinimo} mm (${Math.round(fraccion * 100)} % de su área): pueden salir frágiles o no salir.`,
+        mensaje: `${reg.nombre} tiene partes más finas que ${String(anchoMinimo).replace('.', ',')} mm (${Math.round(fraccion * 100)} % de su área): pueden salir frágiles o no salir.`,
         zonas: perdido.toPolygons(),
       },
     ]

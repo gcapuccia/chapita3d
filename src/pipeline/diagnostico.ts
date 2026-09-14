@@ -18,6 +18,8 @@ export type CodigoCaso =
   | 'dibujo-no-encontrado'
   | 'sin-fondo'
   | 'huecos-en-dibujo'
+  | 'lineas-engrosadas'
+  | 'fondo-rellenado'
 
 export type CasoFeo = {
   caso: 1 | 2 | 3 | 5 | 6
@@ -142,7 +144,8 @@ export function diagnosticar(e: EntradaDiagnostico): CasoFeo[] {
     casos.push({
       caso: 1,
       codigo: 'fondo-complejo',
-      mensaje: 'Si el recorte no quedó bien, probá tocando qué colores son fondo.',
+      mensaje:
+        'El fondo es difícil de separar. Si el recorte no quedó bien, probá con el tipo de imagen Foto.',
       // Se ofrece pero no se impone: en la viñeta del banco este caso salta con el recorte bien
       // hecho, y pasar a Foto lo empeora (IoU 1,00 → 0,16)
       sugerirPreset: 'foto',
@@ -219,7 +222,8 @@ export function diagnosticar(e: EntradaDiagnostico): CasoFeo[] {
     casos.push({
       caso: 5,
       codigo: 'texto-chico',
-      mensaje: 'Parece que hay texto chico: puede salir ilegible. Probá hacerlo más grande.',
+      mensaje:
+        'Parece que hay texto chico: puede salir ilegible. Podés sacarlo de la imagen y escribirlo con «Texto» en la solapa Llavero.',
     })
   }
 

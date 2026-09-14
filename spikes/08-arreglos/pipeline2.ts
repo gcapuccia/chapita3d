@@ -16,7 +16,10 @@ import {
   mascaraPorFloodFill,
   tieneAlfaUtil,
 } from '../../src/pipeline/mascara.ts'
-import type { ParamsPipeline, ResultadoConversion } from '../../src/pipeline/index.ts'
+import type {
+  ParamsPipeline,
+  ResultadoConversion as ResultadoSrc,
+} from '../../src/pipeline/index.ts'
 import { paramsPorDefecto } from '../../src/pipeline/index.ts'
 import { mediana } from '../../src/pipeline/prefiltro.ts'
 import {
@@ -51,6 +54,14 @@ import {
 } from './fondo.ts'
 import { componentes, encerrados } from './morfologia2.ts'
 import type { UmbralFino } from './morfologia2.ts'
+
+// El resultado de src/ antes de portar los arreglos (el diagnostico de hoy trae campos nuevos)
+type ResultadoConversion = Omit<ResultadoSrc, 'diagnostico'> & {
+  diagnostico: Omit<
+    ResultadoSrc['diagnostico'],
+    'limpieza' | 'grosorLineasMm' | 'fondo' | 'motas' | 'intermediosSacados'
+  >
+}
 
 export type Arreglos = {
   /** 1 · null = hoy (borrar). Numero = grosorMinimoLineasMm. */
