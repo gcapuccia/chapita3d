@@ -7,7 +7,7 @@
 //   ├─ INSTRUCCIONES.txt
 //   └─ proyecto.json                 ← para volver a abrirlo
 
-import { strToU8, zipSync } from 'fflate'
+import { strToU8, unzipSync, zipSync } from 'fflate'
 import type { Diseno } from '../diseno/tipos.ts'
 import type { ResultadoConstruccion } from '../geometria/construir.ts'
 import { escribir3mfBambu } from './3mf/bambu.ts'
@@ -66,4 +66,9 @@ export function empaquetar(d: Diseno, r: ResultadoConstruccion, fecha: string): 
     zip: zipSync(contenido, { level: 6 }),
     archivos: Object.keys(contenido).sort(),
   }
+}
+
+/** Los archivos de un ZIP ya armado: para el plan B de descarga archivo por archivo (plan §4.6). */
+export function desarmarZip(zip: Uint8Array): Record<string, Uint8Array> {
+  return unzipSync(zip)
 }

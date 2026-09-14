@@ -107,9 +107,18 @@ export type ResultadoConversion = {
 /** Margen alrededor del dibujo: el flood fill del recorte necesita fondo en el borde. */
 const MARGEN_RELATIVO = 0.03
 
-export function convertir(fuente: ImagenRGBA, p: ParamsPipeline): ResultadoConversion {
+/**
+ * @param alEtapa se llama al empezar cada etapa: la interfaz muestra hitos reales en vez de un
+ *   porcentaje inventado (plan §4.2).
+ */
+export function convertir(
+  fuente: ImagenRGBA,
+  p: ParamsPipeline,
+  alEtapa?: (etapa: EtapaPipeline) => void,
+): ResultadoConversion {
   const tiemposMs = {} as Record<EtapaPipeline, number>
   const medir = <T>(etapa: EtapaPipeline, fn: () => T): T => {
+    alEtapa?.(etapa)
     const t0 = performance.now()
     const r = fn()
     tiemposMs[etapa] = performance.now() - t0
@@ -259,17 +268,26 @@ export function convertir(fuente: ImagenRGBA, p: ParamsPipeline): ResultadoConve
 export function convertirAutomatico(
   fuente: ImagenRGBA,
   base: Partial<ParamsPipeline> = {},
+  alEtapa?: (etapa: EtapaPipeline) => void,
 ): ResultadoConversion & { preset: NombrePreset } {
-  const primero = convertir(fuente, { ...paramsPorDefecto('dibujo'), ...base, preset: 'dibujo' })
+  const primero = convertir(
+    fuente,
+    { ...paramsPorDefecto('dibujo'), ...base, preset: 'dibujo' },
+    alEtapa,
+  )
   const cambio = primero.diagnostico.casos.find((c) => c.cambiarSolo && c.sugerirPreset)
   if (!cambio?.sugerirPreset) return { ...primero, preset: 'dibujo' }
-  const segundo = convertir(fuente, {
-    ...paramsPorDefecto(cambio.sugerirPreset),
-    ...base,
-    preset: cambio.sugerirPreset,
-  })
+  const segundo = convertir(
+    fuente,
+    {
+      ...paramsPorDefecto(cambio.sugerirPreset),
+      ...base,
+      preset: cambio.sugerirPreset,
+    },
+    alEtapa,
+  )
   return { ...segundo, preset: cambio.sugerirPreset }
 }
 
 export { FONDO }
-export type { ColorPaleta, ImagenRGBA, Recorte, RegionTrazada }
+export type { ColorPaleta, EtapaPipeline, ImagenRGBA, Recorte, RegionTrazada }

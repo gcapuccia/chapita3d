@@ -3,3 +3,21 @@
 body {
   background-color: var(--color-stone-50);
 }
+
+html {
+  color: var(--color-stone-900);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes barrido {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@utility animate-barrido {
+  animation: barrido 1.6s ease-in-out infinite;
+}

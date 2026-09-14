@@ -53,8 +53,11 @@ const api = {
     return cicloDeFugas(ciclos, verticesPorContorno)
   },
 
-  /** Construye el llavero y, si no hay errores bloqueantes, arma el ZIP. Todo viaja por transferencia. */
-  async construirLlavero(diseno: Diseno, fecha: string) {
+  /**
+   * Construye el llavero y, si se pide y no hay errores bloqueantes, arma el ZIP. Todo viaja por
+   * transferencia. El preview no pide el ZIP: empaquetar suma ~60 ms que no hacen falta hasta descargar.
+   */
+  async construirLlavero(diseno: Diseno, fecha: string, conZip = true) {
     await cargarManifold()
     for (const p of diseno.piezas) {
       if (p.geometria.kind !== 'texto' || fuenteRegistrada(p.geometria.fuente)) continue
@@ -66,7 +69,7 @@ const api = {
     const resultado = construir(diseno)
     const msConstruir = performance.now() - t0
     const t1 = performance.now()
-    const paquete = resultado.bloqueante ? null : empaquetar(diseno, resultado, fecha)
+    const paquete = conZip && !resultado.bloqueante ? empaquetar(diseno, resultado, fecha) : null
     const msEmpaquetar = performance.now() - t1
     const buffers = [...resultado.piezas, resultado.entera].flatMap((p) => [
       p.vertices.buffer,

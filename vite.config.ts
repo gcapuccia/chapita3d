@@ -19,7 +19,17 @@ export default defineConfig({
     exclude: ['manifold-3d'],
     // Las que usan los workers se declaran: si Vite las descubre recien cuando el worker las pide,
     // las re-optimiza en caliente y el worker queda colgado con las versiones viejas (medido en F1.5)
-    include: ['comlink', 'culori', 'd3-contour', 'fflate', 'simplify-js'],
+    include: [
+      'comlink',
+      'culori',
+      'd3-contour',
+      'fflate',
+      'simplify-js',
+      'opentype.js',
+      'three',
+      'three/addons/controls/OrbitControls.js',
+      'zustand',
+    ],
   },
   test: {
     include: ['tests/**/*.test.ts', 'src/**/*.test.ts'],

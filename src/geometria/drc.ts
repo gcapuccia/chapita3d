@@ -94,7 +94,7 @@ export function drcFlotantes(franjas: readonly CrossSection[], base: CrossSectio
       {
         codigo: 'color-flotante',
         nivel: 'error',
-        mensaje: `El color ${k + 1} queda flotando sin nada abajo en modo un solo extrusor.`,
+        mensaje: `El color ${k + 1} queda flotando sin nada abajo cuando cambiás el filamento a mano.`,
         zonas: flotante.toPolygons(),
       },
     ]
@@ -189,7 +189,7 @@ export function drcSlots(filamentos: number, slots: number, modo: 'a_ras' | 'api
       {
         codigo: 'mas-colores-que-slots',
         nivel: 'aviso',
-        mensaje: `Son ${cambios} cambios manuales de filamento. Con un solo extrusor conviene bajar a ${D.MAX_CAMBIOS_APILADO + 1} colores.`,
+        mensaje: `Son ${cambios} cambios de filamento a mano. Conviene bajar a ${D.MAX_CAMBIOS_APILADO + 1} colores.`,
       },
     ]
   }
@@ -198,7 +198,7 @@ export function drcSlots(filamentos: number, slots: number, modo: 'a_ras' | 'api
     {
       codigo: 'mas-colores-que-slots',
       nivel: 'aviso',
-      mensaje: `El diseño usa ${filamentos} colores y la impresora tiene ${slots} slots. Fusioná colores o pasá a modo un solo extrusor.`,
+      mensaje: `El diseño usa ${filamentos} colores y tu impresora carga ${slots} a la vez. Fusioná colores o elegí cambiar el filamento a mano.`,
     },
   ]
 }
