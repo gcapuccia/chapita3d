@@ -3,8 +3,11 @@
 
 import * as Comlink from 'comlink'
 import type { Diseno } from '../diseno/tipos.ts'
+import type { IdFuente } from '../datos/fuentes.ts'
+import { URL_FUENTE } from '../datos/fuentesUrl.ts'
 import { empaquetar } from '../export/paquete.ts'
 import { construir } from '../geometria/construir.ts'
+import { fuenteRegistrada, registrarFuente } from '../geometria/texto.ts'
 import {
   cargarManifold,
   estadisticasManifold,
@@ -53,6 +56,12 @@ const api = {
   /** Construye el llavero y, si no hay errores bloqueantes, arma el ZIP. Todo viaja por transferencia. */
   async construirLlavero(diseno: Diseno, fecha: string) {
     await cargarManifold()
+    for (const p of diseno.piezas) {
+      if (p.geometria.kind !== 'texto' || fuenteRegistrada(p.geometria.fuente)) continue
+      const url = URL_FUENTE[p.geometria.fuente as IdFuente]
+      if (!url) throw new Error(`No existe la fuente "${p.geometria.fuente}".`)
+      registrarFuente(p.geometria.fuente, await (await fetch(url)).arrayBuffer())
+    }
     const t0 = performance.now()
     const resultado = construir(diseno)
     const msConstruir = performance.now() - t0

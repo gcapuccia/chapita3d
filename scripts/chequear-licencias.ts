@@ -33,7 +33,7 @@ for (const [licencia, paquetes] of Object.entries(porLicencia)) {
       errores.push(`LISTA NEGRA  ${id}  (${licencia})\n               ${negra}`)
       continue
     }
-    if (licenciaPermitida(licencia)) continue
+    if (licenciaPermitida(licencia, p.name)) continue
 
     const excepcion = motivoExcepcion(p.name)
     if (excepcion) {

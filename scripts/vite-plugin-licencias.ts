@@ -54,7 +54,7 @@ function erroresDe(p: PaqueteBundle): string | null {
       'y llego al codigo que se publica: la excepcion ya no es valida.'
     )
   }
-  if (!licenciaPermitida(p.licencia)) {
+  if (!licenciaPermitida(p.licencia, p.nombre)) {
     return `LICENCIA NO PERMITIDA en el bundle: ${id} (${p.licencia ?? 'sin licencia'})`
   }
   return null

@@ -3,7 +3,9 @@
 // Sirve para probar con imagenes propias y para medir tiempos en otros equipos (celular incluido).
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { FUENTES, type IdFuente } from '../datos/fuentes.ts'
 import { crearDiseno } from '../diseno/crear.ts'
+import { agregarTexto } from '../diseno/texto.ts'
 import type { Diseno, TipoArgolla } from '../diseno/tipos.ts'
 import type { NombrePreset } from '../pipeline/presets.ts'
 import { crearClienteGeometria, crearClienteImagen, crearGeneracion } from '../workers/clientes.ts'
@@ -17,6 +19,8 @@ type OpcionesLlavero = {
   modoColor: Diseno['impresion']['modoColor']
   espesor: number
   argolla: TipoArgolla
+  texto: string
+  fuente: IdFuente
 }
 
 const nombreDe = (archivo: File) => archivo.name.replace(/\.[^.]+$/, '') || 'llavero'
@@ -95,6 +99,8 @@ export default function DiagnosticoPipeline() {
     modoColor: 'a_ras',
     espesor: 3.0,
     argolla: 'comun',
+    texto: '',
+    fuente: 'redonda',
   })
   const [conversion, setConversion] = useState<Conversion | null>(null)
   const [construccion, setConstruccion] = useState<Construccion | null>(null)
@@ -104,7 +110,7 @@ export default function DiagnosticoPipeline() {
   // Los calculos salen de los eventos que los causan, no de efectos: cada cambio dispara lo suyo
   const construirCon = (conv: Conversion, nombre: string, o: OpcionesLlavero) => {
     if (!conv.regiones.length) return setConstruccion(null)
-    const diseno = crearDiseno(conv.regiones, {
+    let diseno = crearDiseno(conv.regiones, {
       nombre,
       id: 'dev',
       ahora: new Date().toISOString(),
@@ -113,6 +119,7 @@ export default function DiagnosticoPipeline() {
       espesor: o.espesor,
     })
     diseno.argolla = { tipo: o.argolla, posicion: 'auto' }
+    if (o.texto.trim()) diseno = agregarTexto(diseno, o.texto.trim(), { fuente: o.fuente })
     setOcupado('Construyendo el llavero…')
     genGeometria
       .envolver(
@@ -237,6 +244,35 @@ export default function DiagnosticoPipeline() {
               <option value="comun">Común · Ø4,2</option>
               <option value="gruesa">Gruesa · Ø5,2</option>
               <option value="sin">Sin argolla</option>
+            </select>
+          </label>
+        </div>
+        <div className="grid grid-cols-[1fr_auto] gap-2 text-sm">
+          <label className="flex flex-col gap-1">
+            Texto (opcional)
+            <input
+              type="text"
+              value={opciones.texto}
+              maxLength={24}
+              placeholder="Ej: Guido"
+              onChange={(e) => setOpciones({ ...opciones, texto: e.target.value })}
+              onBlur={() => cambiarOpcion({})}
+              onKeyDown={(e) => e.key === 'Enter' && cambiarOpcion({})}
+              className="rounded border p-1"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            Fuente
+            <select
+              value={opciones.fuente}
+              onChange={(e) => cambiarOpcion({ fuente: e.target.value as IdFuente })}
+              className="rounded border p-1"
+            >
+              {FUENTES.map((fuente) => (
+                <option key={fuente.id} value={fuente.id}>
+                  {fuente.nombre}
+                </option>
+              ))}
             </select>
           </label>
         </div>

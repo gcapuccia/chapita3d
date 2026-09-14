@@ -17,6 +17,7 @@ export type CodigoAviso =
   | 'pieza-suelta'
   | 'mas-colores-que-slots'
   | 'altura-redondeada'
+  | 'texto-ilegible'
 
 export type Aviso = {
   codigo: CodigoAviso
@@ -200,4 +201,32 @@ export function drcSlots(filamentos: number, slots: number, modo: 'a_ras' | 'api
       mensaje: `El diseño usa ${filamentos} colores y la impresora tiene ${slots} slots. Fusioná colores o pasá a modo un solo extrusor.`,
     },
   ]
+}
+
+/** Texto que va a salir ilegible: mas bajo que el minimo o con trazos mas finos (plan §4.8 caso 5). */
+export function drcTexto(
+  m: ManifoldToplevel,
+  textos: readonly { nombre: string; contornos: [number, number][][] }[],
+): Aviso[] {
+  return textos.flatMap((t): Aviso[] => {
+    const seccion = m.CrossSection.ofPolygons(t.contornos, 'EvenOdd')
+    if (seccion.isEmpty()) return []
+    const caja = seccion.bounds()
+    const alto = caja.max[1] - caja.min[1]
+    const r = D.TRAZO_MIN_TEXTO_MM / 2
+    const perdido = seccion.subtract(seccion.offset(-r, 'Round').offset(r, 'Round'))
+    const fino = perdido.area() / seccion.area() > D.PERDIDA_TEXTO_AVISO
+    if (alto >= D.ALTURA_MIN_TEXTO_MM && !fino) return []
+    return [
+      {
+        codigo: 'texto-ilegible',
+        nivel: 'aviso',
+        mensaje:
+          alto < D.ALTURA_MIN_TEXTO_MM
+            ? `${t.nombre} mide ${alto.toFixed(1)} mm de alto: por debajo de ${D.ALTURA_MIN_TEXTO_MM} mm sale ilegible.`
+            : `${t.nombre} tiene trazos más finos que ${D.TRAZO_MIN_TEXTO_MM} mm: puede salir ilegible.`,
+        zonas: fino ? perdido.toPolygons() : seccion.toPolygons(),
+      },
+    ]
+  })
 }

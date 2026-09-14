@@ -2,6 +2,7 @@
 // Devuelve datos planos: se puede llamar desde el worker y transferir el resultado.
 
 import type { Diseno, Filamento, Pieza } from '../diseno/tipos.ts'
+import { aplicarTransform } from '../diseno/transform.ts'
 import type { CambioDeCapa, PiezaExport } from '../export/tipos.ts'
 import * as D from '../pipeline/defaults.ts'
 import {
@@ -12,14 +13,16 @@ import {
   drcIslas,
   drcSlots,
   drcSolidos,
+  drcTexto,
   type Aviso,
 } from './drc.ts'
 import { estimarApilado, estimarAras, type Estimacion } from './estimar.ts'
 import { franjasApilado, franjasAras, type SeccionDeColor, type SolidoDeColor } from './franjas.ts'
 import { cuerpoDelLlavero, type Agujero } from './llavero.ts'
 import { aPiezaExport } from './malla.ts'
-import { withScope, type CrossSection } from './manifold.ts'
+import { withScope, type CrossSection, type ManifoldToplevel } from './manifold.ts'
 import { resolverSolapes, type RegionColor } from './regiones.ts'
+import { contornosDeTexto } from './texto.ts'
 
 export type ResultadoConstruccion = {
   modoColor: Diseno['impresion']['modoColor']
@@ -37,19 +40,23 @@ export type ResultadoConstruccion = {
   cambiosDeCapa: CambioDeCapa[]
 }
 
-/** Lleva los contornos de una pieza a coordenadas del llavero: escala, rota y traslada. */
-function aplicarTransform(pieza: Pieza): [number, number][][] {
-  if (pieza.geometria.kind !== 'poligonos') return []
-  const { x, y, rotZ, sx, sy } = pieza.transform
-  const c = Math.cos((rotZ * Math.PI) / 180)
-  const s = Math.sin((rotZ * Math.PI) / 180)
-  return pieza.geometria.contornos.map((anillo) =>
-    anillo.map(([px, py]) => {
-      const ex = px * sx
-      const ey = py * sy
-      return [x + ex * c - ey * s, y + ex * s + ey * c] as [number, number]
-    }),
-  )
+/**
+ * Contornos de una pieza en coordenadas del llavero. El texto pasa por Manifold con regla NonZero
+ * (las fuentes TrueType superponen contornos dentro de una misma letra) y ahi recibe la negrita.
+ */
+function contornosDePieza(m: ManifoldToplevel, pieza: Pieza): [number, number][][] {
+  const g = pieza.geometria
+  let locales: [number, number][][] = []
+  if (g.kind === 'poligonos') locales = g.contornos
+  else if (g.kind === 'texto') {
+    let seccion = m.CrossSection.ofPolygons(
+      contornosDeTexto(g.fuente, g.texto, g.tamano),
+      'NonZero',
+    )
+    if (g.negrita > 0) seccion = seccion.offset(g.negrita, 'Round')
+    locales = seccion.toPolygons()
+  }
+  return aplicarTransform(pieza.transform, locales)
 }
 
 export function construir(d: Diseno): ResultadoConstruccion {
@@ -79,12 +86,20 @@ export function construir(d: Diseno): ResultadoConstruccion {
       throw new Error(`El contorno usa un filamento que no existe: ${d.contorno.filamentoId}`)
 
     // Cadena de resta por prioridad sobre todas las piezas visibles
-    const visibles = d.piezas.filter((p) => p.visible && p.geometria.kind === 'poligonos')
+    const visibles = d.piezas.filter((p) => p.visible && p.geometria.kind !== 'primitiva')
     const regiones: RegionColor[] = visibles.map((p) => ({
       id: p.id,
       prioridad: p.prioridad,
-      contornos: aplicarTransform(p),
+      contornos: contornosDePieza(m, p),
     }))
+    avisos.push(
+      ...drcTexto(
+        m,
+        visibles.flatMap((p, i) =>
+          p.tipo === 'texto' ? [{ nombre: p.nombre, contornos: regiones[i]!.contornos }] : [],
+        ),
+      ),
+    )
     const resueltas = resolverSolapes(m, regiones, D.EPSILON_SOLAPE_XY)
     if (!resueltas.length) throw new Error('El diseño no tiene ninguna región visible.')
     const silueta = m.CrossSection.union(resueltas.map((r) => r.seccion))

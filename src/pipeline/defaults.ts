@@ -169,3 +169,24 @@ export const MAX_CAMBIOS_APILADO = 3
  * 0 = variante A (z de inicio de la franja) · ALTURA_CAPA = variante B (primera capa del color nuevo).
  */
 export const DESPLAZAMIENTO_TOP_Z = 0
+
+/** mm. Texto mas bajo que esto sale ilegible. Fuente: audit-02 §6.3 y plan §7.6. */
+export const ALTURA_MIN_TEXTO_MM = 6
+
+/** mm. Trazo de letra mas fino que esto sale ilegible. Fuente: audit-02 §6.3 y plan §7.6. */
+export const TRAZO_MIN_TEXTO_MM = 1.0
+
+/**
+ * Fraccion del area de un texto que se puede perder con la apertura de TRAZO_MIN_TEXTO_MM antes de avisar.
+ * Mas alta que la de los dibujos (PERDIDA_DETALLE_AVISO, 2 %) porque las letras tienen muchas esquinas
+ * y la apertura tambien las redondea. Medido con "Guido" (F1): Lilita One pierde 2–3 % con trazos
+ * gruesos (a radio 0,3 sigue perdiendo ~1 %: es efecto de esquina), y Pacifico pierde 12,6 % a 10 mm y
+ * 51 % a 8 mm (trazos finos de verdad). Con 5 % avisa lo segundo y no lo primero.
+ */
+export const PERDIDA_TEXTO_AVISO = 0.05
+
+/**
+ * mm. Tamaño de fuente (em) con que se agrega un texto nuevo. Las letras miden ~70 % del em: con 8 mm
+ * "Guido" medía 5,9 mm y el texto nacía con el aviso de ilegible (medido en F1). Con 9 mide ~6,6 mm.
+ */
+export const TAMANO_TEXTO_MM = 9

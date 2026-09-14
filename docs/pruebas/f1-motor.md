@@ -1,6 +1,6 @@
 # Fase 1 · El motor: de imagen a ZIP
 
-**Fecha:** 2026-09-13 · **Estado:** ✅ motor completo sin interfaz, verificado sobre todo el banco y en el navegador · ⏳ falta el texto (F1.2) y abrir un ZIP real en Bambu Studio
+**Fecha:** 2026-09-13 · **Estado:** ✅ motor completo sin interfaz, con texto, verificado sobre todo el banco y en el navegador · ⏳ falta abrir un ZIP real en Bambu Studio
 
 > "Fin de la Fase 1: hay producto, no hay interfaz." (plan §10)
 
@@ -9,7 +9,7 @@
 | Tarea | Archivos | Estado |
 |---|---|---|
 | **F1.1** Pipeline terminado | `pipeline/diagnostico.ts` (casos feos), `pipeline/presets.ts` (Dibujo, Foto, Silueta, con umbral adaptativo y clusters), `convertirAutomatico()`, `workers/imagen.worker.ts` con token de generación | ✅ |
-| **F1.2** Geometría | `diseno/` (el documento `Diseno`), `geometria/llavero.ts`, `geometria/franjas.ts` (a ras y apilado con la fórmula del paso 12b), `regiones.ts` (de F0.6) | ✅ salvo `texto.ts` |
+| **F1.2** Geometría | `diseno/` (el documento `Diseno`), `geometria/llavero.ts`, `geometria/franjas.ts` (a ras y apilado con la fórmula del paso 12b), `regiones.ts` (de F0.6), `geometria/texto.ts` + `diseno/texto.ts` con 3 fuentes OFL | ✅ |
 | **F1.3** Validaciones y material | `geometria/drc.ts` (las 7 validaciones, con zonas), `geometria/estimar.ts` | ✅ |
 | **F1.4** Construir y empaquetar | `geometria/construir.ts`, `export/paquete.ts`, `export/instrucciones.ts`, `construirLlavero` en el worker de geometría, tests golden | ✅ |
 | **F1.5** Página de punta a punta | `/#/dev/pipeline`: subir imagen → máscara, colores, casos feos y tiempos → llavero → ZIP | ✅ |
@@ -38,6 +38,14 @@ Medición completa: `node spikes/06-construir/correr.ts`.
 6. **La purga del plan tiene números inconsistentes.** Dice "400 mm³ ≈ 2–5 g", pero 400 mm³ de PLA pesan 0,5 g. Se usa el volumen, marcado PROVISORIO, y se calibra con lo que reporte Bambu Studio al rebanar P2.
 7. **Nombres de color legibles.** Las instrucciones dicen "Slot 2 .... Amarillo" en vez de "Color 2".
 
+## Texto
+
+- **Fuentes (decisión del usuario):** Nunito ExtraBold ("Redonda"), Lilita One ("Gruesa") y Pacifico ("Manuscrita"), desde `@fontsource`. Subset latin: acentos, ñ y ü. Las tres quedan en `LICENSES.txt`.
+- **Licencias:** OFL-1.1 se habilitó **solo para `@fontsource/*`** (`LICENCIAS_POR_PAQUETE`), no para cualquier paquete. Hay test.
+- **`opentype.js` 2.0 no soporta todas las sustituciones tipográficas** (GSUB tipo 6 formato 2) y con Nunito lanza error. Además aplica siempre las suyas por defecto, aunque se le pidan cero. El texto se arma **letra por letra**, con avance y kerning de la fuente, sin pasar por ese sistema.
+- **Validación de texto ilegible calibrada con datos.** Con el 2 % de pérdida de los dibujos, Lilita One avisaba con trazos gruesos, porque la apertura también redondea las esquinas de las letras. Con 5 % avisa donde corresponde: Pacifico a 10 mm pierde 12,6 %.
+- **Tamaño por defecto 9 mm.** Con 8 mm, "Guido" medía 5,9 mm y el texto nacía con el aviso de ilegible.
+
 ## Bugs encontrados al probar en el navegador
 
 - **Vite re-optimizaba en caliente las dependencias de los workers** y los dejaba colgados. Ahora están declaradas en `optimizeDeps.include`.
@@ -55,7 +63,6 @@ Medición completa: `node spikes/06-construir/correr.ts`.
 
 | Qué | Por qué | Quién |
 |---|---|---|
-| `texto.ts` (texto con 3 fuentes) | Hacen falta fuentes con licencia OFL: hay que decidir de dónde salen y agregar OFL-1.1 a la lista blanca de licencias | Decisión del usuario |
 | Abrir en Bambu Studio un ZIP de `/dev/pipeline` | Cierra el criterio "los archivos abren en los slicers" | Usuario |
 | Re-importar el 3MF con `3MFLoader` en CI | Necesita `DOMParser`, que Node no trae (sumaría jsdom). Mientras tanto, `tests/export.test.ts` relee la malla del 3MF y verifica volumen y orientación | Más adelante |
 | Calibrar `DESPLAZAMIENTO_TOP_Z` | Lo decide la prueba de las variantes A y B de P3 | Usuario (F0.5) |

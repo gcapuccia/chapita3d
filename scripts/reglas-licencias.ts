@@ -21,6 +21,14 @@ export const LICENCIAS_PERMITIDAS = new Set([
 ])
 
 /**
+ * Licencias permitidas SOLO para ciertos paquetes. OFL-1.1 es de fuentes: permite usarlas y
+ * distribuirlas con el software (con su aviso, que va en LICENSES.txt), pero no se habilita para codigo.
+ */
+export const LICENCIAS_POR_PAQUETE: Record<string, string[]> = {
+  '@fontsource/*': ['OFL-1.1'],
+}
+
+/**
  * Paquetes prohibidos por NOMBRE, sin importar lo que declaren.
  * Existe porque el campo SPDX miente o no alcanza: @imgly/background-removal
  * declara "SEE LICENSE IN LICENSE.md" y adentro es AGPL-3.0 (audit-03 §1.4).
@@ -76,14 +84,20 @@ export function motivoExcepcion(nombre: string): string | null {
  *  - "A AND B": se aplican las dos, TODAS tienen que estar permitidas.
  * Cualquier cosa que no sea SPDX ("UNKNOWN", "Custom", "SEE LICENSE IN ...") es no.
  */
-export function licenciaPermitida(expresion: string | undefined | null): boolean {
+export function licenciaPermitida(expresion: string | undefined | null, nombre?: string): boolean {
   if (!expresion) return false
+  const extra = nombre
+    ? (Object.entries(LICENCIAS_POR_PAQUETE).find(([patron]) => coincide(nombre, patron))?.[1] ??
+      [])
+    : []
   const limpia = expresion.replace(/[()]/g, ' ').replace(/\s+/g, ' ').trim()
   if (/SEE LICENSE IN|UNKNOWN|UNLICENSED|Custom/i.test(limpia)) return false
   return limpia
     .split(/ OR /)
     .some((alternativa) =>
-      alternativa.split(/ AND /).every((parte) => LICENCIAS_PERMITIDAS.has(parte.trim())),
+      alternativa
+        .split(/ AND /)
+        .every((parte) => LICENCIAS_PERMITIDAS.has(parte.trim()) || extra.includes(parte.trim())),
     )
 }
 
