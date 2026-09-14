@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { oklabARgb, rgbAOklab } from '../src/pipeline/color.ts'
 import { trazar } from '../src/pipeline/contornos.ts'
-import { convertir, paramsPorDefecto } from '../src/pipeline/index.ts'
+import { convertir, convertirAutomatico, paramsPorDefecto } from '../src/pipeline/index.ts'
 import { mascaraPorFloodFill } from '../src/pipeline/mascara.ts'
 import { apertura } from '../src/pipeline/morfologia.ts'
 import { FONDO, type Oklab } from '../src/pipeline/tipos.ts'
@@ -97,7 +97,7 @@ describe('banco sintetico (a la resolucion por defecto)', () => {
   const correr = (id: string) => {
     const escena = ESCENAS.find((e) => e.id === id)!
     const verdad = renderizar(escena)
-    const p = paramsPorDefecto('logo')
+    const p = paramsPorDefecto('dibujo')
     return evaluar(escena, verdad, convertir(verdad.imagen, p), p.ladoMayorMm)
   }
 
@@ -128,4 +128,26 @@ describe('banco sintetico (a la resolucion por defecto)', () => {
     expect(anillo.errorArea).toBeLessThan(0.03)
     expect(ev.exito).toBe(true)
   }, 30_000)
+})
+
+describe('casos feos y preset automatico', () => {
+  const verdadDe = (id: string) => {
+    const escena = ESCENAS.find((e) => e.id === id)!
+    return { escena, verdad: renderizar(escena) }
+  }
+
+  test('un logo limpio no dispara ningun caso feo', () => {
+    const { verdad } = verdadDe('logo-03-formas-crema')
+    expect(convertir(verdad.imagen, paramsPorDefecto('dibujo')).diagnostico.casos).toEqual([])
+  }, 30_000)
+
+  test('fondo del mismo color que el sujeto: se detecta y el preset Foto lo rescata solo', () => {
+    const { escena, verdad } = verdadDe('horrible-02-fondo-igual')
+    const conDibujo = convertir(verdad.imagen, paramsPorDefecto('dibujo'))
+    expect(conDibujo.diagnostico.casos.map((c) => c.codigo)).toContain('dibujo-no-encontrado')
+
+    const auto = convertirAutomatico(verdad.imagen)
+    expect(auto.preset).toBe('foto')
+    expect(evaluar(escena, verdad, auto, paramsPorDefecto('foto').ladoMayorMm).motivos).toEqual([])
+  }, 60_000)
 })

@@ -1,8 +1,10 @@
-// Worker de geometria (plan §5.4). En F0.6 expone solo lo necesario para verificar que
-// Manifold carga y rinde en un navegador real, incluido un celular: cargar, construir la
-// pieza de prueba N veces y correr la prueba de fugas. En F1.4 se agrega construir(Diseno).
+// Worker de geometria (plan §5.4): construye el llavero y arma el ZIP.
+// Tambien expone las pruebas de F0.6 para correrlas en el navegador y en el celular.
 
 import * as Comlink from 'comlink'
+import type { Diseno } from '../diseno/tipos.ts'
+import { empaquetar } from '../export/paquete.ts'
+import { construir } from '../geometria/construir.ts'
 import {
   cargarManifold,
   estadisticasManifold,
@@ -46,6 +48,26 @@ const api = {
 
   fugas(ciclos: number, verticesPorContorno: number) {
     return cicloDeFugas(ciclos, verticesPorContorno)
+  },
+
+  /** Construye el llavero y, si no hay errores bloqueantes, arma el ZIP. Todo viaja por transferencia. */
+  async construirLlavero(diseno: Diseno, fecha: string) {
+    await cargarManifold()
+    const t0 = performance.now()
+    const resultado = construir(diseno)
+    const msConstruir = performance.now() - t0
+    const t1 = performance.now()
+    const paquete = resultado.bloqueante ? null : empaquetar(diseno, resultado, fecha)
+    const msEmpaquetar = performance.now() - t1
+    const buffers = [...resultado.piezas, resultado.entera].flatMap((p) => [
+      p.vertices.buffer,
+      p.indices.buffer,
+    ])
+    if (paquete) buffers.push(paquete.zip.buffer)
+    return Comlink.transfer(
+      { resultado, paquete, msConstruir, msEmpaquetar },
+      buffers as ArrayBuffer[],
+    )
   },
 }
 

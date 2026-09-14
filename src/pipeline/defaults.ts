@@ -105,3 +105,67 @@ export const MAX_VERTICES_POR_REGION = 2000
 
 /** Semilla del PRNG de k-means: la misma imagen da siempre el mismo resultado. */
 export const SEMILLA_KMEANS = 20260913
+
+// ---------------------------------------------------------------------------------------
+// Llavero, extrusion y material (plan §7.5, §7.6 y §9.5). Cada numero con su origen.
+// ---------------------------------------------------------------------------------------
+
+/** mm. Grilla de TODAS las alturas: el generador redondea a multiplos y avisa. Fuente: plan §7.6. */
+export const ALTURA_CAPA = 0.2
+
+/** mm. Espesor de la capa de color (3 capas: 2 ya tapan, 3 dan margen claro sobre oscuro). Fuente: plan §7.6. */
+export const ALTURA_COLOR = 0.6
+
+/** mm. Espesor total por preset. Fuente: plan §9.5 (audit-02 §6.2). */
+export const ESPESOR = { delgado: 1.6, estandar: 3.0, reforzado: 4.0 } as const
+
+/** mm. Borde alrededor del dibujo. Fuente: audit-02 §6.2 (corrige el 2,0 de audit-01 §6.4). */
+export const OFFSET_CONTORNO = 1.5
+
+/**
+ * mm. Diametro del agujero por tipo de argolla: nominal + 0,2 de compensacion.
+ * Fuente: audit-02 §6.4 y plan §9.5.
+ */
+export const DIAMETRO_AGUJERO = { bola: 3.7, comun: 4.2, gruesa: 5.2 } as const
+
+/**
+ * mm. Anillo de material alrededor del agujero.
+ * ⚠️ PROVISORIO: lo confirma el tiron de la pieza P2 (F0.5). Fuente: audit-02 §6.4.
+ */
+export const MARGEN_AGUJERO = 3.0
+
+/** mm. Por debajo de esto el anillo es un error que bloquea la descarga (DRC #2). Fuente: plan §7.9. */
+export const MARGEN_AGUJERO_MINIMO = 2.0
+
+/** mm. Redondeo donde la pestaña se une al cuerpo, contra la concentracion de tension. Fuente: plan §7.5. */
+export const RADIO_FILLET_PESTANA = 2.0
+
+/** mm. Cuanto se mete la pestaña en el contorno para quedar unida. Fuente: spike F0.5. */
+export const SOLAPE_PESTANA = 1.0
+
+/** Fraccion del area de una region que se puede perder por detalle fino antes de avisar (DRC #5). Fuente: plan §4.8 caso 4. */
+export const PERDIDA_DETALLE_AVISO = 0.02
+
+/** g/cm³. Densidad del PLA. */
+export const DENSIDAD_PLA = 1.24
+
+/**
+ * mm³ de purga por cambio de filamento en un AMS.
+ * ⚠️ PROVISORIO y con una inconsistencia en el plan: audit-02 §6.6 dice "~400 mm³ por cambio,
+ * ≈ 2–5 g", pero 400 mm³ de PLA pesan 0,5 g. Se usa el volumen, y el coeficiente se calibra
+ * contra lo que reporta Bambu Studio al rebanar P2 (F0.5), hasta caer en ±20 % (plan §9.5).
+ */
+export const PURGA_MM3_POR_CAMBIO = 400
+
+/** g de cebado por cambio manual (M600) en modo apilado: ahi no hay torre de purga. Fuente: plan §9.5 y §9.8. */
+export const CEBADO_G_POR_CAMBIO = 0.6
+
+/** Cambios de filamento en modo apilado a partir de los cuales se avisa. Fuente: plan §7.6. */
+export const MAX_CAMBIOS_APILADO = 3
+
+/**
+ * mm. Correccion de la altura que se escribe en top_z del XML de cambios de capa.
+ * ⚠️ PENDIENTE: la resuelve la prueba de las variantes A y B de P3 en el slicer (F0.5).
+ * 0 = variante A (z de inicio de la franja) · ALTURA_CAPA = variante B (primera capa del color nuevo).
+ */
+export const DESPLAZAMIENTO_TOP_Z = 0

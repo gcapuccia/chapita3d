@@ -2,6 +2,7 @@
 // TS puro: sin DOM, sin React. Corre igual en un worker, en Node o en un servidor.
 
 import { cuantizar } from './cuantizar.ts'
+import { diagnosticar, type CasoFeo } from './diagnostico.ts'
 import { trazar } from './contornos.ts'
 import * as D from './defaults.ts'
 import { limpiar } from './limpiar.ts'
@@ -13,6 +14,13 @@ import {
   tieneAlfaUtil,
 } from './mascara.ts'
 import { mediana } from './prefiltro.ts'
+import {
+  clustersDeFondo,
+  mascaraPorClusters,
+  mascaraPorUmbralAdaptativo,
+  PRESETS,
+  type NombrePreset,
+} from './presets.ts'
 import { reescalar, tamanoConTope } from './reescalar.ts'
 import {
   FONDO,
@@ -24,9 +32,10 @@ import {
   type RegionTrazada,
 } from './tipos.ts'
 
-export type Preset = 'logo' | 'foto'
-
 export type ParamsPipeline = {
+  preset: NombrePreset
+  /** Solo preset Foto: clusters (de 6) que son fondo. Si no se pasa, se sugieren los que tocan el borde. */
+  clustersFondo?: number[]
   ladoMayorMm: number
   mmPorPixel: number
   ladoMaxPxPrevia: number
@@ -51,21 +60,23 @@ export type ParamsPipeline = {
   caja?: Recorte
 }
 
-export function paramsPorDefecto(preset: Preset = 'logo'): ParamsPipeline {
+export function paramsPorDefecto(preset: NombrePreset = 'dibujo'): ParamsPipeline {
+  const pr = PRESETS[preset]
   return {
+    preset,
     ladoMayorMm: D.LADO_MAYOR_MM,
     mmPorPixel: D.MM_POR_PIXEL,
     ladoMaxPxPrevia: D.LADO_MAX_PX_PREVIA,
     umbralAlfa: D.UMBRAL_ALFA,
     toleranciaFloodFill: D.TOLERANCIA_FLOOD_FILL,
     erosionAntiHalo: D.EROSION_ANTI_HALO,
-    radioPrefiltro: D.RADIO_PREFILTRO[preset],
-    colores: D.COLORES,
+    radioPrefiltro: pr.radioPrefiltro,
+    colores: pr.colores,
     muestraKmeans: D.MUESTRA_KMEANS,
     iteracionesKmeans: D.ITERACIONES_KMEANS,
     corteKmeans: D.CORTE_KMEANS,
     fusionDeltaE2000: D.FUSION_DELTA_E2000,
-    areaMinimaIslaMm2: D.AREA_MINIMA_ISLA_MM2[preset],
+    areaMinimaIslaMm2: pr.areaMinimaIslaMm2,
     anchoMinimoDetalleMm: D.ANCHO_MINIMO_DETALLE_MM,
     toleranciaRdpMm: D.TOLERANCIA_RDP_MM,
     maxVerticesPorRegion: D.MAX_VERTICES_POR_REGION,
@@ -78,7 +89,9 @@ export type ResultadoConversion = {
   paleta: ColorPaleta[]
   diagnostico: {
     tiemposMs: Record<EtapaPipeline, number>
-    fuenteMascara: 'alfa' | 'floodFill'
+    fuenteMascara: 'alfa' | 'floodFill' | 'umbral' | 'clusters'
+    /** Casos feos detectados (plan §4.8). */
+    casos: CasoFeo[]
     /** Encuadre usado, en pixeles de la fuente (la caja del dibujo mas un margen). */
     recorte: Recorte
     caja: Recorte
@@ -108,14 +121,34 @@ export function convertir(fuente: ImagenRGBA, p: ParamsPipeline): ResultadoConve
   const tamPrevia = tamanoConTope(fuente.ancho, fuente.alto, p.ladoMaxPxPrevia)
   const previa = medir('previa', () => reescalar(fuente, todo, tamPrevia.ancho, tamPrevia.alto))
   const usarAlfa = tieneAlfaUtil(previa, p.umbralAlfa)
-  const mascaraDe = (img: ImagenRGBA) =>
-    usarAlfa ? mascaraPorAlfa(img, p.umbralAlfa) : mascaraPorFloodFill(img, p.toleranciaFloodFill)
+  const fuenteMascara: ResultadoConversion['diagnostico']['fuenteMascara'] = usarAlfa
+    ? 'alfa'
+    : p.preset === 'silueta'
+      ? 'umbral'
+      : p.preset === 'foto'
+        ? 'clusters'
+        : 'floodFill'
+  const mascaraDe = (img: ImagenRGBA): Uint8Array => {
+    switch (fuenteMascara) {
+      case 'alfa':
+        return mascaraPorAlfa(img, p.umbralAlfa)
+      case 'umbral':
+        return mascaraPorUmbralAdaptativo(img)
+      case 'clusters': {
+        const c = clustersDeFondo(img)
+        return mascaraPorClusters(c, p.clustersFondo ?? c.tocanElBorde)
+      }
+      case 'floodFill':
+        return mascaraPorFloodFill(img, p.toleranciaFloodFill)
+    }
+  }
+  const mascaraPrevia = mascaraDe(previa)
 
   // 2 · Donde esta el dibujo
   const caja =
     p.caja ??
     medir('mascaraPrevia', () => {
-      const encontrada = cajaDeMascara(mascaraDe(previa), previa.ancho, previa.alto)
+      const encontrada = cajaDeMascara(mascaraPrevia, previa.ancho, previa.alto)
       if (!encontrada) throw new Error('No se encontró el dibujo: toda la imagen parece fondo.')
       const ex = fuente.ancho / previa.ancho
       const ey = fuente.alto / previa.alto
@@ -188,12 +221,25 @@ export function convertir(fuente: ImagenRGBA, p: ParamsPipeline): ResultadoConve
     }),
   )
 
+  const casos = diagnosticar({
+    fuente,
+    mascaraPrevia,
+    porFloodFill: fuenteMascara === 'floodFill',
+    trabajo,
+    mascara,
+    crudas,
+    paleta,
+    etiquetas,
+    mmPorPixel,
+  })
+
   return {
     regiones,
     paleta,
     diagnostico: {
       tiemposMs,
-      fuenteMascara: usarAlfa ? 'alfa' : 'floodFill',
+      fuenteMascara,
+      casos,
       recorte,
       caja,
       ancho,
@@ -203,6 +249,26 @@ export function convertir(fuente: ImagenRGBA, p: ParamsPipeline): ResultadoConve
       vertices: regiones.reduce((t, r) => t + r.contornos.reduce((s, a) => s + a.length, 0), 0),
     },
   }
+}
+
+/**
+ * Convierte con el preset Dibujo y, si el diagnostico pide cambiar solo (el recorte no encontro
+ * el dibujo), reintenta con el preset sugerido. Medido en F1.1: 14 de 15 del banco con el mejor
+ * preset disponible, contra 8 de 15 de la regla del plan.
+ */
+export function convertirAutomatico(
+  fuente: ImagenRGBA,
+  base: Partial<ParamsPipeline> = {},
+): ResultadoConversion & { preset: NombrePreset } {
+  const primero = convertir(fuente, { ...paramsPorDefecto('dibujo'), ...base, preset: 'dibujo' })
+  const cambio = primero.diagnostico.casos.find((c) => c.cambiarSolo && c.sugerirPreset)
+  if (!cambio?.sugerirPreset) return { ...primero, preset: 'dibujo' }
+  const segundo = convertir(fuente, {
+    ...paramsPorDefecto(cambio.sugerirPreset),
+    ...base,
+    preset: cambio.sugerirPreset,
+  })
+  return { ...segundo, preset: cambio.sugerirPreset }
 }
 
 export { FONDO }

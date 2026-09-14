@@ -66,7 +66,7 @@ for (const escena of escenas) {
 
   // 1 y 3 · Pipeline por defecto a cada resolucion
   for (const fila of exito) {
-    const p = { ...paramsPorDefecto('logo'), mmPorPixel: fila.mmPorPixel }
+    const p = { ...paramsPorDefecto('dibujo'), mmPorPixel: fila.mmPorPixel }
     try {
       const r = convertir(verdad.imagen, p)
       const ev = evaluar(escena, verdad, r, p.ladoMayorMm)
@@ -98,7 +98,7 @@ for (const escena of escenas) {
   // 2 · Calibracion: mismo encuadre (la caja de la verdad), sin RDP
   const crudo = (mmPorPixel: number) =>
     convertir(verdad.imagen, {
-      ...paramsPorDefecto('logo'),
+      ...paramsPorDefecto('dibujo'),
       mmPorPixel,
       caja: verdad.caja,
       toleranciaRdpMm: 0,

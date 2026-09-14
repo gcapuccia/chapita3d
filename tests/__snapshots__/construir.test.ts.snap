@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`golden: lo que se exporta no cambia sin querer > perfil Bambu/Orca y STL · modo a_ras 1`] = `
+{
+  "3mf:3D/3dmodel.model": "1c9df26ea054253a",
+  "3mf:Metadata/model_settings.config": "0106a5569ada0d43",
+  "3mf:Metadata/project_settings.config": "ed15983e05158a6e",
+  "3mf:[Content_Types].xml": "235f53549dd37920",
+  "3mf:_rels/.rels": "6bbea348574022ef",
+  "INSTRUCCIONES.txt": "98dbed4ffb33c40b",
+  "stl/1_blanco.stl": "8f7b747ee6791f34",
+  "stl/2_amarillo.stl": "d08041b256185c2c",
+  "stl/3_rojo.stl": "50b75ebd686238d3",
+  "stl/pieza-entera.stl": "685ec3bb28ba1859",
+}
+`;
+
+exports[`golden: lo que se exporta no cambia sin querer > perfil Bambu/Orca y STL · modo apilado 1`] = `
+{
+  "3mf:3D/3dmodel.model": "a552b1c72432ee04",
+  "3mf:Metadata/custom_gcode_per_layer.xml": "e0c89e4dcb0bd2a3",
+  "3mf:Metadata/model_settings.config": "60a56e23e134d1f0",
+  "3mf:Metadata/project_settings.config": "f2aab824df09f9d4",
+  "3mf:[Content_Types].xml": "235f53549dd37920",
+  "3mf:_rels/.rels": "6bbea348574022ef",
+  "INSTRUCCIONES.txt": "31f41f400117536e",
+  "stl/1_blanco.stl": "239c97d4d4ff53bb",
+  "stl/2_franja-1.stl": "003d87f853f1c07b",
+  "stl/3_franja-2.stl": "7f0555e0c90e0e95",
+  "stl/pieza-entera.stl": "968d15ef59514480",
+}
+`;

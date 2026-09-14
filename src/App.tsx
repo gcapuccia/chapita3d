@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 
 // Paginas de diagnostico de la Fase 0. Carga diferida: no pesan en la pagina principal.
 const DiagnosticoGeometria = lazy(() => import('./dev/DiagnosticoGeometria.tsx'))
+const DiagnosticoPipeline = lazy(() => import('./dev/DiagnosticoPipeline.tsx'))
 
 function useHash(): string {
   const [hash, setHash] = useState(() => location.hash)
@@ -15,6 +16,14 @@ function useHash(): string {
 
 export default function App() {
   const hash = useHash()
+
+  if (hash === '#/dev/pipeline') {
+    return (
+      <Suspense fallback={null}>
+        <DiagnosticoPipeline />
+      </Suspense>
+    )
+  }
 
   if (hash === '#/dev/geometria') {
     return (
