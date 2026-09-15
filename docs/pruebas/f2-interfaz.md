@@ -45,3 +45,25 @@
 ## Queda para el incremento 2
 
 Editar la máscara (pincel, varita, tolerancia, deshacer), mover/escalar el dibujo, el agujero y el texto con el mouse, cambiar/reordenar/fusionar filamentos, guardar diseños en el navegador ("Seguí donde lo dejaste") y "versión para un solo filamento" al descargar.
+
+## Incremento 1b · Editor de color y grosor de líneas (2026-09-15)
+
+Pedido del usuario después de probar su logo: poder cambiar el grosor de las líneas y ver otros
+colores de filamento.
+
+| Qué | Dónde | Cómo funciona |
+|---|---|---|
+| Tocar un color abre su editor | `src/crear/SolapaColores.tsx` + `src/crear/EditorDeColor.tsx` | La fila se despliega; queda un solo editor abierto |
+| Paleta de 24 colores + color propio | `src/datos/paleta.ts`, `cambiarColorDeFilamento` | Es solo del diseño: se ve en la vista 3D al toque, sin reprocesar la imagen |
+| Grosor de las líneas de ESE color | `ParamsPipeline.grosorPorHex` → `ParamsLimpiar.grosorPorColorMm` | Deslizador de 0,8 a 3 mm, con «Volver al automático». Reprocesa con 400 ms de espera: **1,6 s** de punta a punta en La Ronda |
+| Aviso de fragilidad | `GROSOR_LINEAS_SEGURO_MM = 2,0` | Abajo de 2 mm avisa «puede salir frágil», pero deja seguir (decisión del usuario) |
+| Lo elegido sobrevive al reprocesar | `colorElegido` en `estado/documento.ts`, `Filamento.deLaImagen` | La identidad de un filamento es el color de la imagen que cayó en él, no su lugar: si al engrosar quedan menos colores, el elegido no se pierde |
+
+Detalles medidos:
+- Elegir un grosor a mano **no** apaga el engrosado automático de los demás colores (`tests/arreglos.test.ts`).
+- Con 2,6 mm las letras de un logo se funden entre sí: es esperable y se ve en la vista 3D antes de descargar.
+
+También se arregló el layout: con el editor abierto, el panel derecho estiraba la página y la vista 3D
+quedaba recortada. Ahora en pantallas grandes la página ocupa el alto de la ventana, el panel tiene su
+propio scroll, y la cámara se reencuadra cuando el lienzo cambia de forma (antes solo usaba el campo
+de visión vertical).

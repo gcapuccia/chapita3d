@@ -20,6 +20,11 @@ export type ParamsLimpiar = {
   areaMinimaIslaMm2: number
   /** null = lo fino se borra. Numero = grosor minimo de linea en mm: lo mas fino se engrosa hasta ahi. */
   grosorMinimoLineasMm: number | null
+  /**
+   * Grosor propio por color de la paleta (mismo indice), para cuando el usuario ajusta uno solo.
+   * null o ausente = vale grosorMinimoLineasMm.
+   */
+  grosorPorColorMm?: readonly (number | null)[]
   /** mm. Una linea fina mas corta que esto es ruido (antialias, motas): no se engrosa. */
   largoMinimoLineaMm: number
   /** Para decidir quien gana cuando dos lineas engrosadas se pisan (gana la mas oscura). */
@@ -164,12 +169,15 @@ export function limpiar(
   for (let i = 0; i < antes.length; i++) if (antes[i] !== FONDO) dibujoPx++
 
   // Con engrosar, el radio de "fino" sale del grosor pedido (nunca menos que el minimo imprimible)
-  const anchoFinoMm = Math.max(p.anchoMinimoDetalleMm, p.grosorMinimoLineasMm ?? 0)
-  const radio = anchoFinoMm / 2 / p.mmPorPixel
+  const grosorDe = (c: number) => p.grosorPorColorMm?.[c] ?? p.grosorMinimoLineasMm
+  const radioDe = (c: number) =>
+    Math.max(p.anchoMinimoDetalleMm, grosorDe(c) ?? 0) / 2 / p.mmPorPixel
   const pintar: { color: number; zona: Uint8Array }[] = []
   let lineasPx = 0
-  if (radio >= 0.5) {
+  if (p.anchoMinimoDetalleMm / 2 / p.mmPorPixel >= 0.5) {
     for (let c = 0; c < colores; c++) {
+      const grosorMm = grosorDe(c)
+      const radio = radioDe(c)
       const mascaraColor = new Uint8Array(salida.length)
       let hay = false
       for (let i = 0; i < salida.length; i++)
@@ -188,7 +196,7 @@ export function limpiar(
           hayFina = true
         }
       }
-      if (!hayFina || p.grosorMinimoLineasMm === null) {
+      if (!hayFina || grosorMm === null) {
         // El detector corre igual (para el diagnostico), aunque no se engrose
         if (hayFina) {
           const l = medirLineas(fina, abierta, ancho, alto, radio, p, c, antes, informe)
@@ -204,7 +212,7 @@ export function limpiar(
       // Grosor objetivo: el esqueleto dilatado con radio grosor/2 mide ~grosor (2R + 1 px en horizontal)
       // +0,5 px: el esqueleto dilatado mide 2R + 1 px en horizontal pero ~2R en diagonal (medido en
       // spikes/08-arreglos/isotropia.ts: 0,78 mm con 0,8 pedido)
-      const R = p.grosorMinimoLineasMm / 2 / p.mmPorPixel + 0.5
+      const R = grosorMm / 2 / p.mmPorPixel + 0.5
       const zona = dilatar(lineas.esqueleto, ancho, alto, R)
       // Nunca achicar: lo fino original de esas lineas tambien queda
       for (let i = 0; i < zona.length; i++) if (lineas.mascara[i]) zona[i] = 1

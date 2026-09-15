@@ -47,6 +47,23 @@ function crearEscena(lienzo: HTMLCanvasElement): Escena {
   return { renderer, scene, camera, controles, grupo }
 }
 
+/** Pone la camara de modo que entre todo, mirando desde arriba o de tres cuartos. */
+function encuadrar(e: Escena, modo: ModoVista) {
+  const caja = new THREE.Box3().setFromObject(e.grupo)
+  if (caja.isEmpty()) return
+  const centro = caja.getCenter(new THREE.Vector3())
+  const radio = caja.getSize(new THREE.Vector3()).length() / 2
+  // El fov es vertical: en un lienzo angosto y alto hay que alejarse mas para que entre a lo ancho
+  const alcance =
+    Math.sin(THREE.MathUtils.degToRad(e.camera.fov / 2)) * Math.min(1, e.camera.aspect)
+  const distancia = (radio / alcance) * 1.05
+  const direccion =
+    modo === 'arriba' ? new THREE.Vector3(0, -0.001, 1) : new THREE.Vector3(0.35, -1, 0.9)
+  e.camera.position.copy(centro).add(direccion.normalize().multiplyScalar(distancia))
+  e.controles.target.copy(centro)
+  e.controles.update()
+}
+
 function liberar(grupo: THREE.Group) {
   for (const hijo of [...grupo.children]) {
     const malla = hijo as THREE.Mesh
@@ -59,6 +76,7 @@ function liberar(grupo: THREE.Group) {
 export default function Vista3D({ piezas, colores, modo, className }: Props) {
   const lienzo = useRef<HTMLCanvasElement>(null)
   const escena = useRef<Escena | null>(null)
+  const modoActual = useRef(modo)
 
   // Escena: una vez por montaje
   useEffect(() => {
@@ -76,8 +94,11 @@ export default function Vista3D({ piezas, colores, modo, className }: Props) {
       const { clientWidth: w, clientHeight: h } = c
       if (!w || !h) return
       e.renderer.setSize(w, h, false)
+      const antes = e.camera.aspect
       e.camera.aspect = w / h
       e.camera.updateProjectionMatrix()
+      // Si el lienzo cambio de forma, lo que entraba puede dejar de entrar
+      if (Math.min(1, antes) !== Math.min(1, e.camera.aspect)) encuadrar(e, modoActual.current)
     }
     const observador = new ResizeObserver(ajustar)
     observador.observe(c)
@@ -122,21 +143,13 @@ export default function Vista3D({ piezas, colores, modo, className }: Props) {
 
   // Modo de vista y encuadre
   useEffect(() => {
+    modoActual.current = modo
     const e = escena.current
     if (!e) return
     e.grupo.children.forEach((hijo, i) =>
       hijo.position.set(0, 0, modo === 'capas' ? i * SEPARACION_CAPAS : 0),
     )
-    const caja = new THREE.Box3().setFromObject(e.grupo)
-    if (caja.isEmpty()) return
-    const centro = caja.getCenter(new THREE.Vector3())
-    const radio = caja.getSize(new THREE.Vector3()).length() / 2
-    const distancia = (radio / Math.sin(THREE.MathUtils.degToRad(e.camera.fov / 2))) * 1.05
-    const direccion =
-      modo === 'arriba' ? new THREE.Vector3(0, -0.001, 1) : new THREE.Vector3(0.35, -1, 0.9)
-    e.camera.position.copy(centro).add(direccion.normalize().multiplyScalar(distancia))
-    e.controles.target.copy(centro)
-    e.controles.update()
+    encuadrar(e, modo)
   }, [modo, piezas])
 
   return <canvas ref={lienzo} className={`block size-full touch-none ${className ?? ''}`} />

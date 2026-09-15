@@ -196,7 +196,10 @@ export const TAMANO_TEXTO_MM = 9
 // con fotos reales.
 
 /** Grosor al que se engrosan las lineas mas finas que lo imprimible, en vez de borrarlas. */
-export const GROSOR_LINEAS_MM = { minimo: 0.8, porDefecto: 0.8, maximo: 2.0 } as const
+export const GROSOR_LINEAS_MM = { minimo: 0.8, porDefecto: 0.8, maximo: 3.0 } as const
+
+/** mm. Debajo de esto una linea se imprime, pero sale fragil: la interfaz avisa (pedido del usuario). */
+export const GROSOR_LINEAS_SEGURO_MM = 2.0
 
 /** Una linea fina mas corta que esto es ruido (antialias, motas): no se engrosa. */
 export const LARGO_MINIMO_LINEA_MM = 1.5

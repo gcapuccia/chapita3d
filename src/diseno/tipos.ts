@@ -10,7 +10,16 @@
 // Diferencia con §8.1: la argolla es un campo propio en vez de dos piezas sueltas (agujero y
 // pestaña), porque siempre van juntas y el editor las mueve juntas.
 
-export type Filamento = { id: string; nombre: string; hex: string; slot: number }
+export type Filamento = {
+  id: string
+  nombre: string
+  hex: string
+  slot: number
+  /** El usuario eligio este color a mano: sobrevive a reprocesar la imagen. */
+  elegido?: boolean
+  /** Colores de la imagen que cayeron en este filamento: con eso se ajusta el grosor de sus lineas. */
+  deLaImagen?: string[]
+}
 
 export type Transform = { x: number; y: number; rotZ: number; sx: number; sy: number }
 

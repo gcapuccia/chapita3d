@@ -19,6 +19,8 @@ export type OpcionesImagen = {
   clustersFondo?: number[]
   /** Cantidad maxima de colores (la solapa Colores). */
   colores?: number
+  /** Grosor de las lineas elegido a mano por color (hex de la paleta → mm). */
+  grosorPorHex?: Record<string, number>
 }
 
 export type EtapaImagen = EtapaPipeline | 'decodificado'
@@ -69,7 +71,10 @@ const api = {
     const msDecodificar = performance.now() - t0
     alEtapa?.('decodificado')
 
-    const extra = opciones.colores ? { colores: opciones.colores } : {}
+    const extra = {
+      ...(opciones.colores ? { colores: opciones.colores } : {}),
+      ...(opciones.grosorPorHex ? { grosorPorHex: opciones.grosorPorHex } : {}),
+    }
     const r =
       opciones.preset === 'auto'
         ? convertirAutomatico(fuente, extra, alEtapa)

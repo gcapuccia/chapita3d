@@ -65,15 +65,31 @@ export function crearDiseno(regiones: readonly RegionTrazada[], o: OpcionesDisen
   const cy = (Math.min(...ys) + Math.max(...ys)) / 2
 
   // Filamentos: la base primero; un color de region casi igual a la base (ΔE2000 < 5) usa la base
-  const base: Filamento = { id: 'base', nombre: nombreDeColor(hexBase), hex: hexBase, slot: 1 }
+  const base: Filamento = {
+    id: 'base',
+    nombre: nombreDeColor(hexBase),
+    hex: hexBase,
+    slot: 1,
+    deLaImagen: [],
+  }
   const deColor = new Map<string, Filamento>()
   const filamentoDe = (hex: string): Filamento => {
-    if (deltaE2000(hex, hexBase) < D.FUSION_DELTA_E2000) return base
+    const recordar = (f: Filamento) => {
+      if (!f.deLaImagen!.includes(hex)) f.deLaImagen!.push(hex)
+      return f
+    }
+    if (deltaE2000(hex, hexBase) < D.FUSION_DELTA_E2000) return recordar(base)
     const existente = [...deColor.values()].find(
       (f) => deltaE2000(f.hex, hex) < D.FUSION_DELTA_E2000,
     )
-    if (existente) return existente
-    const nuevo: Filamento = { id: `color-${deColor.size + 1}`, nombre: '', hex, slot: 0 }
+    if (existente) return recordar(existente)
+    const nuevo: Filamento = {
+      id: `color-${deColor.size + 1}`,
+      nombre: '',
+      hex,
+      slot: 0,
+      deLaImagen: [hex],
+    }
     deColor.set(nuevo.id, nuevo)
     return nuevo
   }

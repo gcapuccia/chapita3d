@@ -5,9 +5,9 @@
 
 import * as Comlink from 'comlink'
 import { create } from 'zustand'
-import { crearDiseno } from '../diseno/crear.ts'
+import { crearDiseno, nombreDeColor } from '../diseno/crear.ts'
 import { agregarTexto } from '../diseno/texto.ts'
-import type { Diseno } from '../diseno/tipos.ts'
+import type { Diseno, Filamento } from '../diseno/tipos.ts'
 import type { NombrePreset } from '../pipeline/presets.ts'
 import { crearGeneracion } from '../workers/clientes.ts'
 import type { ApiGeometria } from '../workers/geometria.worker.ts'
@@ -30,6 +30,10 @@ type Estado = {
   archivo: File | null
   preset: NombrePreset | 'auto'
   colores: number
+  /** Grosor elegido a mano para las lineas de un color (hex de la paleta → mm). */
+  grosorPorHex: Record<string, number>
+  /** Filamento elegido a mano (color de la imagen, o 'base' → hex del filamento). */
+  colorElegido: Record<string, string>
   conversion: Conversion | null
   diseno: Diseno | null
   construccion: Construccion | null
@@ -42,6 +46,8 @@ export const useDocumento = create<Estado>(() => ({
   archivo: null,
   preset: 'auto',
   colores: 4,
+  grosorPorHex: {},
+  colorElegido: {},
   conversion: null,
   diseno: null,
   construccion: null,
@@ -101,6 +107,27 @@ export function cambiarDiseno(cambio: (d: Diseno) => Diseno, demora?: number): v
   reconstruir(demora)
 }
 
+/**
+ * Identidad de un filamento entre corridas: el primer color de la imagen que cayo en el. La base
+ * tiene clave propia porque puede no venir de la imagen.
+ */
+export function claveDeFilamento(f: Filamento, esBase: boolean): string {
+  return esBase ? 'base' : (f.deLaImagen?.[0] ?? f.hex)
+}
+
+/** Vuelve a poner los colores que el usuario eligio a mano, despues de reprocesar la imagen. */
+function aplicarColoresElegidos(d: Diseno): Diseno {
+  const elegidos = get().colorElegido
+  if (!Object.keys(elegidos).length) return d
+  return {
+    ...d,
+    filamentos: d.filamentos.map((f) => {
+      const hex = elegidos[claveDeFilamento(f, f.id === d.contorno.filamentoId)]
+      return hex ? { ...f, hex, nombre: nombreDeColor(hex), elegido: true } : f
+    }),
+  }
+}
+
 /** Lo que el usuario eligio en Colores y Llavero sobrevive a reprocesar la imagen. */
 function conservarOpciones(anterior: Diseno | null, nuevo: Diseno): Diseno {
   if (!anterior) return nuevo
@@ -140,7 +167,7 @@ function conservarOpciones(anterior: Diseno | null, nuevo: Diseno): Diseno {
 // ------------------------------------------------------------------ imagen
 
 async function procesar() {
-  const { archivo, preset, colores, diseno: anterior } = get()
+  const { archivo, preset, colores, grosorPorHex, diseno: anterior } = get()
   if (!archivo) return
   set({ procesando: { hito: 'leer', desde: performance.now() }, error: null })
   const alEtapa = Comlink.proxy((etapa: EtapaImagen) => {
@@ -150,7 +177,7 @@ async function procesar() {
   })
   try {
     const conversion = await genImagen.envolver(
-      clienteImagen().procesar(archivo, { preset, colores }, alEtapa),
+      clienteImagen().procesar(archivo, { preset, colores, grosorPorHex }, alEtapa),
     )
     if (!conversion) return
     if (!conversion.regiones.length) {
@@ -165,7 +192,7 @@ async function procesar() {
     })
     set({
       conversion,
-      diseno: conservarOpciones(anterior, nuevo),
+      diseno: aplicarColoresElegidos(conservarOpciones(anterior, nuevo)),
       procesando: { hito: 'llavero', desde: get().procesando?.desde ?? performance.now() },
     })
     reconstruir(0)
@@ -198,7 +225,16 @@ export function elegirArchivo(archivo: File): boolean {
     return false
   }
   // Una imagen nueva arranca un diseño nuevo
-  set({ archivo, conversion: null, diseno: null, construccion: null, preset: 'auto', colores: 4 })
+  set({
+    archivo,
+    conversion: null,
+    diseno: null,
+    construccion: null,
+    preset: 'auto',
+    colores: 4,
+    grosorPorHex: {},
+    colorElegido: {},
+  })
   void procesar()
   return true
 }
@@ -231,8 +267,41 @@ export function cambiarPreset(preset: NombrePreset | 'auto'): void {
 }
 
 export function cambiarColores(colores: number): void {
-  set({ colores })
+  set({ colores, grosorPorHex: {} })
   void procesar()
+}
+
+/**
+ * Grosor de las lineas de un color, en mm (null = automatico). Reprocesa la imagen con espera,
+ * asi mover el deslizador no dispara una corrida por paso.
+ */
+let temporizadorGrosor: ReturnType<typeof setTimeout> | undefined
+export function cambiarGrosorDeLineas(hex: string, mm: number | null, demora = 400): void {
+  const grosorPorHex = { ...get().grosorPorHex }
+  if (mm === null) delete grosorPorHex[hex]
+  else grosorPorHex[hex] = mm
+  set({ grosorPorHex })
+  clearTimeout(temporizadorGrosor)
+  temporizadorGrosor = setTimeout(() => void procesar(), demora)
+}
+
+/** Cambia el color de un filamento. Es solo del diseño: no hay que reprocesar la imagen. */
+export function cambiarColorDeFilamento(id: string, hex: string): void {
+  const d = get().diseno
+  const f = d?.filamentos.find((x) => x.id === id)
+  if (!d || !f) return
+  set({
+    colorElegido: {
+      ...get().colorElegido,
+      [claveDeFilamento(f, f.id === d.contorno.filamentoId)]: hex,
+    },
+  })
+  cambiarDiseno((actual) => ({
+    ...actual,
+    filamentos: actual.filamentos.map((x) =>
+      x.id === id ? { ...x, hex, nombre: nombreDeColor(hex), elegido: true } : x,
+    ),
+  }))
 }
 
 /** Cancelar: termina el worker y deja el archivo cargado, no perdido (plan §4.2). */
@@ -255,6 +324,8 @@ export function empezarDeNuevo(): void {
     error: null,
     preset: 'auto',
     colores: 4,
+    grosorPorHex: {},
+    colorElegido: {},
   })
 }
 

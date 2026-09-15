@@ -101,6 +101,16 @@ export const es = {
     fusionados: (n: number) =>
       `Tu imagen tiene ${n} colores distintos: los muy parecidos se juntan solos.`,
     lugar: (n: number) => `lugar ${n}`,
+    elegirColor: 'Color del filamento',
+    colorPropio: 'O elegí uno propio',
+    tocarParaCambiar: 'Tocá un color para cambiarlo o ajustar sus líneas',
+    grosor: 'Grosor de sus líneas',
+    grosorAuto: 'Automático',
+    volverAuto: 'Volver al automático',
+    grosorAyuda:
+      'Sube o baja el ancho de las líneas de este color. Las que ya son más anchas no cambian.',
+    grosorFragil: (mm: number) =>
+      `Menos de ${String(mm).replace('.', ',')} mm se imprime, pero puede salir frágil o romperse.`,
     base: 'Base y borde',
     listo: 'Los colores están bien',
   },

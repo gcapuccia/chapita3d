@@ -75,7 +75,7 @@ export default function Crear({ hash }: { hash: string }) {
   )
 
   return (
-    <div className="flex min-h-svh flex-col">
+    <div className="flex min-h-svh flex-col lg:h-svh lg:min-h-0 lg:overflow-hidden">
       {procesando && (
         <OverlayProcesando archivo={archivo} hito={procesando.hito} desde={procesando.desde} />
       )}
@@ -123,7 +123,7 @@ export default function Crear({ hash }: { hash: string }) {
         </p>
       )}
 
-      <main className="grid flex-1 grid-rows-[minmax(18rem,45vh)_auto] lg:grid-cols-[minmax(0,1fr)_24rem] lg:grid-rows-1">
+      <main className="grid flex-1 grid-rows-[minmax(18rem,45vh)_auto] lg:min-h-0 lg:grid-cols-[minmax(0,1fr)_24rem] lg:grid-rows-1">
         <section className="relative bg-stone-100">
           {solapa === 'fondo' && conversion ? (
             <div className="grid size-full place-items-center p-4">
@@ -137,7 +137,7 @@ export default function Crear({ hash }: { hash: string }) {
           )}
         </section>
 
-        <aside className="flex flex-col gap-6 border-stone-200 bg-stone-50 p-5 pb-28 lg:border-l lg:pb-5">
+        <aside className="flex flex-col gap-6 border-stone-200 bg-stone-50 p-5 pb-28 lg:overflow-y-auto lg:border-l lg:pb-5">
           {solapa === 'fondo' && resultado && (
             <div className="h-48 overflow-hidden rounded-xl bg-stone-100 max-lg:hidden">
               {vista3D}

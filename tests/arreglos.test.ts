@@ -162,3 +162,41 @@ describe('caja sin motas y polaridad', () => {
     expect(tintaClara(clara)).toBe(false)
   })
 })
+
+describe('grosor de lineas por color', () => {
+  // Dos lineas finas (0,5 mm a 50 mm): una roja y una azul, sobre blanco
+  const dosLineas = () => {
+    const img = lienzo(460, 460, BLANCO)
+    pintar(img, [214, 40, 40], (x, y) => Math.abs(y - 120) <= 2 && x > 20 && x < 440)
+    pintar(img, [30, 79, 216], (x, y) => Math.abs(y - 320) <= 2 && x > 20 && x < 440)
+    return img
+  }
+  const anchoEn = (
+    r: ReturnType<typeof convertir>,
+    filaFuente: number,
+    columnaFuente: number,
+  ): number => {
+    const { etiquetas, ancho, alto, recorte, mmPorPixel } = r.diagnostico
+    const escala = ancho / recorte.ancho
+    const x = Math.round((columnaFuente - recorte.x) * escala)
+    const centro = Math.round((filaFuente - recorte.y) * escala)
+    let n = 0
+    for (let y = Math.max(0, centro - 30); y < Math.min(alto, centro + 30); y++)
+      if (etiquetas[y * ancho + x] !== FONDO) n++
+    return n * mmPorPixel
+  }
+
+  test('el grosor elegido para un color no toca al otro', () => {
+    const img = dosLineas()
+    const params = { ...paramsPorDefecto('dibujo'), colores: 3 }
+    const antes = convertir(img, params)
+    const rojo = antes.paleta.find((c) => c.oklab[1] > 0.05)
+    expect(rojo).toBeDefined()
+    const despues = convertir(img, { ...params, grosorPorHex: { [rojo!.hex]: 2.5 } })
+    // La linea roja pasa a 2,5 mm; la azul se queda donde la dejo el automatico
+    expect(anchoEn(despues, 120, 230)).toBeGreaterThanOrEqual(2.4)
+    expect(anchoEn(despues, 320, 230)).toBeLessThan(1.2)
+    expect(anchoEn(despues, 320, 230)).toBeGreaterThanOrEqual(0.8)
+    expect(despues.diagnostico.grosorLineasMm).toBe(0.8)
+  })
+})

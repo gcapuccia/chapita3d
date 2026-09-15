@@ -60,6 +60,8 @@ export type ParamsPipeline = {
    * 'auto' = se engrosan a GROSOR_LINEAS_MM.porDefecto solo si son una parte del dibujo (logo de lineas).
    */
   grosorMinimoLineasMm: number | null | 'auto'
+  /** Grosor elegido a mano para las lineas de un color de la paleta (por hex). Pisa lo de arriba. */
+  grosorPorHex?: Record<string, number>
   /** Segunda pasada de fondo (degrade y zonas encerradas por el dibujo). Solo con flood fill. */
   fondoEncerrado: boolean
   fondoAreaMinimaMm2: number
@@ -344,6 +346,7 @@ export function convertir(
         anchoMinimoDetalleMm: p.anchoMinimoDetalleMm,
         areaMinimaIslaMm2: p.areaMinimaIslaMm2,
         grosorMinimoLineasMm: grosor,
+        grosorPorColorMm: paleta.map((c) => p.grosorPorHex?.[c.hex] ?? null),
         largoMinimoLineaMm: D.LARGO_MINIMO_LINEA_MM,
         paleta,
         guardaHalo: { lab, fondoLab },
