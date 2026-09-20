@@ -1,7 +1,36 @@
 @import 'tailwindcss';
 
+/* Tipografias empaquetadas (OFL): Nunito para todo, Lilita One para titulos cortos. */
+@import '@fontsource/nunito/latin-400.css';
+@import '@fontsource/nunito/latin-600.css';
+@import '@fontsource/nunito/latin-700.css';
+@import '@fontsource/nunito/latin-800.css';
+@import '@fontsource/nunito/latin-900.css';
+@import '@fontsource/lilita-one/latin-400.css';
+
+/*
+ * Paleta "Modo taller" de la marca Chapita3d (diseño en docs/marca/diseno/Chapita3d.dc.html).
+ * El lima es el unico color de marca: se usa para lo que hay que tocar y nada mas.
+ * Los botones lima llevan texto carbon, nunca blanco.
+ */
+@theme {
+  --color-carbon: #14161a;
+  --color-grafito: #1e222a;
+  --color-borde: #2a2e36;
+  --color-borde-fuerte: #3a3f49;
+  --color-tiza: #f5f6f8;
+  --color-tiza-suave: #c3c8d2;
+  --color-tenue: #9aa1ae;
+  --color-lima: #c6f24e;
+  --color-lima-claro: #e3fa9b;
+
+  --font-sans: Nunito, ui-sans-serif, system-ui, sans-serif;
+  --font-titulo: 'Lilita One', Nunito, ui-sans-serif, sans-serif;
+}
+
 body {
   background-color: var(--color-stone-50);
+  font-family: var(--font-sans);
 }
 
 html {

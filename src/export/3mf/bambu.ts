@@ -110,7 +110,7 @@ function xmlModelo(piezas: readonly PiezaExport[], o: OpcionesBambu, idEnsamble:
   return `<?xml version="1.0" encoding="UTF-8"?>
 <model unit="millimeter" xml:lang="en-US" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02">
   <metadata name="Application">${APLICACION_BAMBU}</metadata>
-  <metadata name="ApplicationTitle">3dllaveros</metadata>
+  <metadata name="ApplicationTitle">Chapita3d</metadata>
   <metadata name="Title">${escaparXml(o.nombre)}</metadata>
   <metadata name="CreationDate">${o.fecha ?? ''}</metadata>
   <resources>

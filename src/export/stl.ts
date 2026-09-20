@@ -13,7 +13,7 @@ export function escribirStl(pieza: PiezaExport): Uint8Array {
   const buffer = new ArrayBuffer(CABECERA + 4 + triangulos * BYTES_POR_TRIANGULO)
   const datos = new DataView(buffer)
 
-  const cabecera = new TextEncoder().encode(`3dllaveros ${pieza.nombre}`.slice(0, CABECERA))
+  const cabecera = new TextEncoder().encode(`Chapita3d ${pieza.nombre}`.slice(0, CABECERA))
   new Uint8Array(buffer, 0, CABECERA).set(cabecera)
   datos.setUint32(CABECERA, triangulos, true)
 

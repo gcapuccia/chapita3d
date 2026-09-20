@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lilita+One&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #E7E5E4; font-family: Nunito, system-ui, sans-serif; }
+  a { color: #C6F24E; }
+  a:hover { color: #E3FA9B; }
+  @keyframes girar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
+</helmet>
+
+<section style="background:#14161A;border-radius:28px;margin:24px;display:flex;flex-direction:column;gap:28px;padding:44px 48px 48px">
+
+  <div style="display:flex;align-items:baseline;gap:16px;font-family:Nunito,sans-serif">
+    <h2 style="margin:0;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">La app en Modo taller</h2>
+    <span style="font-size:15px;color:#9AA1AE">Turno 7 · <a href="#7a" style="color:#C6F24E">7a</a> /crear · <a href="#7b" style="color:#C6F24E">7b</a> el shell para varias apps</span>
+  </div>
+
+  <p style="margin:0;max-width:80ch;font-size:16px;line-height:1.6;color:#C3C8D2">La pantalla es la misma que hay hoy en <code style="font-size:14px;background:#2A2E36;padding:1px 5px;border-radius:4px">src/paginas/Crear.tsx</code>: mismo header con las tres solapas, misma grilla de lienzo más panel de 384 px, mismo pie con Atrás y el botón principal. Lo único que cambia son los colores y una cosa nueva: el conmutador de apps, que está en <a href="#7b">7b</a>.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+    <div id="7a" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">7a</span>
+        <span style="font-size:15px;font-weight:700;color:#F5F6F8">/crear · solapa Colores · 1280 px</span>
+      </div>
+
+      <div style="width:1280px;height:1260px;background:#14161A;border:1px solid #2A2E36;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;color:#F5F6F8">
+
+        <header style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;border-bottom:1px solid #2A2E36;background:#1E222A;padding:8px 16px">
+          <button type="button" style="display:flex;align-items:center;gap:9px;min-height:44px;padding:0 10px 0 4px;border:none;border-radius:10px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.02em;cursor:pointer">
+            <span style="font-size:17px;color:#9AA1AE">←</span>
+            <svg viewBox="0 0 120 120" width="26" height="26" aria-hidden="true">
+              <mask id="app-mark"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask>
+              <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#app-mark)"></rect>
+              <text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text>
+              <text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text>
+            </svg>
+            Chapita3d
+          </button>
+          <span style="width:1px;height:26px;background:#2A2E36"></span>
+          <button type="button" style="display:flex;align-items:center;gap:7px;min-height:44px;padding:0 12px;border:1px solid #2A2E36;border-radius:10px;background:#14161A;color:#C3C8D2;font-family:Nunito,sans-serif;font-size:15px;font-weight:700;cursor:pointer">Llaveros<span style="font-size:11px;color:#9AA1AE">▾</span></button>
+
+          <nav style="display:flex;flex:1;justify-content:center;gap:4px" aria-label="Pasos">
+            <button type="button" style="min-height:44px;padding:0 12px;border:none;border-radius:8px;background:transparent;color:#C3C8D2;font-family:Nunito,sans-serif;font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer">Fondo ✓</button>
+            <button type="button" style="min-height:44px;padding:0 12px;border:none;border-radius:8px;background:#C6F24E;color:#14161A;font-family:Nunito,sans-serif;font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer">Colores</button>
+            <button type="button" style="min-height:44px;padding:0 12px;border:none;border-radius:8px;background:transparent;color:#C3C8D2;font-family:Nunito,sans-serif;font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer">Llavero</button>
+          </nav>
+
+          <button type="button" style="min-height:44px;padding:0 20px;border:none;border-radius:8px;background:#C6F24E;color:#14161A;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Descargar</button>
+        </header>
+
+        <main style="display:grid;grid-template-columns:minmax(0,1fr) 384px;flex:1;min-height:0">
+
+          <section style="position:relative;background:#101317;display:flex;align-items:center;justify-content:center;padding:24px">
+            <image-slot id="crear-vista3d" shape="rounded" radius="12" fit="contain" style="width:100%;height:100%" placeholder="Captura de la vista 3D del llavero sobre fondo #101317 · 1700×1300"></image-slot>
+            <span style="position:absolute;top:16px;right:16px;padding:5px 12px;border-radius:999px;background:rgba(30,34,42,0.92);border:1px solid #2A2E36;font-size:12px;color:#C3C8D2">Actualizando…</span>
+            <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(30,34,42,0.92);border:1px solid #2A2E36">
+              <button type="button" style="min-height:36px;padding:0 14px;border:none;border-radius:999px;background:transparent;color:#C3C8D2;font-family:Nunito,sans-serif;font-size:12px;font-weight:600;cursor:pointer">Arriba</button>
+              <button type="button" style="min-height:36px;padding:0 14px;border:none;border-radius:999px;background:#C6F24E;color:#14161A;font-family:Nunito,sans-serif;font-size:12px;font-weight:700;cursor:pointer">3D</button>
+              <button type="button" style="min-height:36px;padding:0 14px;border:none;border-radius:999px;background:transparent;color:#C3C8D2;font-family:Nunito,sans-serif;font-size:12px;font-weight:600;cursor:pointer">Capas</button>
+            </div>
+          </section>
+
+          <aside style="display:flex;flex-direction:column;gap:24px;border-left:1px solid #2A2E36;background:#14161A;padding:20px;overflow-y:auto">
+
+            <fieldset style="margin:0;padding:0;border:none;display:flex;flex-direction:column;gap:8px">
+              <legend style="padding:0;margin-bottom:4px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#9AA1AE">¿Cuántos colores?</legend>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <span style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 12px;border:1px solid #3A3F49;border-radius:8px;background:#1E222A;font-size:14px;color:#C3C8D2">2</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 12px;border:1px solid #3A3F49;border-radius:8px;background:#1E222A;font-size:14px;color:#C3C8D2">3</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 12px;border:1px solid #C6F24E;border-radius:8px;background:#C6F24E;font-size:14px;font-weight:700;color:#14161A">4</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 12px;border:1px solid #3A3F49;border-radius:8px;background:#1E222A;font-size:14px;color:#C3C8D2">5</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 12px;border:1px solid #3A3F49;border-radius:8px;background:#1E222A;font-size:14px;color:#C3C8D2">6</span>
+              </div>
+            </fieldset>
+
+            <fieldset style="margin:0;padding:0;border:none;display:flex;flex-direction:column;gap:8px;min-height:0">
+              <legend style="padding:0;margin-bottom:4px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#9AA1AE">Los colores de tu llavero</legend>
+              <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;border:1px solid #2A2E36;border-radius:8px;background:#1E222A;overflow:hidden">
+                <li style="display:flex;align-items:center;gap:12px;min-height:44px;padding:8px 12px;border-bottom:1px solid #2A2E36">
+                  <span style="width:24px;height:24px;flex:none;border-radius:6px;border:1px solid #3A3F49;background:#1A1A1A"></span>
+                  <span style="flex:1;font-size:14px;color:#F5F6F8">Negro</span>
+                  <span style="font-size:12px;color:#9AA1AE">lugar 1</span>
+                  <span style="color:#9AA1AE">▾</span>
+                </li>
+                <li style="display:flex;flex-direction:column;border-bottom:1px solid #2A2E36;background:#14161A">
+                  <div style="display:flex;align-items:center;gap:12px;min-height:44px;padding:8px 12px">
+                    <span style="width:24px;height:24px;flex:none;border-radius:6px;border:1px solid #3A3F49;background:#D62828"></span>
+                    <span style="flex:1;font-size:14px;color:#F5F6F8">Rojo</span>
+                    <span style="font-size:12px;color:#9AA1AE">lugar 2</span>
+                    <span style="color:#C6F24E">▴</span>
+                  </div>
+                  <div style="padding:0 12px 12px">
+                    <div style="display:flex;flex-direction:column;gap:16px;border:1px solid #3A3F49;border-radius:12px;background:#1E222A;padding:12px">
+                      <fieldset style="margin:0;padding:0;border:none;display:flex;flex-direction:column;gap:8px">
+                        <legend style="padding:0;margin-bottom:4px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#9AA1AE">Color del filamento</legend>
+                        <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px">
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#FFFFFF"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#F2ECDC"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#C8C8C8"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#808080"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#1A1A1A"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:2px solid #C6F24E;box-shadow:0 0 0 2px #14161A,0 0 0 4px #C6F24E;background:#D62828"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#7A1F2B"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#F28C28"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#F5C518"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#C9A227"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#8BC34A"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#2E9E5B"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#1B5E20"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#27C3D8"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#7EC8F2"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#1E4FD8"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#1D3A8A"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#7B3FB5"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#EC6FA9"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#C2185B"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#6D4C41"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#E3D5B8"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#B8BDC4"></span>
+                          <span style="aspect-ratio:1;border-radius:999px;border:1px solid #3A3F49;background:#B06A3B"></span>
+                        </div>
+                        <label style="display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px;color:#C3C8D2">
+                          <span style="width:32px;height:32px;flex:none;border-radius:6px;border:1px solid #3A3F49;background:#D62828"></span>
+                          O elegí uno propio
+                        </label>
+                      </fieldset>
+                      <fieldset style="margin:0;padding:0;border:none;display:flex;flex-direction:column;gap:8px">
+                        <legend style="padding:0;margin-bottom:4px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#9AA1AE">Grosor de sus líneas</legend>
+                        <div style="display:flex;align-items:center;gap:12px">
+                          <span style="position:relative;flex:1;height:44px;display:flex;align-items:center">
+                            <span style="width:100%;height:4px;border-radius:999px;background:#3A3F49"></span>
+                            <span style="position:absolute;left:0;width:36%;height:4px;border-radius:999px;background:#C6F24E"></span>
+                            <span style="position:absolute;left:36%;transform:translateX(-50%);width:18px;height:18px;border-radius:999px;background:#C6F24E"></span>
+                          </span>
+                          <span style="width:72px;text-align:right;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;color:#F5F6F8">1,6 mm</span>
+                        </div>
+                        <span style="align-self:flex-start;min-height:44px;display:flex;align-items:center;font-size:14px;color:#C3C8D2;text-decoration:underline;text-underline-offset:4px">Volver al automático</span>
+                        <p style="margin:0;font-size:12px;line-height:1.45;color:#9AA1AE">Sube o baja el ancho de las líneas de este color. Las que ya son más anchas no cambian.</p>
+                        <p style="margin:0;padding:8px;border-radius:8px;background:#2A2312;font-size:12px;line-height:1.45;color:#F5D08A">⚠ Menos de 2,0 mm se imprime, pero puede salir frágil o romperse.</p>
+                      </fieldset>
+                    </div>
+                  </div>
+                </li>
+                <li style="display:flex;align-items:center;gap:12px;min-height:44px;padding:8px 12px;border-bottom:1px solid #2A2E36">
+                  <span style="width:24px;height:24px;flex:none;border-radius:6px;border:1px solid #3A3F49;background:#FFFFFF"></span>
+                  <span style="flex:1;font-size:14px;color:#F5F6F8">Blanco</span>
+                  <span style="font-size:12px;color:#9AA1AE">lugar 3</span>
+                  <span style="color:#9AA1AE">▾</span>
+                </li>
+                <li style="display:flex;align-items:center;gap:12px;min-height:44px;padding:8px 12px">
+                  <span style="width:24px;height:24px;flex:none;border-radius:6px;border:1px solid #3A3F49;background:#F5C518"></span>
+                  <span style="flex:1;font-size:14px;color:#F5F6F8">Amarillo</span>
+                  <span style="font-size:12px;color:#9AA1AE">lugar 4</span>
+                  <span style="color:#9AA1AE">▾</span>
+                </li>
+              </ul>
+              <p style="margin:0;font-size:12px;color:#9AA1AE">Tocá un color para cambiarlo o ajustar sus líneas</p>
+            </fieldset>
+
+            <section aria-label="2 avisos" style="display:flex;flex-direction:column;gap:8px">
+              <h3 style="margin:0;font-size:14px;font-weight:600;color:#C3C8D2">2 avisos</h3>
+              <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px">
+                <li style="display:flex;gap:8px;padding:12px;border-radius:8px;background:#2A2312;font-size:14px;line-height:1.45;color:#F5D08A"><span aria-hidden="true">🟡</span><span>El texto mide 5,4 mm de alto y puede salir ilegible.</span></li>
+                <li style="display:flex;gap:8px;padding:12px;border-radius:8px;background:#2A2312;font-size:14px;line-height:1.45;color:#F5D08A"><span aria-hidden="true">🟡</span><span>Tu imagen tiene 3 colores distintos: los muy parecidos se juntan solos.</span></li>
+              </ul>
+            </section>
+          </aside>
+        </main>
+
+        <footer style="display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #2A2E36;background:#1E222A;padding:12px 16px">
+          <button type="button" style="min-height:44px;padding:0 16px;border:none;border-radius:8px;background:transparent;color:#C3C8D2;font-family:Nunito,sans-serif;font-size:15px;cursor:pointer;text-decoration:underline;text-underline-offset:4px">Atrás</button>
+          <button type="button" style="min-height:44px;padding:0 20px;border:none;border-radius:8px;background:#C6F24E;color:#14161A;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Los colores están bien →</button>
+        </footer>
+      </div>
+    </div>
+
+    <div id="7b" style="width:560px;display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">7b</span>
+        <span style="font-size:15px;font-weight:700;color:#F5F6F8">El shell para varias apps</span>
+      </div>
+
+      <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:22px">
+        <p style="margin:0;font-size:16px;line-height:1.55;color:#C3C8D2">Todas las apps comparten el mismo header: marca a la izquierda, el conmutador al lado, y lo propio de cada app en el medio y a la derecha. Cambiar de app no cambia el marco, solo lo del medio.</p>
+
+        <div style="background:#14161A;border:1px solid #2A2E36;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true">
+              <mask id="sw-mark"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask>
+              <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#sw-mark)"></rect>
+              <text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text>
+              <text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text>
+            </svg>
+            <span style="font-size:16px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">Chapita3d</span>
+            <span style="width:1px;height:22px;background:#2A2E36"></span>
+            <span style="display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 12px;border:1px solid #C6F24E;border-radius:10px;background:#1E222A;font-size:14px;font-weight:700;color:#F5F6F8">Llaveros<span style="font-size:11px;color:#C6F24E">▴</span></span>
+          </div>
+
+          <ul style="margin:0;padding:6px;list-style:none;display:flex;flex-direction:column;gap:2px;width:280px;border:1px solid #2A2E36;border-radius:12px;background:#1E222A">
+            <li style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border-radius:8px;background:#232A18">
+              <span style="width:8px;height:8px;border-radius:999px;background:#C6F24E;flex:none"></span>
+              <span style="flex:1;font-size:15px;font-weight:700;color:#F5F6F8">Llaveros</span>
+              <span style="font-size:12px;color:#9AA1AE">acá estás</span>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border-radius:8px">
+              <span style="width:8px;height:8px;border-radius:999px;background:#3A3F49;flex:none"></span>
+              <span style="flex:1;font-size:15px;color:#C3C8D2">Carteles</span>
+              <span style="padding:2px 8px;border-radius:999px;background:#2A2E36;font-size:11px;font-weight:700;color:#9AA1AE">pronto</span>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border-radius:8px">
+              <span style="width:8px;height:8px;border-radius:999px;background:#3A3F49;flex:none"></span>
+              <span style="flex:1;font-size:15px;color:#C3C8D2">Moldes</span>
+              <span style="padding:2px 8px;border-radius:999px;background:#2A2E36;font-size:11px;font-weight:700;color:#9AA1AE">pronto</span>
+            </li>
+            <li style="height:1px;background:#2A2E36;margin:4px 0"></li>
+            <li style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border-radius:8px">
+              <span style="flex:1;font-size:15px;color:#C3C8D2">Mis proyectos</span>
+            </li>
+          </ul>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Qué es del marco y qué es de cada app</span>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Del marco</span><span style="flex:1;font-size:15px;font-weight:700;color:#F5F6F8">marca, conmutador, cuenta, pie</span></div>
+            <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">De cada app</span><span style="flex:1;font-size:15px;font-weight:700;color:#F5F6F8">los pasos del centro y su botón principal</span></div>
+            <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Compartido siempre</span><span style="flex:1;font-size:15px;font-weight:700;color:#F5F6F8">lienzo a la izquierda, panel de 384 px a la derecha</span></div>
+            <div style="display:flex;gap:12px;padding:10px 0"><span style="flex:1;font-size:15px;color:#C3C8D2">Ruta</span><span style="flex:1;font-size:15px;font-weight:700;color:#F5F6F8">/llaveros/crear en vez de /crear</span></div>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:1.55;color:#C3C8D2">El cambio de ruta es lo único que conviene hacer ahora aunque haya una sola app: mover <code style="font-size:13px;background:#2A2E36;padding:1px 5px;border-radius:4px">/crear</code> y <code style="font-size:13px;background:#2A2E36;padding:1px 5px;border-radius:4px">/descargar</code> abajo de <code style="font-size:13px;background:#2A2E36;padding:1px 5px;border-radius:4px">/llaveros</code>. Después agregar la segunda app es solo una carpeta más.</p>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Los colores, mapeados</span>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:14px;color:#C3C8D2">stone-50 · panel</span><span style="font-size:14px;font-weight:700;color:#F5F6F8">#14161A</span></div>
+            <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:14px;color:#C3C8D2">white · header, pie, tarjetas</span><span style="font-size:14px;font-weight:700;color:#F5F6F8">#1E222A</span></div>
+            <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:14px;color:#C3C8D2">stone-100 · lienzo</span><span style="font-size:14px;font-weight:700;color:#F5F6F8">#101317</span></div>
+            <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:14px;color:#C3C8D2">stone-200 / 300 · bordes</span><span style="font-size:14px;font-weight:700;color:#F5F6F8">#2A2E36 / #3A3F49</span></div>
+            <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:14px;color:#C3C8D2">stone-900 · botón, solapa activa</span><span style="font-size:14px;font-weight:700;color:#C6F24E">#C6F24E con texto #14161A</span></div>
+            <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:14px;color:#C3C8D2">stone-700 / 500 · texto</span><span style="font-size:14px;font-weight:700;color:#F5F6F8">#C3C8D2 / #9AA1AE</span></div>
+            <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:14px;color:#C3C8D2">amber-50 / 950 · aviso</span><span style="font-size:14px;font-weight:700;color:#F5D08A">#2A2312 / #F5D08A</span></div>
+            <div style="display:flex;gap:12px;padding:9px 0"><span style="flex:1;font-size:14px;color:#C3C8D2">red-50 / 900 · bloqueante</span><span style="font-size:14px;font-weight:700;color:#FFA9A9">#2C1618 / #FFA9A9</span></div>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:1.55;color:#C3C8D2">Lo que no cambia: los 44 px de alto mínimo de cada control, la grilla del lienzo más panel de 384 px, y los textos, que salen tal cual de <code style="font-size:13px;background:#2A2E36;padding:1px 5px;border-radius:4px">src/i18n/es.ts</code>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:#14161A;border-radius:28px;margin:24px;display:flex;flex-direction:column;gap:28px;padding:44px 48px 48px">
+
+  <div style="display:flex;align-items:baseline;gap:16px;font-family:Nunito,sans-serif">
+    <h2 style="margin:0;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">El isotipo, afinado</h2>
+    <span style="font-size:15px;color:#9AA1AE">Turno 6 · <a href="#6a" style="color:#C6F24E">6a</a> kerning · <a href="#6b" style="color:#C6F24E">6b</a> medidas a 32 mm · <a href="#6c" style="color:#C6F24E">6c</a> para imprimir</span>
+  </div>
+
+  <p style="margin:0;max-width:80ch;font-size:16px;line-height:1.6;color:#C3C8D2">Todo lo que sigue está medido sobre el dibujo, no estimado: los espacios entre letras se midieron fila por fila sobre la letra ya compuesta, y los milímetros salen de una chapa de 32 mm. Los marks del turno 1 ya tienen aplicado este ajuste.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+    <div id="6a" style="width:560px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">6a</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Kerning y centrado</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Antes</span>
+          <div style="background:#14161A;border-radius:14px;padding:18px;display:flex;justify-content:center">
+            <svg viewBox="0 0 120 120" width="180" height="180" aria-label="Isotipo sin ajustar">
+              <mask id="k-off"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask>
+              <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#k-off)"></rect>
+              <text x="66" y="68" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text>
+              <text x="66" y="104" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">3d</text>
+              <rect x="6" y="59.2" width="108" height="1.6" fill="#FF5C5C" opacity="0.85"></rect>
+            </svg>
+          </div>
+          <ul style="margin:0;padding:0 0 0 16px;display:flex;flex-direction:column;gap:5px;font-size:14px;line-height:1.45;color:#C3C8D2">
+            <li>El bloque cae 11,6 unidades por debajo del centro de la chapa.</li>
+            <li>El hueco entre 3 y d mide 1,83 mm; entre C y H, 1,16 mm.</li>
+            <li>La línea de abajo casi toca la curva inferior.</li>
+          </ul>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:13px;font-weight:700;color:#C6F24E;text-transform:uppercase;letter-spacing:0.08em">Después</span>
+          <div style="background:#14161A;border-radius:14px;padding:18px;display:flex;justify-content:center">
+            <svg viewBox="0 0 120 120" width="180" height="180" aria-label="Isotipo ajustado">
+              <mask id="k-on"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask>
+              <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#k-on)"></rect>
+              <text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text>
+              <text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text>
+              <rect x="6" y="59.2" width="108" height="1.6" fill="#FF5C5C" opacity="0.85"></rect>
+            </svg>
+          </div>
+          <ul style="margin:0;padding:0 0 0 16px;display:flex;flex-direction:column;gap:5px;font-size:14px;line-height:1.45;color:#C3C8D2">
+            <li>El centro de la mancha de tinta cae exactamente en el centro de la chapa.</li>
+            <li>Los dos huecos quedan en 1,16 y 1,24 mm.</li>
+            <li>Queda 0,91 mm libre entre la C y el agujero.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="background:#14161A;border:1px solid #2A2E36;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Los valores</span>
+        <div style="display:flex;flex-direction:column;gap:9px;font-size:15px;line-height:1.4">
+          <div style="display:flex;gap:12px"><span style="flex:1;color:#C3C8D2">Línea 1 · CH</span><span style="color:#F5F6F8;font-weight:700">cuerpo 40 · interletra 0 · base en 56</span></div>
+          <div style="display:flex;gap:12px"><span style="flex:1;color:#C3C8D2">Línea 2 · 3d</span><span style="color:#F5F6F8;font-weight:700">cuerpo 40 · interletra −2 · base en 92</span></div>
+          <div style="display:flex;gap:12px"><span style="flex:1;color:#C3C8D2">Eje de las dos líneas</span><span style="color:#F5F6F8;font-weight:700">x 63 arriba · x 61,6 abajo</span></div>
+        </div>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">La interletra negativa deja aire de sobra a la derecha del 3d, por eso la segunda línea lleva su eje 1,4 unidades más a la izquierda: así las dos manchas quedan alineadas de verdad y no solo por número.</p>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">El bloque entero va 0,74 mm a la derecha del centro geométrico. No es un error: es lo que hace falta para que la C no se pegue al agujero de la argolla.</p>
+      </div>
+    </div>
+
+    <div id="6b" style="width:560px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">6b</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Medidas a 32 mm</span>
+      </div>
+
+      <div style="background:#14161A;border-radius:16px;padding:26px 30px;display:flex;justify-content:center">
+        <svg viewBox="-34 -20 190 158" width="470" height="391" aria-label="Plano acotado del llavero a 32 milímetros">
+          <g stroke="#3A3F49" stroke-width="0.6">
+            <line x1="6" y1="118" x2="6" y2="128"></line>
+            <line x1="114" y1="118" x2="114" y2="128"></line>
+            <line x1="118" y1="6" x2="128" y2="6"></line>
+            <line x1="118" y1="114" x2="128" y2="114"></line>
+            <line x1="28" y1="6" x2="28" y2="-14"></line>
+            <line x1="6" y1="6" x2="6" y2="-14"></line>
+            <line x1="6" y1="27" x2="-16" y2="27"></line>
+            <line x1="6" y1="6" x2="-16" y2="6"></line>
+          </g>
+          <g stroke="#9AA1AE" stroke-width="0.7">
+            <line x1="6" y1="124" x2="114" y2="124"></line>
+            <line x1="124" y1="6" x2="124" y2="114"></line>
+            <line x1="6" y1="-10" x2="28" y2="-10"></line>
+            <line x1="-12" y1="6" x2="-12" y2="27"></line>
+          </g>
+          <mask id="spec-plate"><rect x="-34" y="-20" width="190" height="158" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask>
+          <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#spec-plate)"></rect>
+          <text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text>
+          <text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text>
+          <g stroke="#14161A" stroke-width="0.7">
+            <line x1="28" y1="6" x2="28" y2="16"></line>
+            <line x1="6" y1="27" x2="17" y2="27"></line>
+            <line x1="37.5" y1="27" x2="42" y2="27"></line>
+          </g>
+          <g font-family="Nunito, sans-serif" font-size="6.5" font-weight="700">
+            <text x="60" y="131" text-anchor="middle" fill="#F5F6F8">32,0</text>
+            <text x="131" y="60" text-anchor="middle" transform="rotate(-90 131 60)" fill="#F5F6F8">32,0</text>
+            <text x="17" y="-13" text-anchor="middle" fill="#F5F6F8">6,5</text>
+            <text x="-15" y="16.5" text-anchor="middle" transform="rotate(-90 -15 16.5)" fill="#F5F6F8">6,2</text>
+            <text x="43.5" y="29.3" text-anchor="start" fill="#14161A">⌀ 5,3</text>
+          </g>
+          <g stroke="#3A3F49" stroke-width="0.6">
+            <line x1="106" y1="14" x2="120" y2="-4"></line>
+            <line x1="104" y1="110" x2="120" y2="122"></line>
+          </g>
+          <g font-family="Nunito, sans-serif" font-size="6" font-weight="700" fill="#9AA1AE">
+            <text x="122" y="-5" text-anchor="start">r 8,9</text>
+            <text x="122" y="124" text-anchor="start">esp. 3,0</text>
+          </g>
+        </svg>
+      </div>
+      <p style="margin:0;font-size:13px;color:#9AA1AE">Todas las cotas en milímetros. Chapa de 32 mm de lado.</p>
+
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Chapa</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">32,0 × 32,0 × 3,0 mm</span></div>
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Radio de esquina</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">8,9 mm</span></div>
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Agujero de la argolla</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">⌀ 5,3 mm, centro a 6,5 y 6,2</span></div>
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Pared entre agujero y borde</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">3,9 mm</span></div>
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Alto de las mayúsculas</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">8,5 mm</span></div>
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Entre las dos bases</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">10,7 mm</span></div>
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">Relieve de las letras</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">0,6 mm sobre la chapa</span></div>
+        <div style="display:flex;gap:12px;padding:10px 0"><span style="flex:1;font-size:15px;color:#C3C8D2">Trazo más fino</span><span style="font-size:15px;font-weight:700;color:#C6F24E">2,37 mm</span></div>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">El trazo más fino es el palo de la H: 2,37 mm, casi tres veces el mínimo de 0,8 mm que la app recomienda. El isotipo pasa su propio control con margen.</p>
+    </div>
+
+    <div id="6c" style="width:560px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">6c</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Para imprimirlo</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:14px">
+          <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:15px;font-weight:800">1</span>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:17px;font-weight:800;color:#F5F6F8">La chapa: 3,0 mm, 15 capas de 0,2</span>
+            <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Acostada sobre la cama, sin soportes. El agujero de la argolla queda vertical, así que no hay nada que puentear.</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px">
+          <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:15px;font-weight:800">2</span>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:17px;font-weight:800;color:#F5F6F8">Las letras: 0,6 mm, 3 capas más</span>
+            <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Segundo filamento desde la capa 16. Con una sola boquilla, pausa en esa capa y cambio de rollo.</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px">
+          <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:15px;font-weight:800">3</span>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:17px;font-weight:800;color:#F5F6F8">Boquilla de 0,4 · relleno 15 %</span>
+            <span style="font-size:15px;line-height:1.5;color:#C3C8D2">El trazo más fino entra en seis pasadas de 0,4, así que ninguna letra sale hueca.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:#2A2E36"></div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Los dos filamentos</span>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <div style="flex:1 1 200px;min-width:0;display:flex;align-items:center;gap:12px;background:#14161A;border:1px solid #2A2E36;border-radius:14px;padding:14px">
+            <span style="width:34px;height:34px;border-radius:10px;background:#C6F24E;flex:none"></span>
+            <div style="display:flex;flex-direction:column">
+              <span style="font-size:15px;font-weight:700;color:#F5F6F8">Chapa · lima</span>
+              <span style="font-size:13px;color:#9AA1AE">#C6F24E</span>
+            </div>
+          </div>
+          <div style="flex:1 1 200px;min-width:0;display:flex;align-items:center;gap:12px;background:#14161A;border:1px solid #2A2E36;border-radius:14px;padding:14px">
+            <span style="width:34px;height:34px;border-radius:10px;background:#14161A;border:1px solid #3A3F49;flex:none"></span>
+            <div style="display:flex;flex-direction:column">
+              <span style="font-size:15px;font-weight:700;color:#F5F6F8">Letras · carbón</span>
+              <span style="font-size:13px;color:#9AA1AE">#14161A</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Si escala</span>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">25 mm</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">trazo 1,85 mm · entra</span></div>
+          <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">32 mm</span><span style="font-size:15px;font-weight:700;color:#C6F24E">trazo 2,37 mm · el tamaño de referencia</span></div>
+          <div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #2A2E36"><span style="flex:1;font-size:15px;color:#C3C8D2">40 mm</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">trazo 2,96 mm · entra</span></div>
+          <div style="display:flex;gap:12px;padding:9px 0"><span style="flex:1;font-size:15px;color:#C3C8D2">11 mm</span><span style="font-size:15px;font-weight:700;color:#F5F6F8">trazo 0,81 mm · el piso</span></div>
+        </div>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Por debajo de 11 mm el palo de la H baja del mínimo de 0,8 mm y las letras empiezan a salir huecas. Para nada más chico que eso, la chapa va sin letras, igual que el favicon de 16 px.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:#14161A;border-radius:28px;margin:24px;display:flex;flex-direction:column;gap:28px;padding:44px 48px 48px">
+
+  <div style="display:flex;align-items:baseline;gap:16px;font-family:Nunito,sans-serif">
+    <h2 style="margin:0;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">CH3d dentro de la chapita</h2>
+    <span style="font-size:15px;color:#9AA1AE">Turno 5 · <a href="#5a" style="color:#C6F24E">5a</a> · <a href="#5b" style="color:#C6F24E">5b</a> · <a href="#5c" style="color:#C6F24E">5c</a> · <a href="#5d" style="color:#C6F24E">5d</a> · <a href="#5e" style="color:#C6F24E">5e</a> · <a href="#5f" style="color:#C6F24E">5f</a></span>
+  </div>
+
+  <p style="margin:0;max-width:80ch;font-size:16px;line-height:1.6;color:#C3C8D2">La misma chapita de <a href="#4a" style="color:#C6F24E">4a</a>, con CH arriba y 3d abajo. Hay un problema que define todo: si las letras se calan, el ojo de la <strong style="color:#F5F6F8">d</strong> queda como una isla suelta que se cae de la pieza. Las seis lo resuelven distinto, y cada tarjeta dice cómo.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+    <div id="5a" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">5a</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Calado macizo</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="CH3d calado macizo">
+          <mask id="a-lg"><rect width="120" height="120" fill="#fff"></rect>
+            <circle cx="28" cy="27" r="9" fill="#000"></circle>
+            <text x="64" y="64" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#000">CH</text>
+            <text x="64" y="98" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#000">3d</text>
+            
+          </mask>
+          <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#a-lg)"></rect>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="a-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="64" y="64" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#000">CH</text><text x="64" y="98" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#a-16)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="a-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="64" y="64" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#000">CH</text><text x="64" y="98" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#a-24)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="a-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="64" y="64" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#000">CH</text><text x="64" y="98" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#a-36)"></rect></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Las letras son huecos de verdad. El ojo de la d va cerrado, así que no queda ninguna isla flotando: un solo color y se imprime de una. En contra: a 16 px las letras se empastan y queda una chapa lisa.</p>
+    </div>
+
+    <div id="5b" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">5b</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">En relieve, dos colores</span>
+        <span style="font-size:13px;color:#9AA1AE">el más seguro</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="CH3d en relieve, dos colores">
+          <mask id="b-lg"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask>
+          <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#b-lg)"></rect>
+          <text x="66" y="68" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text>
+          <text x="66" y="104" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">3d</text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="b-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#b-16)"></rect><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="b-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#b-24)"></rect><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="b-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#b-36)"></rect><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Las letras van encima, en un segundo filamento. No hay islas ni puentes porque no se cala nada, y el llavero muestra justo lo que hace la app: dos colores separados. Necesita AMS o un cambio de filamento.</p>
+    </div>
+
+    <div id="5c" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">5c</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">CH grande, 3d chico</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="CH grande con 3d chico">
+          <mask id="c-lg"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask>
+          <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#c-lg)"></rect>
+          <text x="62" y="80" font-family="'Lilita One', sans-serif" font-size="54" text-anchor="middle" fill="#14161A">CH</text>
+          <text x="62" y="103" font-family="'Lilita One', sans-serif" font-size="22" text-anchor="middle" letter-spacing="1" fill="#14161A">3d</text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="c-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#c-16)"></rect><text x="62" y="80" font-family="'Lilita One', sans-serif" font-size="54" text-anchor="middle" fill="#14161A">CH</text><text x="62" y="103" font-family="'Lilita One', sans-serif" font-size="22" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="c-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#c-24)"></rect><text x="62" y="80" font-family="'Lilita One', sans-serif" font-size="54" text-anchor="middle" fill="#14161A">CH</text><text x="62" y="103" font-family="'Lilita One', sans-serif" font-size="22" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="c-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#c-36)"></rect><text x="62" y="80" font-family="'Lilita One', sans-serif" font-size="54" text-anchor="middle" fill="#14161A">CH</text><text x="62" y="103" font-family="'Lilita One', sans-serif" font-size="22" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Jerarquía: manda el CH y el 3d es el pie. Se lee mejor de lejos que 5b porque hay una sola cosa grande. En contra: a 32 mm el 3d mide 1,5 mm de alto y en la impresión se pierde.</p>
+    </div>
+
+    <div id="5d" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">5d</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Con ranura</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="CH3d partido por una ranura">
+          <mask id="d-lg"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><rect x="22" y="72" width="76" height="5" rx="2.5" fill="#000"></rect></mask>
+          <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#d-lg)"></rect>
+          <text x="66" y="65" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#14161A">CH</text>
+          <text x="60" y="105" font-family="'Lilita One', sans-serif" font-size="30" text-anchor="middle" fill="#14161A">3d</text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="d-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><rect x="22" y="72" width="76" height="5" rx="2.5" fill="#000"></rect></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#d-16)"></rect><text x="66" y="65" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#14161A">CH</text><text x="60" y="105" font-family="'Lilita One', sans-serif" font-size="30" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="d-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><rect x="22" y="72" width="76" height="5" rx="2.5" fill="#000"></rect></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#d-24)"></rect><text x="66" y="65" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#14161A">CH</text><text x="60" y="105" font-family="'Lilita One', sans-serif" font-size="30" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="d-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><rect x="22" y="72" width="76" height="5" rx="2.5" fill="#000"></rect></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#d-36)"></rect><text x="66" y="65" font-family="'Lilita One', sans-serif" font-size="36" text-anchor="middle" fill="#14161A">CH</text><text x="60" y="105" font-family="'Lilita One', sans-serif" font-size="30" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Una ranura calada separa las dos líneas y le da al mark algo propio además de las letras. La ranura no toca los bordes, así que la chapa queda entera. Es el que más se parece a una chapa de identificación.</p>
+    </div>
+
+    <div id="5e" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">5e</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Chapa hueca</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="CH3d dentro de una chapa hueca">
+          <mask id="e-lg"><rect width="120" height="120" fill="#fff"></rect><rect x="30" y="32" width="72" height="66" rx="16" fill="#000"></rect><circle cx="28" cy="27" r="6.5" fill="#000"></circle></mask>
+          <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#e-lg)"></rect>
+          <text x="66" y="61" font-family="'Lilita One', sans-serif" font-size="28" text-anchor="middle" fill="#C6F24E">CH</text>
+          <text x="66" y="90" font-family="'Lilita One', sans-serif" font-size="28" text-anchor="middle" fill="#C6F24E">3d</text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="e-16"><rect width="120" height="120" fill="#fff"></rect><rect x="30" y="32" width="72" height="66" rx="16" fill="#000"></rect><circle cx="28" cy="27" r="6.5" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#e-16)"></rect><text x="66" y="61" font-family="'Lilita One', sans-serif" font-size="28" text-anchor="middle" fill="#F5F6F8">CH</text><text x="66" y="90" font-family="'Lilita One', sans-serif" font-size="28" text-anchor="middle" fill="#F5F6F8">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="e-24"><rect width="120" height="120" fill="#fff"></rect><rect x="30" y="32" width="72" height="66" rx="16" fill="#000"></rect><circle cx="28" cy="27" r="6.5" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#e-24)"></rect><text x="66" y="61" font-family="'Lilita One', sans-serif" font-size="28" text-anchor="middle" fill="#F5F6F8">CH</text><text x="66" y="90" font-family="'Lilita One', sans-serif" font-size="28" text-anchor="middle" fill="#F5F6F8">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="e-36"><rect width="120" height="120" fill="#fff"></rect><rect x="30" y="32" width="72" height="66" rx="16" fill="#000"></rect><circle cx="28" cy="27" r="6.5" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#e-36)"></rect><text x="66" y="61" font-family="'Lilita One', sans-serif" font-size="28" text-anchor="middle" fill="#F5F6F8">CH</text><text x="66" y="90" font-family="'Lilita One', sans-serif" font-size="28" text-anchor="middle" fill="#F5F6F8">3d</text></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Marco y letras del mismo color, el medio hueco. La ventana está corrida hacia abajo para que el borde de arriba tenga cuerpo suficiente y el agujero no corte el marco. Es el que mejor funciona sobre una foto. Para imprimirlo hay que unir las letras al marco: sueltas, se caen.</p>
+    </div>
+
+    <div id="5f" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">5f</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Mordida + CH3d</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="CH3d en la chapa con mordida">
+          <mask id="f-lg"><rect width="120" height="120" fill="#fff"></rect><circle cx="22" cy="22" r="19" fill="#000"></circle></mask>
+          <rect x="8" y="8" width="104" height="104" rx="28" fill="#C6F24E" mask="url(#f-lg)"></rect>
+          <text x="64" y="70" font-family="'Lilita One', sans-serif" font-size="38" text-anchor="middle" fill="#14161A">CH</text>
+          <text x="64" y="102" font-family="'Lilita One', sans-serif" font-size="30" text-anchor="middle" fill="#14161A">3d</text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="f-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="22" cy="22" r="19" fill="#000"></circle></mask><rect x="8" y="8" width="104" height="104" rx="28" fill="#F5F6F8" mask="url(#f-16)"></rect><text x="64" y="70" font-family="'Lilita One', sans-serif" font-size="38" text-anchor="middle" fill="#14161A">CH</text><text x="64" y="102" font-family="'Lilita One', sans-serif" font-size="30" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="f-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="22" cy="22" r="19" fill="#000"></circle></mask><rect x="8" y="8" width="104" height="104" rx="28" fill="#F5F6F8" mask="url(#f-24)"></rect><text x="64" y="70" font-family="'Lilita One', sans-serif" font-size="38" text-anchor="middle" fill="#14161A">CH</text><text x="64" y="102" font-family="'Lilita One', sans-serif" font-size="30" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="f-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="22" cy="22" r="19" fill="#000"></circle></mask><rect x="8" y="8" width="104" height="104" rx="28" fill="#F5F6F8" mask="url(#f-36)"></rect><text x="64" y="70" font-family="'Lilita One', sans-serif" font-size="38" text-anchor="middle" fill="#14161A">CH</text><text x="64" y="102" font-family="'Lilita One', sans-serif" font-size="30" text-anchor="middle" fill="#14161A">3d</text></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">El agujero es un mordisco en la esquina, no un ojal: el aro entra de costado y la impresora nunca cierra un puente. Deja más lugar libre para las letras que el ojal centrado.</p>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:#14161A;border-radius:28px;margin:24px;display:flex;flex-direction:column;gap:28px;padding:44px 48px 48px">
+
+  <div style="display:flex;align-items:baseline;gap:16px;font-family:Nunito,sans-serif">
+    <h2 style="margin:0;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">Seis isotipos</h2>
+    <span style="font-size:15px;color:#9AA1AE">Turno 4 · <a href="#4a" style="color:#C6F24E">4a</a> · <a href="#4b" style="color:#C6F24E">4b</a> · <a href="#4c" style="color:#C6F24E">4c</a> · <a href="#4d" style="color:#C6F24E">4d</a> · <a href="#4e" style="color:#C6F24E">4e</a> · <a href="#4f" style="color:#C6F24E">4f</a></span>
+  </div>
+
+  <p style="margin:0;max-width:80ch;font-size:16px;line-height:1.6;color:#C3C8D2">Los seis están hechos con la misma regla: una sola pieza conectada, sin islas sueltas, y ninguna parte más fina que 1/8 del alto. Cada uno se puede imprimir tal cual como llavero de 32 mm. Abajo de cada uno está lo que hay que saber para imprimirlo. Decime uno o dos y los trabajo en detalle.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+    <div id="4a" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">4a</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Chapita</span>
+        <span style="font-size:13px;color:#9AA1AE">el actual</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="Isotipo Chapita"><path fill="#C6F24E" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><path fill="#F5F6F8" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><path fill="#F5F6F8" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><path fill="#F5F6F8" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">La C abierta deja una garganta de 4 mm a 32 mm de pieza: es lo más fino de todo el mark. A 16 px esa garganta se empasta y la C empieza a leerse como una O.</p>
+    </div>
+
+    <div id="4b" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">4b</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Argolla</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="Isotipo Argolla">
+          <path d="M86.87 33.13A38 38 0 1 0 86.87 86.87" fill="none" stroke="#C6F24E" stroke-width="24" stroke-linecap="round"></path>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><path d="M86.87 33.13A38 38 0 1 0 86.87 86.87" fill="none" stroke="#F5F6F8" stroke-width="24" stroke-linecap="round"></path></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><path d="M86.87 33.13A38 38 0 1 0 86.87 86.87" fill="none" stroke="#F5F6F8" stroke-width="24" stroke-linecap="round"></path></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><path d="M86.87 33.13A38 38 0 1 0 86.87 86.87" fill="none" stroke="#F5F6F8" stroke-width="24" stroke-linecap="round"></path></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">La C es la argolla: el mark y la parte que engancha en la llave son lo mismo. Pared pareja de 6,4 mm en todo el recorrido, así que sale de una sin ningún punto débil. El más simple de los seis y el que mejor aguanta 16 px.</p>
+    </div>
+
+    <div id="4c" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">4c</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Capas</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="Isotipo Capas">
+          <mask id="mc-lg"><rect width="120" height="120" fill="#fff"></rect><circle cx="38" cy="36" r="9" fill="#000"></circle><rect x="34" y="58" width="52" height="8" rx="4" fill="#000"></rect><rect x="34" y="78" width="52" height="8" rx="4" fill="#000"></rect></mask>
+          <rect x="16" y="14" width="88" height="92" rx="22" fill="#C6F24E" mask="url(#mc-lg)"></rect>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="mc-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="38" cy="36" r="9" fill="#000"></circle><rect x="34" y="58" width="52" height="8" rx="4" fill="#000"></rect><rect x="34" y="78" width="52" height="8" rx="4" fill="#000"></rect></mask><rect x="16" y="14" width="88" height="92" rx="22" fill="#F5F6F8" mask="url(#mc-16)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="mc-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="38" cy="36" r="9" fill="#000"></circle><rect x="34" y="58" width="52" height="8" rx="4" fill="#000"></rect><rect x="34" y="78" width="52" height="8" rx="4" fill="#000"></rect></mask><rect x="16" y="14" width="88" height="92" rx="22" fill="#F5F6F8" mask="url(#mc-24)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="mc-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="38" cy="36" r="9" fill="#000"></circle><rect x="34" y="58" width="52" height="8" rx="4" fill="#000"></rect><rect x="34" y="78" width="52" height="8" rx="4" fill="#000"></rect></mask><rect x="16" y="14" width="88" height="92" rx="22" fill="#F5F6F8" mask="url(#mc-36)"></rect></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Las dos ranuras son las capas de la impresión. No cruzan de lado a lado, así que el marco queda entero y la pieza nunca se parte en dos. En contra: a 16 px las ranuras se cierran y queda una chapa lisa.</p>
+    </div>
+
+    <div id="4d" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">4d</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Tres calado</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="Isotipo Tres calado">
+          <mask id="md-lg"><rect width="120" height="120" fill="#fff"></rect><circle cx="36" cy="34" r="9" fill="#000"></circle><text x="68" y="97" font-family="'Lilita One', sans-serif" font-size="82" text-anchor="middle" fill="#000">3</text></mask>
+          <rect x="14" y="12" width="92" height="96" rx="24" fill="#C6F24E" mask="url(#md-lg)"></rect>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="md-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="36" cy="34" r="9" fill="#000"></circle><text x="68" y="97" font-family="'Lilita One', sans-serif" font-size="82" text-anchor="middle" fill="#000">3</text></mask><rect x="14" y="12" width="92" height="96" rx="24" fill="#F5F6F8" mask="url(#md-16)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="md-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="36" cy="34" r="9" fill="#000"></circle><text x="68" y="97" font-family="'Lilita One', sans-serif" font-size="82" text-anchor="middle" fill="#000">3</text></mask><rect x="14" y="12" width="92" height="96" rx="24" fill="#F5F6F8" mask="url(#md-24)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="md-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="36" cy="34" r="9" fill="#000"></circle><text x="68" y="97" font-family="'Lilita One', sans-serif" font-size="82" text-anchor="middle" fill="#000">3</text></mask><rect x="14" y="12" width="92" height="96" rx="24" fill="#F5F6F8" mask="url(#md-36)"></rect></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">El 3 del nombre, calado en la chapa. El número no tiene ojos cerrados, así que el calado no deja ninguna isla flotando y la pieza sale entera. En contra: dice 3D y no dice llavero.</p>
+    </div>
+
+    <div id="4e" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">4e</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Chapa llave</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="Isotipo Chapa llave">
+          <mask id="me-lg"><rect width="120" height="120" fill="#fff"></rect><circle cx="38" cy="36" r="9" fill="#000"></circle><rect x="58" y="92" width="14" height="18" fill="#000"></rect><rect x="82" y="92" width="14" height="18" fill="#000"></rect></mask>
+          <rect x="16" y="14" width="88" height="92" rx="22" fill="#C6F24E" mask="url(#me-lg)"></rect>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="me-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="38" cy="36" r="9" fill="#000"></circle><rect x="58" y="92" width="14" height="18" fill="#000"></rect><rect x="82" y="92" width="14" height="18" fill="#000"></rect></mask><rect x="16" y="14" width="88" height="92" rx="22" fill="#F5F6F8" mask="url(#me-16)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="me-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="38" cy="36" r="9" fill="#000"></circle><rect x="58" y="92" width="14" height="18" fill="#000"></rect><rect x="82" y="92" width="14" height="18" fill="#000"></rect></mask><rect x="16" y="14" width="88" height="92" rx="22" fill="#F5F6F8" mask="url(#me-24)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="me-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="38" cy="36" r="9" fill="#000"></circle><rect x="58" y="92" width="14" height="18" fill="#000"></rect><rect x="82" y="92" width="14" height="18" fill="#000"></rect></mask><rect x="16" y="14" width="88" height="92" rx="22" fill="#F5F6F8" mask="url(#me-36)"></rect></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Chapa arriba, dientes de llave abajo. Los dientes están abiertos contra el borde, así que no hay que puentear nada. Es el que más rápido se entiende sin leer el nombre.</p>
+    </div>
+
+    <div id="4f" style="width:392px;background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">4f</span>
+        <span style="font-size:16px;font-weight:800;color:#F5F6F8">Mordida</span>
+      </div>
+      <div style="background:#14161A;border-radius:16px;padding:26px;display:flex;justify-content:center">
+        <svg viewBox="0 0 120 120" width="140" height="140" aria-label="Isotipo Mordida">
+          <mask id="mf-lg"><rect width="120" height="120" fill="#fff"></rect><circle cx="24" cy="24" r="20" fill="#000"></circle></mask>
+          <rect x="12" y="12" width="96" height="96" rx="26" fill="#C6F24E" mask="url(#mf-lg)"></rect>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <svg viewBox="0 0 120 120" width="16" height="16" aria-hidden="true"><mask id="mf-16"><rect width="120" height="120" fill="#fff"></rect><circle cx="24" cy="24" r="20" fill="#000"></circle></mask><rect x="12" y="12" width="96" height="96" rx="26" fill="#F5F6F8" mask="url(#mf-16)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="mf-24"><rect width="120" height="120" fill="#fff"></rect><circle cx="24" cy="24" r="20" fill="#000"></circle></mask><rect x="12" y="12" width="96" height="96" rx="26" fill="#F5F6F8" mask="url(#mf-24)"></rect></svg>
+        <svg viewBox="0 0 120 120" width="36" height="36" aria-hidden="true"><mask id="mf-36"><rect width="120" height="120" fill="#fff"></rect><circle cx="24" cy="24" r="20" fill="#000"></circle></mask><rect x="12" y="12" width="96" height="96" rx="26" fill="#F5F6F8" mask="url(#mf-36)"></rect></svg>
+        <span style="font-size:13px;color:#9AA1AE;margin-left:auto">16 · 24 · 36 px</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">El agujero es un mordisco en la esquina, no un ojal cerrado: el aro entra de costado y la impresora nunca tiene que cerrar un puente. Es la forma más simple que sigue siendo un llavero, y la única que se lee igual a 16 px que a 140.</p>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:#14161A;border-radius:28px;margin:24px;display:flex;flex-direction:column;gap:28px;padding:44px 48px 48px">
+
+  <div style="display:flex;align-items:baseline;gap:16px;font-family:Nunito,sans-serif">
+    <h2 style="margin:0;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">Seis paletas enteras</h2>
+    <span style="font-size:15px;color:#9AA1AE">Turno 3 · <a href="#3a">3a</a> · <a href="#3b">3b</a> · <a href="#3c">3c</a> · <a href="#3d">3d</a> · <a href="#3e">3e</a> · <a href="#3f">3f</a></span>
+  </div>
+
+  <p style="margin:0;max-width:78ch;font-size:16px;line-height:1.6;color:#C3C8D2">El turno 2 cambiaba solo el acento sobre el gris piedra. Acá cambia todo: el fondo, el neutro y el color del bloque oscuro. Las seis usan Nunito y Lilita One, igual que la marca. Decime un número y la aplico a 1b, 1c y 1d.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+    <div id="3a" style="width:392px;border-radius:22px;overflow:hidden;background:#FFFDF7;border:1px solid #E8DFC8">
+      <div style="padding:22px 24px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">3a</span>
+          <span style="font-size:15px;font-weight:800;color:#2F2A1F">Papel y tinta</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#2F2A1F" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#D94F2B" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+          <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#2F2A1F">Chapita<span style="color:#B03A18">3d</span></span>
+        </div>
+        <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#2F2A1F;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button  type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#B03A18;color:#FFFDF7;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+          <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #D9CFB4;border-radius:13px;background:#FFFDF7;color:#2F2A1F;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#B03A18;color:#FFFDF7;font-size:14px;font-weight:800">1</span>
+          <span style="font-size:15px;font-weight:700;color:#2F2A1F">Subís tu imagen.</span>
+          <a href="#3a" style="font-size:15px;font-weight:700;color:#B03A18;text-decoration:none;margin-left:auto">Ver cómo</a>
+        </div>
+        <div style="background:#2F2A1F;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'Lilita One',cursive;font-size:19px;color:#FFFDF7">Creá tu cuenta</span>
+          <span style="display:flex;gap:8px;font-size:14px;color:#E8DFC8"><span style="color:#F2946F;font-weight:800">✓</span>Guardás tus diseños</span>
+          <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#FFFDF7;color:#2F2A1F;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+        </div>
+      </div>
+      <div style="padding:16px 24px 22px;border-top:1px solid #E8DFC8;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="width:30px;height:30px;border-radius:9px;background:#B03A18"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#D94F2B"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#2F2A1F"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#E8DFC8"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#FFFDF7;border:1px solid #D9CFB4"></span>
+        </div>
+        <span style="font-size:13px;color:#6B6252">Texto #2F2A1F sobre #FFFDF7 = 14,2:1</span>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#5C5444">Fondo crema en vez de gris. Da calidez de taller sin ser naranja en todos lados, y el llavero de plástico resalta más sobre papel que sobre gris.</p>
+      </div>
+    </div>
+
+    <div id="3b" style="width:392px;border-radius:22px;overflow:hidden;background:#F3F4F1;border:1px solid #D7DAD2">
+      <div style="padding:22px 24px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">3b</span>
+          <span style="font-size:15px;font-weight:800;color:#1F2A24">Verde profundo</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#1F2A24" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#F2B705" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+          <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#1F2A24">Chapita<span style="color:#1F6F4A">3d</span></span>
+        </div>
+        <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#1F2A24;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button  type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#1F6F4A;color:#fff;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+          <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #C7CCC2;border-radius:13px;background:#fff;color:#1F2A24;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#1F6F4A;color:#fff;font-size:14px;font-weight:800">1</span>
+          <span style="font-size:15px;font-weight:700;color:#1F2A24">Subís tu imagen.</span>
+          <a href="#3b" style="font-size:15px;font-weight:700;color:#1F6F4A;text-decoration:none;margin-left:auto">Ver cómo</a>
+        </div>
+        <div style="background:#1F2A24;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'Lilita One',cursive;font-size:19px;color:#F3F4F1">Creá tu cuenta</span>
+          <span style="display:flex;gap:8px;font-size:14px;color:#D7DAD2"><span style="color:#F2B705;font-weight:800">✓</span>Guardás tus diseños</span>
+          <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#F3F4F1;color:#1F2A24;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+        </div>
+      </div>
+      <div style="padding:16px 24px 22px;border-top:1px solid #D7DAD2;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="width:30px;height:30px;border-radius:9px;background:#1F6F4A"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#F2B705"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#1F2A24"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#D7DAD2"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#F3F4F1;border:1px solid #C7CCC2"></span>
+        </div>
+        <span style="font-size:13px;color:#5A6158">Verde #1F6F4A sobre blanco = 6,1:1</span>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#4A5249">Verde botella con el amarillo solo como chispa. Es la más sobria de las seis y la que mejor envejece si después hay precios y pedidos.</p>
+      </div>
+    </div>
+
+    <div id="3c" style="width:392px;border-radius:22px;overflow:hidden;background:#14161A;border:1px solid #2A2E36">
+      <div style="padding:22px 24px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">3c</span>
+          <span style="font-size:15px;font-weight:800;color:#F5F6F8">Modo taller</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#F5F6F8" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#14161A" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+          <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#F5F6F8">Chapita<span style="color:#C6F24E">3d</span></span>
+        </div>
+        <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#F5F6F8;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button  type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#C6F24E;color:#14161A;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+          <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #3A3F49;border-radius:13px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:14px;font-weight:800">1</span>
+          <span style="font-size:15px;font-weight:700;color:#F5F6F8">Subís tu imagen.</span>
+          <a href="#3c" style="font-size:15px;font-weight:700;color:#C6F24E;text-decoration:none;margin-left:auto">Ver cómo</a>
+        </div>
+        <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'Lilita One',cursive;font-size:19px;color:#F5F6F8">Creá tu cuenta</span>
+          <span style="display:flex;gap:8px;font-size:14px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Guardás tus diseños</span>
+          <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#F5F6F8;color:#14161A;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+        </div>
+      </div>
+      <div style="padding:16px 24px 22px;border-top:1px solid #2A2E36;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="width:30px;height:30px;border-radius:9px;background:#C6F24E"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#F5F6F8"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#2A2E36"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#1E222A"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#14161A;border:1px solid #3A3F49"></span>
+        </div>
+        <span style="font-size:13px;color:#9AA1AE">Lima #C6F24E sobre #14161A = 14,3:1</span>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">Oscuro de entrada, como los slicers. Los llaveros de colores brillan sobre negro. En contra: hay que rehacer toda la app, que hoy es clara, o convivir con dos modos.</p>
+      </div>
+    </div>
+
+    <div id="3d" style="width:392px;border-radius:22px;overflow:hidden;background:#FAF7F5;border:1px solid #E5DAD4">
+      <div style="padding:22px 24px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">3d</span>
+          <span style="font-size:15px;font-weight:800;color:#3B2F2A">Terracota</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#3B2F2A" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#E07A5F" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+          <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#3B2F2A">Chapita<span style="color:#A23E22">3d</span></span>
+        </div>
+        <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#3B2F2A;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button  type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#A23E22;color:#FAF7F5;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+          <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #DCCCC4;border-radius:13px;background:#fff;color:#3B2F2A;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#A23E22;color:#FAF7F5;font-size:14px;font-weight:800">1</span>
+          <span style="font-size:15px;font-weight:700;color:#3B2F2A">Subís tu imagen.</span>
+          <a href="#3d" style="font-size:15px;font-weight:700;color:#A23E22;text-decoration:none;margin-left:auto">Ver cómo</a>
+        </div>
+        <div style="background:#3B2F2A;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'Lilita One',cursive;font-size:19px;color:#FAF7F5">Creá tu cuenta</span>
+          <span style="display:flex;gap:8px;font-size:14px;color:#E5DAD4"><span style="color:#EFA893;font-weight:800">✓</span>Guardás tus diseños</span>
+          <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#FAF7F5;color:#3B2F2A;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+        </div>
+      </div>
+      <div style="padding:16px 24px 22px;border-top:1px solid #E5DAD4;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="width:30px;height:30px;border-radius:9px;background:#A23E22"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#E07A5F"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#3B2F2A"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#E5DAD4"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#FAF7F5;border:1px solid #DCCCC4"></span>
+        </div>
+        <span style="font-size:13px;color:#6E5F58">Terracota #A23E22 sobre blanco = 6,5:1</span>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#5C4C45">La versión adulta del naranja: mismo calor, sin el brillo de neón. Se siente artesanal más que industrial.</p>
+      </div>
+    </div>
+
+    <div id="3e" style="width:392px;border-radius:22px;overflow:hidden;background:#F7F7F8;border:1px solid #DFDFE3">
+      <div style="padding:22px 24px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">3e</span>
+          <span style="font-size:15px;font-weight:800;color:#1B1B1F">Índigo y coral</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#2E2A6B" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#FF6B5A" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+          <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#1B1B1F">Chapita<span style="color:#2E2A6B">3d</span></span>
+        </div>
+        <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#1B1B1F;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button  type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#2E2A6B;color:#fff;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+          <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #CFCFD6;border-radius:13px;background:#fff;color:#1B1B1F;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#FF6B5A;color:#1B1B1F;font-size:14px;font-weight:800">1</span>
+          <span style="font-size:15px;font-weight:700;color:#1B1B1F">Subís tu imagen.</span>
+          <a href="#3e" style="font-size:15px;font-weight:700;color:#2E2A6B;text-decoration:none;margin-left:auto">Ver cómo</a>
+        </div>
+        <div style="background:#2E2A6B;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'Lilita One',cursive;font-size:19px;color:#fff">Creá tu cuenta</span>
+          <span style="display:flex;gap:8px;font-size:14px;color:#DCDAF2"><span style="color:#FF6B5A;font-weight:800">✓</span>Guardás tus diseños</span>
+          <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#fff;color:#2E2A6B;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+        </div>
+      </div>
+      <div style="padding:16px 24px 22px;border-top:1px solid #DFDFE3;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="width:30px;height:30px;border-radius:9px;background:#2E2A6B"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#FF6B5A"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#1B1B1F"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#DFDFE3"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#F7F7F8;border:1px solid #CFCFD6"></span>
+        </div>
+        <span style="font-size:13px;color:#605F6B">Índigo #2E2A6B sobre blanco = 11,4:1</span>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#4E4D59">Dos colores en vez de uno: índigo manda y el coral marca lo que hay que tocar. Es la más de producto de las seis, y la que más se despega del taller.</p>
+      </div>
+    </div>
+
+    <div id="3f" style="width:392px;border-radius:22px;overflow:hidden;background:#FAFAF9;border:1px solid #D6D3D1">
+      <div style="padding:22px 24px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">3f</span>
+          <span style="font-size:15px;font-weight:800;color:#1C1917">Piedra y violeta</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#1C1917" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#9B59D0" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+          <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#1C1917">Chapita<span style="color:#6D28A8">3d</span></span>
+        </div>
+        <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#1C1917;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button  type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#6D28A8;color:#fff;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+          <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #D6D3D1;border-radius:13px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#6D28A8;color:#fff;font-size:14px;font-weight:800">1</span>
+          <span style="font-size:15px;font-weight:700;color:#1C1917">Subís tu imagen.</span>
+          <a href="#3f" style="font-size:15px;font-weight:700;color:#6D28A8;text-decoration:none;margin-left:auto">Ver cómo</a>
+        </div>
+        <div style="background:#1C1917;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'Lilita One',cursive;font-size:19px;color:#fff">Creá tu cuenta</span>
+          <span style="display:flex;gap:8px;font-size:14px;color:#E7E5E4"><span style="color:#C79BE8;font-weight:800">✓</span>Guardás tus diseños</span>
+          <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+        </div>
+      </div>
+      <div style="padding:16px 24px 22px;border-top:1px solid #D6D3D1;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="width:30px;height:30px;border-radius:9px;background:#6D28A8"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#9B59D0"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#1C1917"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#E7E5E4"></span>
+          <span style="width:30px;height:30px;border-radius:9px;background:#FAFAF9;border:1px solid #D6D3D1"></span>
+        </div>
+        <span style="font-size:13px;color:#78716C">Violeta #6D28A8 sobre blanco = 8,4:1</span>
+        <p style="margin:0;font-size:14px;line-height:1.5;color:#57534E">El cambio más barato: el gris de la app queda igual y solo cambia el acento. El violeta es un PLA común y casi nadie lo usa en este rubro.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:#14161A;border-radius:28px;margin:24px;display:flex;flex-direction:column;gap:28px;padding:44px 48px 48px">
+
+  <div style="display:flex;align-items:baseline;gap:16px;font-family:Nunito,sans-serif">
+    <h2 style="margin:0;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">Cinco acentos</h2>
+    <span style="font-size:15px;color:#9AA1AE">Turno 2 · <a href="#2a">2a</a> naranja · <a href="#2b">2b</a> lima · <a href="#2c">2c</a> cian · <a href="#2d">2d</a> fucsia · <a href="#2e">2e</a> sin acento</span>
+  </div>
+
+  <p style="margin:0;max-width:78ch;font-size:16px;line-height:1.6;color:#C3C8D2">Mismo hero, mismo bloque de cuenta, mismo gris piedra de la app. Lo único que cambia es el acento. En los cinco, el tono de gráfico es un color de filamento de <code style="font-size:14px;background:#2A2E36;padding:1px 5px;border-radius:4px">src/datos/paleta.ts</code> y el tono de texto es ese mismo color oscurecido hasta pasar AA sobre blanco. Decime cuál y lo aplico a 1b, 1c y 1d.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+    <div id="2a" style="width:392px;background:#FAFAF9;border:1px solid #D6D3D1;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">2a</span>
+        <span style="font-size:15px;font-weight:800;color:#1C1917">Naranja filamento</span>
+        <span style="font-size:13px;color:#78716C">el actual</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#1C1917" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#F28C28" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+        <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#1C1917">Chapita<span style="color:#C2410C">3d</span></span>
+      </div>
+      <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#1C1917;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <button type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#C2410C;color:#fff;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+        <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #D6D3D1;border-radius:13px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#C2410C;color:#fff;font-size:14px;font-weight:800">1</span>
+        <span style="font-size:15px;font-weight:700;color:#1C1917">Subís tu imagen.</span>
+        <a href="#2a" style="font-size:15px;font-weight:700;color:#C2410C;text-decoration:none;margin-left:auto">Ver cómo</a>
+      </div>
+      <div style="background:#1C1917;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'Lilita One',cursive;font-size:19px;color:#fff">Creá tu cuenta</span>
+        <span style="display:flex;gap:8px;font-size:14px;color:#E7E5E4"><span style="color:#F28C28;font-weight:800">✓</span>Guardás tus diseños</span>
+        <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="width:30px;height:30px;border-radius:9px;background:#C2410C"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#F28C28"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#1C1917"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#FAFAF9;border:1px solid #D6D3D1"></span>
+        <span style="font-size:13px;color:#78716C;margin-left:4px">#C2410C · 5,2:1</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#57534E">Cálido y de taller. Es el color de PLA más común, así que la marca se parece al material. En contra: naranja es el default de medio rubro maker.</p>
+    </div>
+
+    <div id="2b" style="width:392px;background:#FAFAF9;border:1px solid #D6D3D1;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">2b</span>
+        <span style="font-size:15px;font-weight:800;color:#1C1917">Verde lima</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#1C1917" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#8BC34A" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+        <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#1C1917">Chapita<span style="color:#3F6212">3d</span></span>
+      </div>
+      <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#1C1917;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <button type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#3F6212;color:#fff;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+        <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #D6D3D1;border-radius:13px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#3F6212;color:#fff;font-size:14px;font-weight:800">1</span>
+        <span style="font-size:15px;font-weight:700;color:#1C1917">Subís tu imagen.</span>
+        <a href="#2b" style="font-size:15px;font-weight:700;color:#3F6212;text-decoration:none;margin-left:auto">Ver cómo</a>
+      </div>
+      <div style="background:#1C1917;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'Lilita One',cursive;font-size:19px;color:#fff">Creá tu cuenta</span>
+        <span style="display:flex;gap:8px;font-size:14px;color:#E7E5E4"><span style="color:#8BC34A;font-weight:800">✓</span>Guardás tus diseños</span>
+        <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="width:30px;height:30px;border-radius:9px;background:#3F6212"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#8BC34A"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#1C1917"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#FAFAF9;border:1px solid #D6D3D1"></span>
+        <span style="font-size:13px;color:#78716C;margin-left:4px">#3F6212 · 7,1:1</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#57534E">El más despejado de los cinco: el verde oscuro casi no compite con las fotos de los llaveros y el lima sirve de señal sobre negro. Poco usado en el rubro.</p>
+    </div>
+
+    <div id="2c" style="width:392px;background:#FAFAF9;border:1px solid #D6D3D1;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">2c</span>
+        <span style="font-size:15px;font-weight:800;color:#1C1917">Cian</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#1C1917" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#27C3D8" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+        <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#1C1917">Chapita<span style="color:#0E7490">3d</span></span>
+      </div>
+      <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#1C1917;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <button type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#0E7490;color:#fff;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+        <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #D6D3D1;border-radius:13px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#0E7490;color:#fff;font-size:14px;font-weight:800">1</span>
+        <span style="font-size:15px;font-weight:700;color:#1C1917">Subís tu imagen.</span>
+        <a href="#2c" style="font-size:15px;font-weight:700;color:#0E7490;text-decoration:none;margin-left:auto">Ver cómo</a>
+      </div>
+      <div style="background:#1C1917;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'Lilita One',cursive;font-size:19px;color:#fff">Creá tu cuenta</span>
+        <span style="display:flex;gap:8px;font-size:14px;color:#E7E5E4"><span style="color:#27C3D8;font-weight:800">✓</span>Guardás tus diseños</span>
+        <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="width:30px;height:30px;border-radius:9px;background:#0E7490"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#27C3D8"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#1C1917"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#FAFAF9;border:1px solid #D6D3D1"></span>
+        <span style="font-size:13px;color:#78716C;margin-left:4px">#0E7490 · 5,4:1</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#57534E">El más serio: lee como herramienta, no como juguete. Ayuda si más adelante hay cotizador y pedidos. En contra: azul es lo que usa todo el software.</p>
+    </div>
+
+    <div id="2d" style="width:392px;background:#FAFAF9;border:1px solid #D6D3D1;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">2d</span>
+        <span style="font-size:15px;font-weight:800;color:#1C1917">Fucsia</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#1C1917" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path><path fill="#EC6FA9" d="M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+        <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#1C1917">Chapita<span style="color:#C2185B">3d</span></span>
+      </div>
+      <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#1C1917;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <button type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#C2185B;color:#fff;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+        <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #D6D3D1;border-radius:13px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#C2185B;color:#fff;font-size:14px;font-weight:800">1</span>
+        <span style="font-size:15px;font-weight:700;color:#1C1917">Subís tu imagen.</span>
+        <a href="#2d" style="font-size:15px;font-weight:700;color:#C2185B;text-decoration:none;margin-left:auto">Ver cómo</a>
+      </div>
+      <div style="background:#1C1917;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'Lilita One',cursive;font-size:19px;color:#fff">Creá tu cuenta</span>
+        <span style="display:flex;gap:8px;font-size:14px;color:#E7E5E4"><span style="color:#EC6FA9;font-weight:800">✓</span>Guardás tus diseños</span>
+        <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="width:30px;height:30px;border-radius:9px;background:#C2185B"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#EC6FA9"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#1C1917"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#FAFAF9;border:1px solid #D6D3D1"></span>
+        <span style="font-size:13px;color:#78716C;margin-left:4px">#C2185B · 5,9:1</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#57534E">El que más se acuerda uno. Abre la puerta a regalos y dibujos de chicos sin cerrar la del maker. En contra: es el que más discute con las fotos de los llaveros.</p>
+    </div>
+
+    <div id="2e" style="width:392px;background:#FAFAF9;border:1px solid #D6D3D1;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:25px;padding:0 8px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:13px;font-weight:800">2e</span>
+        <span style="font-size:15px;font-weight:800;color:#1C1917">Sin acento</span>
+        <span style="font-size:13px;color:#78716C">como la app hoy</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <svg viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#1C1917" fill-rule="evenodd" d="M38 6h44a32 32 0 0 1 32 32v44a32 32 0 0 1-32 32H38A32 32 0 0 1 6 82V38A32 32 0 0 1 38 6Z M30 18.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Z M84.98 91.28A30 30 0 1 1 84.98 52.72L73.49 62.36A15 15 0 1 0 73.49 81.64Z"></path></svg>
+        <span style="font-size:19px;font-weight:900;letter-spacing:-0.03em;color:#1C1917">Chapita3d</span>
+      </div>
+      <h3 style="margin:0;font-size:27px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#1C1917;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h3>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <button type="button" style="min-height:46px;flex:1 1 auto;padding:0 18px;border:none;border-radius:13px;background:#1C1917;color:#fff;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+        <button type="button" style="min-height:46px;flex:0 0 auto;padding:0 16px;white-space:nowrap;border:1px solid #D6D3D1;border-radius:13px;background:#fff;color:#44403C;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#1C1917;color:#fff;font-size:14px;font-weight:800">1</span>
+        <span style="font-size:15px;font-weight:700;color:#1C1917">Subís tu imagen.</span>
+        <a href="#2e" style="font-size:15px;font-weight:700;color:#1C1917;text-decoration:underline;text-underline-offset:3px;margin-left:auto">Ver cómo</a>
+      </div>
+      <div style="background:#1C1917;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'Lilita One',cursive;font-size:19px;color:#fff">Creá tu cuenta</span>
+        <span style="display:flex;gap:8px;font-size:14px;color:#E7E5E4"><span style="color:#fff;font-weight:800">✓</span>Guardás tus diseños</span>
+        <button type="button" style="min-height:42px;border:none;border-radius:11px;background:#fff;color:#1C1917;font-family:Nunito,sans-serif;font-size:15px;font-weight:800;cursor:pointer">Seguir con Google</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="width:30px;height:30px;border-radius:9px;background:#1C1917"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#44403C"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#D6D3D1"></span>
+        <span style="width:30px;height:30px;border-radius:9px;background:#FAFAF9;border:1px solid #D6D3D1"></span>
+        <span style="font-size:13px;color:#78716C;margin-left:4px">#1C1917 · 17,5:1</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:#57534E">Es lo que ya usa la app, y deja que el único color de la página sean los llaveros. En contra: sin acento, los enlaces y los pasos pierden jerarquía y hay que marcarlos con subrayado.</p>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:#14161A;border-radius:28px;margin:24px;display:flex;flex-direction:column;gap:28px;padding:44px 48px 48px">
+
+  <div style="display:flex;align-items:baseline;gap:16px;font-family:Nunito,sans-serif">
+    <h2 style="margin:0;font-size:28px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">Chapita3d · marca y landing</h2>
+    <span style="font-size:15px;color:#57534E">Turno 1 · <a href="#1a">1a</a> marca · <a href="#1b">1b</a> landing 1280 · <a href="#1c">1c</a> landing 375 · <a href="#1d">1d</a> variantes de cuenta</span>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:40px">
+
+    <!-- ============ 1a · MARCA ============ -->
+    <div id="1a" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:999px;background:#F5F6F8;color:#14161A;font-size:14px;font-weight:800">1a</span>
+        <span style="font-size:15px;font-weight:700;color:#F5F6F8">Marca</span>
+      </div>
+
+      <div style="width:820px;background:#14161A;border:1px solid #3A3F49;border-radius:24px;padding:40px;display:flex;flex-direction:column;gap:40px">
+
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <h3 style="margin:0;font-family:'Lilita One',cursive;font-size:34px;font-weight:400;letter-spacing:0.01em;color:#F5F6F8">El isotipo</h3>
+          <p style="margin:0;font-size:16px;line-height:1.5;color:#C3C8D2;max-width:60ch">Una chapita: plaquita de esquinas redondeadas con el agujero de la argolla arriba a la izquierda y CH3d en dos líneas. Las letras van en relieve, en un segundo filamento, así que no hay islas ni puentes y el logo se imprime tal cual como llavero de 32 mm.</p>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:20px">
+          <div style="flex:1 1 200px;min-width:0;background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:28px;display:flex;flex-direction:column;align-items:center;gap:16px">
+            <svg viewBox="0 0 120 120" width="132" height="132" aria-label="Isotipo Chapita3d, un color"><mask id="ch16"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#000">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#ch16)"></rect></svg>
+            <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Un color</span>
+          </div>
+          <div style="flex:1 1 200px;min-width:0;background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:28px;display:flex;flex-direction:column;align-items:center;gap:16px">
+            <svg viewBox="0 0 120 120" width="132" height="132" aria-label="Isotipo Chapita3d, dos filamentos: chapa lima con CH3d en carbón"><mask id="ch17"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#ch17)"></rect><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text></svg>
+            <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Dos filamentos</span>
+          </div>
+          <div style="flex:1 1 200px;min-width:0;background:#EDEFF2;border:1px solid #EDEFF2;border-radius:20px;padding:28px;display:flex;flex-direction:column;align-items:center;gap:16px" data-claro="1">
+            <svg viewBox="0 0 120 120" width="132" height="132" aria-label="Isotipo Chapita3d sobre fondo claro"><mask id="ch18"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#14161A" mask="url(#ch18)"></rect><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#C6F24E">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#C6F24E">3d</text></svg>
+            <span style="font-size:13px;font-weight:700;color:#5A6068;text-transform:uppercase;letter-spacing:0.08em">Fondo claro</span>
+          </div>
+        </div>
+
+        <div style="height:1px;background:#2A2E36"></div>
+
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <h3 style="margin:0;font-family:'Lilita One',cursive;font-size:26px;font-weight:400;color:#F5F6F8">Versión horizontal</h3>
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:36px 40px;display:flex;flex-direction:column;gap:32px">
+            <div style="display:flex;align-items:center;gap:16px">
+              <svg viewBox="0 0 120 120" width="52" height="52" aria-hidden="true"><mask id="ch19"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#ch19)"></rect><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text></svg>
+              <span style="font-size:36px;font-weight:900;letter-spacing:-0.03em;color:#F5F6F8">Chapita<span style="color:#C6F24E">3d</span></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <svg viewBox="0 0 120 120" width="40" height="40" aria-hidden="true"><mask id="ch20"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#000">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#ch20)"></rect></svg>
+              <div style="display:flex;flex-direction:column">
+                <span style="font-size:24px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8;line-height:1.1">Chapita3d</span>
+                <span style="font-size:14px;font-weight:600;color:#9AA1AE">llaveros 3D desde tu imagen</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:20px">
+          <div style="flex:1 1 320px;min-width:0;background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:18px">
+            <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Favicon, tamaño real</span>
+            <div style="display:flex;align-items:flex-end;gap:24px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+                <svg viewBox="0 0 120 120" width="16" height="16" aria-label="Favicon 16 px"><mask id="ch21"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#ch21)"></rect></svg>
+                <span style="font-size:11px;color:#9AA1AE">16</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+                <svg viewBox="0 0 120 120" width="32" height="32" aria-label="Favicon 32 px"><mask id="ch22"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#000">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#ch22)"></rect></svg>
+                <span style="font-size:11px;color:#9AA1AE">32</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+                <svg viewBox="0 0 120 120" width="48" height="48" aria-label="Favicon 48 px"><mask id="ch23"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#000">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#ch23)"></rect></svg>
+                <span style="font-size:11px;color:#9AA1AE">48</span>
+              </div>
+            </div>
+            <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">A 32 y 48 px las dos líneas se leen. A 16 px se empastan, así que a ese tamaño el favicon va sin letras: la chapita con su agujero alcanza para reconocerla.</p>
+          </div>
+
+          <div style="flex:1 1 320px;min-width:0;background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:18px">
+            <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Colores</span>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="width:40px;height:40px;border-radius:12px;background:#C6F24E;flex:none"></span>
+                <div style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:700;color:#F5F6F8">Lima</span><span style="font-size:13px;color:#9AA1AE">#C6F24E · acento · 14,3:1 sobre el fondo</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="width:40px;height:40px;border-radius:12px;background:#14161A;flex:none"></span>
+                <div style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:700;color:#F5F6F8">Carbón</span><span style="font-size:13px;color:#9AA1AE">#14161A · fondo de la página</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="width:40px;height:40px;border-radius:12px;background:#1E222A;flex:none"></span>
+                <div style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:700;color:#F5F6F8">Grafito</span><span style="font-size:13px;color:#9AA1AE">#1E222A · tarjetas y bloques</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="width:40px;height:40px;border-radius:12px;background:#2A2E36;flex:none"></span>
+                <div style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:700;color:#F5F6F8">Borde</span><span style="font-size:13px;color:#9AA1AE">#2A2E36 · separadores · #3A3F49 el fuerte</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="width:40px;height:40px;border-radius:12px;background:#F5F6F8;flex:none"></span>
+                <div style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:700;color:#F5F6F8">Tiza</span><span style="font-size:13px;color:#9AA1AE">#F5F6F8 · texto · #C3C8D2 el secundario</span></div>
+              </div>
+            </div>
+            <p style="margin:0;font-size:14px;line-height:1.5;color:#C3C8D2">El lima es el único color de la marca: se usa para lo que hay que tocar y nada más. Todo el resto del color de la página lo ponen los llaveros.</p>
+          </div>
+        </div>
+
+        <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Tipografía</span>
+          <div style="display:flex;flex-wrap:wrap;gap:40px">
+            <div style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:32px;font-weight:900;letter-spacing:-0.02em;color:#F5F6F8">Nunito 900 · 700 · 600</span>
+              <span style="font-size:17px;font-weight:400;color:#C3C8D2">Todo: títulos, texto y botones. Es la única familia obligatoria.</span>
+            </div>
+            <div style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'Lilita One',cursive;font-size:32px;color:#F5F6F8">Lilita One</span>
+              <span style="font-size:17px;font-weight:400;color:#C3C8D2">Solo para los títulos de sección cortos, cuando hace falta contraste.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============ 1b · LANDING 1280 ============ -->
+    <div id="1b" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:999px;background:#F5F6F8;color:#14161A;font-size:14px;font-weight:800">1b</span>
+        <span style="font-size:15px;font-weight:700;color:#F5F6F8">Landing · 1280 px · muro blando</span>
+      </div>
+
+      <div style="width:1280px;background:#14161A;border:1px solid #3A3F49;border-radius:20px;overflow:hidden;color:#F5F6F8">
+
+        <header style="display:flex;align-items:center;justify-content:space-between;padding:18px 48px;border-bottom:1px solid #2A2E36;background:rgba(20,22,26,0.92)">
+          <div style="display:flex;align-items:center;gap:11px">
+            <svg viewBox="0 0 120 120" width="34" height="34" aria-hidden="true"><mask id="ch24"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#ch24)"></rect><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text></svg>
+            <span style="font-size:21px;font-weight:900;letter-spacing:-0.03em">Chapita<span style="color:#C6F24E">3d</span></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:20px">
+            <a href="#1b" style="font-size:16px;font-weight:600;color:#C3C8D2;text-decoration:none">Cómo funciona</a>
+            <a href="#1b" style="font-size:16px;font-weight:600;color:#C3C8D2;text-decoration:none">Preguntas</a>
+            <a href="#1b" style="font-size:16px;font-weight:700;color:#F5F6F8;text-decoration:none">Entrar</a>
+            <button type="button" style="min-height:44px;padding:0 20px;border:1px solid #F5F6F8;border-radius:12px;background:#F5F6F8;color:#14161A;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta</button>
+          </div>
+        </header>
+
+        <!-- hero -->
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center;padding:72px 48px 64px">
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <h1 style="margin:0;font-size:58px;line-height:1.05;font-weight:900;letter-spacing:-0.035em;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h1>
+            <p style="margin:0;font-size:21px;line-height:1.5;color:#C3C8D2;max-width:34ch;text-wrap:pretty">Subís una imagen y bajás el .3mf con los colores separados. Gratis, sin IA y sin que tu imagen salga de tu computadora.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <button type="button" style="min-height:52px;padding:0 26px;border:none;border-radius:14px;background:#C6F24E;color:#14161A;font-family:Nunito,sans-serif;font-size:18px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+              <button type="button" style="min-height:52px;padding:0 24px;border:1px solid #3A3F49;border-radius:14px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:18px;font-weight:700;cursor:pointer">Crear cuenta</button>
+            </div>
+            <p style="margin:0;font-size:14px;color:#9AA1AE">Bambu Studio · OrcaSlicer · PrusaSlicer · un archivo por color.</p>
+          </div>
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:24px;padding:20px;box-shadow:0 1px 2px rgba(28,25,23,0.05)">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Tu imagen</span>
+                <image-slot id="hero-antes" shape="rounded" radius="16" fit="contain" style="width:100%;height:280px" placeholder="Logo de la tienda · PNG 520×520 · fondo transparente o liso"></image-slot>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <span style="font-size:13px;font-weight:700;color:#C6F24E;text-transform:uppercase;letter-spacing:0.08em">Tu llavero</span>
+                <image-slot id="hero-despues" shape="rounded" radius="16" fit="cover" style="width:100%;height:280px" placeholder="Render 3/4 del llavero resuelto · PNG 520×520 · fondo #14161A"></image-slot>
+              </div>
+            </div>
+            <p style="margin:14px 2px 0;font-size:14px;color:#9AA1AE">El logo de una tienda real y su llavero. Arrastrá la divisoria para comparar.</p>
+          </div>
+        </div>
+
+        <!-- prueba en vivo -->
+        <sc-if value="{{ pruebaEnVivo }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:8px 48px 72px">
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:24px;padding:36px 40px;display:flex;flex-direction:column;gap:22px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:32px;font-weight:400;letter-spacing:0.01em">Probalo acá mismo</h2>
+              <p style="margin:0;font-size:18px;color:#C3C8D2">Arrastrá tu imagen y mirá qué sale. No hace falta cuenta.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;border:2px dashed #3A3F49;border-radius:20px;background:#14161A;padding:44px 24px;text-align:center">
+              <span style="font-size:40px;line-height:1" aria-hidden="true">⬆</span>
+              <p style="margin:0;font-size:18px;font-weight:700">Arrastrá tu imagen acá, o hacé click</p>
+              <p style="margin:0;font-size:15px;color:#9AA1AE">PNG · JPG · WEBP · hasta 25 MB</p>
+              <button type="button" style="min-height:44px;margin-top:4px;padding:0 22px;border:none;border-radius:12px;background:#F5F6F8;color:#14161A;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Elegir una imagen</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+              <span style="font-size:15px;font-weight:700;color:#C3C8D2">¿No tenés una a mano? Probá con estas:</span>
+              <div style="display:flex;gap:12px">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px;border:1px solid #2A2E36;border-radius:14px;background:#1E222A">
+                  <image-slot id="muestra-logo" src="./muestras/logo.png" shape="rounded" radius="8" fit="contain" style="width:76px;height:76px" placeholder="logo.png 200×200"</image-slot>
+                  <span style="font-size:13px;color:#C3C8D2">Logo</span>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px;border:1px solid #2A2E36;border-radius:14px;background:#1E222A">
+                  <image-slot id="muestra-dibujo" src="./muestras/dibujo.png" shape="rounded" radius="8" fit="contain" style="width:76px;height:76px" placeholder="dibujo.png 200×200"></image-slot>
+                  <span style="font-size:13px;color:#C3C8D2">Dibujo</span>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px;border:1px solid #2A2E36;border-radius:14px;background:#1E222A">
+                  <image-slot id="muestra-silueta" src="./muestras/silueta.png" shape="rounded" radius="8" fit="contain" style="width:76px;height:76px" placeholder="silueta.png 200×200"></image-slot>
+                  <span style="font-size:13px;color:#C3C8D2">Silueta</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- cómo funciona -->
+        <div style="padding:0 48px 80px;display:flex;flex-direction:column;gap:32px">
+          <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:38px;font-weight:400;letter-spacing:0.01em">Cómo funciona</h2>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <image-slot id="paso-1" shape="rounded" radius="16" fit="cover" style="width:100%;height:240px" placeholder="Captura del paso Subir · 640×420"></image-slot>
+              <div style="display:flex;gap:12px">
+                <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:16px;font-weight:800">1</span>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font-size:19px;font-weight:800">Subís tu imagen.</span>
+                  <span style="font-size:16px;line-height:1.5;color:#C3C8D2">PNG, JPG o WEBP. También una foto del dibujo.</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <image-slot id="paso-2" shape="rounded" radius="16" fit="cover" style="width:100%;height:240px" placeholder="Captura de la solapa Colores con la vista 3D · 640×420"></image-slot>
+              <div style="display:flex;gap:12px">
+                <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:16px;font-weight:800">2</span>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font-size:19px;font-weight:800">Ajustás.</span>
+                  <span style="font-size:16px;line-height:1.5;color:#C3C8D2">Fondo, colores, tamaño, argolla, grosor de las líneas. Lo ves en 3D mientras tocás.</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <image-slot id="paso-3" shape="rounded" radius="16" fit="cover" style="width:100%;height:240px" placeholder="Captura de la pantalla Descargar · 640×420"></image-slot>
+              <div style="display:flex;gap:12px">
+                <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:16px;font-weight:800">3</span>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font-size:19px;font-weight:800">Descargás el ZIP.</span>
+                  <span style="font-size:16px;line-height:1.5;color:#C3C8D2">El .3mf para tu AMS, un .stl por color y los pasos escritos.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- lo que resuelve -->
+        <div style="background:#1E222A;border-top:1px solid #2A2E36;border-bottom:1px solid #2A2E36;padding:80px 48px;display:flex;flex-direction:column;gap:32px">
+          <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:38px;font-weight:400;letter-spacing:0.01em">Lo que resuelve</h2>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+            <div style="display:flex;flex-direction:column;gap:16px;border:1px solid #2A2E36;border-radius:20px;padding:24px;background:#14161A">
+              <image-slot id="res-1" shape="rounded" radius="12" fit="cover" style="width:100%;height:150px" placeholder="Antes/después de una línea fina · 320×180"></image-slot>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:20px;font-weight:800">Las líneas finas no desaparecen.</span>
+                <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Un logo de trazo fino se borra al imprimirlo. Acá se engrosan hasta el mínimo que tu impresora puede hacer, y vos elegís cuánto.</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;border:1px solid #2A2E36;border-radius:20px;padding:24px;background:#14161A">
+              <image-slot id="res-2" shape="rounded" radius="12" fit="cover" style="width:100%;height:150px" placeholder="Logo dentro de un círculo, antes/después · 320×180"></image-slot>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:20px;font-weight:800">El fondo se va, aunque esté encerrado.</span>
+                <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Un logo dentro de un círculo o sobre un degradé también sale.</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;border:1px solid #2A2E36;border-radius:20px;padding:24px;background:#14161A">
+              <image-slot id="res-3" shape="rounded" radius="12" fit="cover" style="width:100%;height:150px" placeholder="Los colores separados por filamento · 320×180"></image-slot>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:20px;font-weight:800">Colores de verdad.</span>
+                <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Cada color, su filamento. Y si tenés una sola boquilla, te digo en qué capa cambiarlo.</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;border:1px solid #2A2E36;border-radius:20px;padding:24px;background:#14161A">
+              <image-slot id="res-4" shape="rounded" radius="12" fit="cover" style="width:100%;height:150px" placeholder="Avisos marcados sobre la pieza · 320×180"></image-slot>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:20px;font-weight:800">Te aviso antes de imprimir.</span>
+                <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Partes frágiles, texto ilegible, más colores que lugares en el AMS.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- compatibilidad + privacidad -->
+        <div style="padding:64px 48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font-size:13px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Funciona con</span>
+            <div style="display:flex;flex-wrap:wrap;gap:10px">
+              <span style="padding:9px 16px;border:1px solid #3A3F49;border-radius:999px;font-size:16px;font-weight:700;color:#C3C8D2">Bambu Lab A1 · P1S · X1C con AMS</span>
+              <span style="padding:9px 16px;border:1px solid #3A3F49;border-radius:999px;font-size:16px;font-weight:700;color:#C3C8D2">OrcaSlicer</span>
+              <span style="padding:9px 16px;border:1px solid #3A3F49;border-radius:999px;font-size:16px;font-weight:700;color:#C3C8D2">PrusaSlicer</span>
+              <span style="padding:9px 16px;border:1px solid #3A3F49;border-radius:999px;font-size:16px;font-weight:700;color:#C3C8D2">Creality</span>
+            </div>
+            <p style="margin:0;font-size:15px;color:#9AA1AE">Si tu programa abre .3mf o .stl, te sirve.</p>
+          </div>
+          <div style="display:flex;gap:18px;background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:26px">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#C6F24E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true">
+              <path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6l7-3z"></path>
+              <path d="M9 12.5l2 2 4-4"></path>
+            </svg>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:20px;font-weight:800">Tu imagen no se sube a ningún lado.</span>
+              <span style="font-size:16px;line-height:1.55;color:#C3C8D2">La conversión pasa entera en tu navegador, incluso sin internet una vez cargada la página.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- crear cuenta -->
+        <div style="padding:0 48px 80px">
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:24px;padding:48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:48px;align-items:center">
+            <div style="display:flex;flex-direction:column;gap:18px">
+              <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:36px;font-weight:400;letter-spacing:0.01em;color:#F5F6F8">Creá tu cuenta y no perdés nada de lo que hiciste</h2>
+              <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px">
+                <li style="display:flex;gap:10px;font-size:17px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Guardás tus diseños</li>
+                <li style="display:flex;gap:10px;font-size:17px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Los volvés a abrir desde cualquier equipo</li>
+                <li style="display:flex;gap:10px;font-size:17px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Te enterás de lo que viene</li>
+              </ul>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <button type="button" style="min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:14px;background:#F5F6F8;color:#14161A;font-family:Nunito,sans-serif;font-size:17px;font-weight:800;cursor:pointer">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M23 12.2c0-.8-.1-1.6-.2-2.3H12v4.5h6.1c-.3 1.4-1.1 2.6-2.3 3.4v2.8h3.7C21.7 18.6 23 15.7 23 12.2z"></path><path fill="#34A853" d="M12 23.5c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.3 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.6H2.1v2.9C3.9 21 7.7 23.5 12 23.5z"></path><path fill="#FBBC05" d="M5.8 14.5c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V7H2.1C1.4 8.5 1 10.2 1 12.2s.4 3.7 1.1 5.2l3.7-2.9z"></path><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2C17.5 2.1 15 1 12 1 7.7 1 3.9 3.4 2.1 7l3.7 2.9C6.7 7.2 9.1 5.4 12 5.4z"></path></svg>
+                Seguir con Google
+              </button>
+              <button type="button" style="min-height:52px;border:1px solid #3A3F49;border-radius:14px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:17px;font-weight:700;cursor:pointer">Crear cuenta con correo</button>
+              <p style="margin:4px 0 0;font-size:14px;line-height:1.5;color:#9AA1AE">Te escribimos solo cuando hay algo nuevo. Podés borrar tu cuenta cuando quieras.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- preguntas -->
+        <div style="background:#1E222A;border-top:1px solid #2A2E36;padding:80px 48px;display:flex;flex-direction:column;gap:32px">
+          <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:38px;font-weight:400;letter-spacing:0.01em">Preguntas</h2>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 48px">
+            <div style="display:flex;flex-direction:column;gap:6px;padding-bottom:20px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:18px;font-weight:800">¿Es gratis?</span>
+              <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Sí, y las descargas no tienen límite.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding-bottom:20px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:18px;font-weight:800">¿Usa IA?</span>
+              <span style="font-size:16px;line-height:1.55;color:#C3C8D2">No. Es un proceso de imagen, así que el resultado se parece a tu imagen, no a una versión inventada.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding-bottom:20px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:18px;font-weight:800">¿Sirve para mi impresora?</span>
+              <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Si tu slicer abre .3mf o .stl, sí.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding-bottom:20px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:18px;font-weight:800">¿Y si no tengo AMS?</span>
+              <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Te da la misma pieza con las pausas y la lista de capas para cambiar el filamento.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding-bottom:20px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:18px;font-weight:800">¿Qué tan chico puede salir el detalle?</span>
+              <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Lo más fino que se imprime bien ronda 0,8 mm; la app engrosa o avisa.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding-bottom:20px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:18px;font-weight:800">¿Puedo usar cualquier imagen?</span>
+              <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Solo imágenes tuyas o con permiso. Convertirlas no te da derechos sobre logos o personajes de otros.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:18px;font-weight:800">¿Qué archivos me llevo?</span>
+              <span style="font-size:16px;line-height:1.55;color:#C3C8D2">Un .3mf multicolor, un .stl por color, la pieza entera y las instrucciones.</span>
+            </div>
+          </div>
+        </div>
+
+        <footer style="border-top:1px solid #2A2E36;padding:40px 48px;display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <svg viewBox="0 0 120 120" width="28" height="28" aria-hidden="true"><mask id="ch25"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#000">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#ch25)"></rect></svg>
+              <span style="font-size:18px;font-weight:900;letter-spacing:-0.02em">Chapita3d</span>
+            </div>
+            <span style="font-size:15px;color:#C3C8D2">Llaveros 3D desde tu imagen, listos para imprimir.</span>
+            <span style="font-size:15px;color:#9AA1AE">Hecho en Argentina</span>
+          </div>
+          <div style="display:flex;gap:24px;flex-wrap:wrap">
+            <a href="#1b" style="font-size:15px;font-weight:600;color:#C3C8D2;text-decoration:none">Privacidad</a>
+            <a href="#1b" style="font-size:15px;font-weight:600;color:#C3C8D2;text-decoration:none">Términos</a>
+            <a href="#1b" style="font-size:15px;font-weight:600;color:#C3C8D2;text-decoration:none">Contacto</a>
+            <a href="#1b" style="font-size:15px;font-weight:600;color:#C3C8D2;text-decoration:none">Instagram</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- ============ 1c · LANDING 375 ============ -->
+    <div id="1c" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:999px;background:#F5F6F8;color:#14161A;font-size:14px;font-weight:800">1c</span>
+        <span style="font-size:15px;font-weight:700;color:#F5F6F8">Landing · 375 px</span>
+      </div>
+
+      <div style="width:375px;background:#14161A;border:1px solid #3A3F49;border-radius:20px;overflow:hidden;color:#F5F6F8">
+
+        <header style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #2A2E36">
+          <div style="display:flex;align-items:center;gap:8px">
+            <svg viewBox="0 0 120 120" width="28" height="28" aria-hidden="true"><mask id="ch26"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#ch26)"></rect><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#14161A">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#14161A">3d</text></svg>
+            <span style="font-size:17px;font-weight:900;letter-spacing:-0.03em">Chapita<span style="color:#C6F24E">3d</span></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <a href="#1c" style="font-size:15px;font-weight:700;color:#F5F6F8;text-decoration:none">Entrar</a>
+            <button type="button" style="min-height:44px;padding:0 14px;border:none;border-radius:11px;background:#F5F6F8;color:#14161A;font-family:Nunito,sans-serif;font-size:15px;font-weight:700;cursor:pointer">Crear cuenta</button>
+          </div>
+        </header>
+
+        <!-- hero mobile: entra sin scrollear -->
+        <div style="padding:22px 16px 26px;display:flex;flex-direction:column;gap:16px">
+          <h1 style="margin:0;font-size:33px;line-height:1.08;font-weight:900;letter-spacing:-0.03em;text-wrap:pretty">Convertí tu logo en un llavero listo para imprimir.</h1>
+          <p style="margin:0;font-size:17px;line-height:1.45;color:#C3C8D2;text-wrap:pretty">Subís una imagen y bajás el .3mf con los colores separados. Gratis, sin IA y sin que tu imagen salga de tu computadora.</p>
+          <button type="button" style="min-height:52px;width:100%;border:none;border-radius:14px;background:#C6F24E;color:#14161A;font-family:Nunito,sans-serif;font-size:18px;font-weight:800;cursor:pointer">Probar con mi imagen</button>
+          <button type="button" style="min-height:48px;width:100%;border:1px solid #3A3F49;border-radius:14px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:17px;font-weight:700;cursor:pointer">Crear cuenta</button>
+          <p style="margin:0;font-size:13px;color:#9AA1AE">Bambu Studio · OrcaSlicer · PrusaSlicer · un archivo por color.</p>
+        </div>
+
+        <div style="padding:0 16px 28px">
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:14px;display:flex;gap:10px">
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:11px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Tu imagen</span>
+              <image-slot id="m-hero-antes" shape="rounded" radius="12" fit="contain" style="width:100%;height:150px" placeholder="Logo · 520×520"></image-slot>
+            </div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:11px;font-weight:700;color:#C6F24E;text-transform:uppercase;letter-spacing:0.08em">Tu llavero</span>
+              <image-slot id="m-hero-despues" shape="rounded" radius="12" fit="cover" style="width:100%;height:150px" placeholder="Render 3/4 · 520×520"></image-slot>
+            </div>
+          </div>
+        </div>
+
+        <sc-if value="{{ pruebaEnVivo }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:0 16px 28px">
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:24px;font-weight:400">Probalo acá mismo</h2>
+              <p style="margin:0;font-size:16px;line-height:1.45;color:#C3C8D2">Arrastrá tu imagen y mirá qué sale. No hace falta cuenta.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:10px;border:2px dashed #3A3F49;border-radius:16px;background:#14161A;padding:24px 14px;text-align:center">
+              <span style="font-size:32px;line-height:1" aria-hidden="true">⬆</span>
+              <button type="button" style="min-height:44px;width:100%;border:none;border-radius:12px;background:#F5F6F8;color:#14161A;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Sacar una foto</button>
+              <button type="button" style="min-height:44px;width:100%;border:1px solid #3A3F49;border-radius:12px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Elegir de la galería</button>
+            </div>
+            <span style="font-size:14px;font-weight:700;color:#C3C8D2">Probá con estas:</span>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:7px;border:1px solid #2A2E36;border-radius:12px">
+                <image-slot id="m-muestra-logo" src="./muestras/logo.png" shape="rounded" radius="8" fit="contain" style="width:100%;height:68px" placeholder="logo"></image-slot>
+                <span style="font-size:12px;color:#C3C8D2">Logo</span>
+              </div>
+              <div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:7px;border:1px solid #2A2E36;border-radius:12px">
+                <image-slot id="m-muestra-dibujo" src="./muestras/dibujo.png" shape="rounded" radius="8" fit="contain" style="width:100%;height:68px" placeholder="dibujo"></image-slot>
+                <span style="font-size:12px;color:#C3C8D2">Dibujo</span>
+              </div>
+              <div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:7px;border:1px solid #2A2E36;border-radius:12px">
+                <image-slot id="m-muestra-silueta" src="./muestras/silueta.png" shape="rounded" radius="8" fit="contain" style="width:100%;height:68px" placeholder="silueta"></image-slot>
+                <span style="font-size:12px;color:#C3C8D2">Silueta</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <div style="padding:0 16px 32px;display:flex;flex-direction:column;gap:20px">
+          <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:26px;font-weight:400">Cómo funciona</h2>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <image-slot id="m-paso-1" shape="rounded" radius="14" fit="cover" style="width:100%;height:190px" placeholder="Captura Subir · 640×420"></image-slot>
+            <div style="display:flex;gap:10px">
+              <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:14px;font-weight:800">1</span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:17px;font-weight:800">Subís tu imagen.</span>
+                <span style="font-size:15px;line-height:1.5;color:#C3C8D2">PNG, JPG o WEBP. También una foto del dibujo.</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <image-slot id="m-paso-2" shape="rounded" radius="14" fit="cover" style="width:100%;height:190px" placeholder="Captura Colores + 3D · 640×420"></image-slot>
+            <div style="display:flex;gap:10px">
+              <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:14px;font-weight:800">2</span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:17px;font-weight:800">Ajustás.</span>
+                <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Fondo, colores, tamaño, argolla, grosor de las líneas. Lo ves en 3D mientras tocás.</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <image-slot id="m-paso-3" shape="rounded" radius="14" fit="cover" style="width:100%;height:190px" placeholder="Captura Descargar · 640×420"></image-slot>
+            <div style="display:flex;gap:10px">
+              <span style="flex:none;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#C6F24E;color:#14161A;font-size:14px;font-weight:800">3</span>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:17px;font-weight:800">Descargás el ZIP.</span>
+                <span style="font-size:15px;line-height:1.5;color:#C3C8D2">El .3mf para tu AMS, un .stl por color y los pasos escritos.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#1E222A;border-top:1px solid #2A2E36;border-bottom:1px solid #2A2E36;padding:32px 16px;display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:26px;font-weight:400">Lo que resuelve</h2>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;flex-direction:column;gap:12px;border:1px solid #2A2E36;border-radius:16px;padding:16px;background:#14161A">
+              <image-slot id="m-res-1" shape="rounded" radius="10" fit="cover" style="width:100%;height:120px" placeholder="Antes/después línea fina · 320×180"></image-slot>
+              <span style="font-size:17px;font-weight:800">Las líneas finas no desaparecen.</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Un logo de trazo fino se borra al imprimirlo. Acá se engrosan hasta el mínimo que tu impresora puede hacer, y vos elegís cuánto.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;border:1px solid #2A2E36;border-radius:16px;padding:16px;background:#14161A">
+              <image-slot id="m-res-2" shape="rounded" radius="10" fit="cover" style="width:100%;height:120px" placeholder="Logo en círculo · 320×180"></image-slot>
+              <span style="font-size:17px;font-weight:800">El fondo se va, aunque esté encerrado.</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Un logo dentro de un círculo o sobre un degradé también sale.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;border:1px solid #2A2E36;border-radius:16px;padding:16px;background:#14161A">
+              <image-slot id="m-res-3" shape="rounded" radius="10" fit="cover" style="width:100%;height:120px" placeholder="Colores separados · 320×180"></image-slot>
+              <span style="font-size:17px;font-weight:800">Colores de verdad.</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Cada color, su filamento. Y si tenés una sola boquilla, te digo en qué capa cambiarlo.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;border:1px solid #2A2E36;border-radius:16px;padding:16px;background:#14161A">
+              <image-slot id="m-res-4" shape="rounded" radius="10" fit="cover" style="width:100%;height:120px" placeholder="Avisos sobre la pieza · 320×180"></image-slot>
+              <span style="font-size:17px;font-weight:800">Te aviso antes de imprimir.</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Partes frágiles, texto ilegible, más colores que lugares en el AMS.</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:28px 16px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:12px;font-weight:700;color:#9AA1AE;text-transform:uppercase;letter-spacing:0.08em">Funciona con</span>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span style="padding:8px 13px;border:1px solid #3A3F49;border-radius:999px;font-size:14px;font-weight:700;color:#C3C8D2">Bambu Lab A1 · P1S · X1C</span>
+            <span style="padding:8px 13px;border:1px solid #3A3F49;border-radius:999px;font-size:14px;font-weight:700;color:#C3C8D2">OrcaSlicer</span>
+            <span style="padding:8px 13px;border:1px solid #3A3F49;border-radius:999px;font-size:14px;font-weight:700;color:#C3C8D2">PrusaSlicer</span>
+            <span style="padding:8px 13px;border:1px solid #3A3F49;border-radius:999px;font-size:14px;font-weight:700;color:#C3C8D2">Creality</span>
+          </div>
+          <div style="display:flex;gap:12px;background:#1E222A;border:1px solid #2A2E36;border-radius:16px;padding:16px;margin-top:6px">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#C6F24E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none" aria-hidden="true">
+              <path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6l7-3z"></path>
+              <path d="M9 12.5l2 2 4-4"></path>
+            </svg>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:17px;font-weight:800">Tu imagen no se sube a ningún lado.</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">La conversión pasa entera en tu navegador, incluso sin internet una vez cargada la página.</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:0 16px 28px">
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:16px">
+            <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:24px;font-weight:400;color:#F5F6F8">Creá tu cuenta y no perdés nada de lo que hiciste</h2>
+            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px">
+              <li style="display:flex;gap:8px;font-size:15px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Guardás tus diseños</li>
+              <li style="display:flex;gap:8px;font-size:15px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Los volvés a abrir desde cualquier equipo</li>
+              <li style="display:flex;gap:8px;font-size:15px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Te enterás de lo que viene</li>
+            </ul>
+            <button type="button" style="min-height:48px;width:100%;display:flex;align-items:center;justify-content:center;gap:9px;border:none;border-radius:13px;background:#F5F6F8;color:#14161A;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M23 12.2c0-.8-.1-1.6-.2-2.3H12v4.5h6.1c-.3 1.4-1.1 2.6-2.3 3.4v2.8h3.7C21.7 18.6 23 15.7 23 12.2z"></path><path fill="#34A853" d="M12 23.5c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.3 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.6H2.1v2.9C3.9 21 7.7 23.5 12 23.5z"></path><path fill="#FBBC05" d="M5.8 14.5c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V7H2.1C1.4 8.5 1 10.2 1 12.2s.4 3.7 1.1 5.2l3.7-2.9z"></path><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2C17.5 2.1 15 1 12 1 7.7 1 3.9 3.4 2.1 7l3.7 2.9C6.7 7.2 9.1 5.4 12 5.4z"></path></svg>
+              Seguir con Google
+            </button>
+            <button type="button" style="min-height:48px;width:100%;border:1px solid #3A3F49;border-radius:13px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta con correo</button>
+            <p style="margin:0;font-size:13px;line-height:1.45;color:#9AA1AE">Te escribimos solo cuando hay algo nuevo. Podés borrar tu cuenta cuando quieras.</p>
+          </div>
+        </div>
+
+        <div style="background:#1E222A;border-top:1px solid #2A2E36;padding:32px 16px;display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-family:'Lilita One',cursive;font-size:26px;font-weight:400">Preguntas</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:14px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:16px;font-weight:800">¿Es gratis?</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Sí, y las descargas no tienen límite.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:14px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:16px;font-weight:800">¿Usa IA?</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">No. Es un proceso de imagen, así que el resultado se parece a tu imagen, no a una versión inventada.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:14px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:16px;font-weight:800">¿Sirve para mi impresora?</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Si tu slicer abre .3mf o .stl, sí.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:14px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:16px;font-weight:800">¿Y si no tengo AMS?</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Te da la misma pieza con las pausas y la lista de capas para cambiar el filamento.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:14px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:16px;font-weight:800">¿Qué tan chico puede salir el detalle?</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Lo más fino que se imprime bien ronda 0,8 mm; la app engrosa o avisa.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;padding-bottom:14px;border-bottom:1px solid #2A2E36">
+              <span style="font-size:16px;font-weight:800">¿Puedo usar cualquier imagen?</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Solo imágenes tuyas o con permiso. Convertirlas no te da derechos sobre logos o personajes de otros.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:16px;font-weight:800">¿Qué archivos me llevo?</span>
+              <span style="font-size:15px;line-height:1.5;color:#C3C8D2">Un .3mf multicolor, un .stl por color, la pieza entera y las instrucciones.</span>
+            </div>
+          </div>
+        </div>
+
+        <footer style="border-top:1px solid #2A2E36;padding:24px 16px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:9px">
+            <svg viewBox="0 0 120 120" width="24" height="24" aria-hidden="true"><mask id="ch27"><rect width="120" height="120" fill="#fff"></rect><circle cx="28" cy="27" r="9" fill="#000"></circle><text x="63" y="56" font-family="'Lilita One', sans-serif" font-size="40" text-anchor="middle" fill="#000">CH</text><text x="61.6" y="92" font-family="'Lilita One', sans-serif" font-size="40" letter-spacing="-2" text-anchor="middle" fill="#000">3d</text></mask><rect x="6" y="6" width="108" height="108" rx="30" fill="#F5F6F8" mask="url(#ch27)"></rect></svg>
+            <span style="font-size:16px;font-weight:900;letter-spacing:-0.02em">Chapita3d</span>
+          </div>
+          <span style="font-size:14px;color:#C3C8D2">Llaveros 3D desde tu imagen, listos para imprimir.</span>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <a href="#1c" style="font-size:14px;font-weight:600;color:#C3C8D2;text-decoration:none">Privacidad</a>
+            <a href="#1c" style="font-size:14px;font-weight:600;color:#C3C8D2;text-decoration:none">Términos</a>
+            <a href="#1c" style="font-size:14px;font-weight:600;color:#C3C8D2;text-decoration:none">Contacto</a>
+            <a href="#1c" style="font-size:14px;font-weight:600;color:#C3C8D2;text-decoration:none">Instagram</a>
+          </div>
+          <span style="font-size:14px;color:#9AA1AE">Hecho en Argentina</span>
+        </footer>
+      </div>
+    </div>
+
+    <!-- ============ 1d · VARIANTES DE CUENTA ============ -->
+    <div id="1d" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:999px;background:#F5F6F8;color:#14161A;font-size:14px;font-weight:800">1d</span>
+        <span style="font-size:15px;font-weight:700;color:#F5F6F8">Las dos variantes de la cuenta</span>
+      </div>
+
+      <div style="width:820px;background:#14161A;border:1px solid #3A3F49;border-radius:24px;padding:40px;display:flex;flex-direction:column;gap:32px">
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="padding:5px 12px;border-radius:999px;background:#232A18;border:1px solid #3F4D22;color:#C6F24E;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em">A · Muro blando</span>
+            <span style="font-size:15px;color:#C3C8D2">Recomendado. Va después de la prueba en vivo y se repite tras la primera descarga.</span>
+          </div>
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:36px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:36px;align-items:center">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h3 style="margin:0;font-family:'Lilita One',cursive;font-size:30px;font-weight:400;color:#F5F6F8">Creá tu cuenta y no perdés nada de lo que hiciste</h3>
+              <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px">
+                <li style="display:flex;gap:10px;font-size:16px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Guardás tus diseños</li>
+                <li style="display:flex;gap:10px;font-size:16px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Los volvés a abrir desde cualquier equipo</li>
+                <li style="display:flex;gap:10px;font-size:16px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Te enterás de lo que viene</li>
+              </ul>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <button type="button" style="min-height:50px;display:flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:13px;background:#F5F6F8;color:#14161A;font-family:Nunito,sans-serif;font-size:16px;font-weight:800;cursor:pointer">
+                <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path fill="#4285F4" d="M23 12.2c0-.8-.1-1.6-.2-2.3H12v4.5h6.1c-.3 1.4-1.1 2.6-2.3 3.4v2.8h3.7C21.7 18.6 23 15.7 23 12.2z"></path><path fill="#34A853" d="M12 23.5c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.3 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.6H2.1v2.9C3.9 21 7.7 23.5 12 23.5z"></path><path fill="#FBBC05" d="M5.8 14.5c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V7H2.1C1.4 8.5 1 10.2 1 12.2s.4 3.7 1.1 5.2l3.7-2.9z"></path><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2C17.5 2.1 15 1 12 1 7.7 1 3.9 3.4 2.1 7l3.7 2.9C6.7 7.2 9.1 5.4 12 5.4z"></path></svg>
+                Seguir con Google
+              </button>
+              <button type="button" style="min-height:50px;border:1px solid #3A3F49;border-radius:13px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">Crear cuenta con correo</button>
+              <p style="margin:3px 0 0;font-size:13px;line-height:1.45;color:#9AA1AE">Te escribimos solo cuando hay algo nuevo. Podés borrar tu cuenta cuando quieras.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="padding:5px 12px;border-radius:999px;background:#1E222A;border:1px solid #3A3F49;color:#C3C8D2;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em">B · Muro duro</span>
+            <span style="font-size:15px;color:#C3C8D2">Va arriba de todo, en lugar del hero secundario, y la prueba en vivo se saca.</span>
+          </div>
+          <div style="background:#1E222A;border:1px solid #2A2E36;border-radius:22px;padding:36px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:36px;align-items:center">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h3 style="margin:0;font-size:32px;line-height:1.1;font-weight:900;letter-spacing:-0.03em;color:#F5F6F8">Creá tu cuenta gratis y convertí tu primera imagen</h3>
+              <p style="margin:0;font-size:17px;line-height:1.5;color:#C3C8D2">La cuenta es gratis y sin tarjeta. Sirve para guardar cada llavero que armás y volver a abrirlo cuando quieras.</p>
+              <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px">
+                <li style="display:flex;gap:10px;font-size:16px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Descargas sin límite, siempre gratis</li>
+                <li style="display:flex;gap:10px;font-size:16px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Tus diseños guardados y editables</li>
+                <li style="display:flex;gap:10px;font-size:16px;color:#C3C8D2"><span style="color:#C6F24E;font-weight:800">✓</span>Tu imagen sigue sin salir de tu computadora</li>
+              </ul>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <button type="button" style="min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:13px;background:#C6F24E;color:#14161A;font-family:Nunito,sans-serif;font-size:17px;font-weight:800;cursor:pointer">Crear cuenta gratis</button>
+              <button type="button" style="min-height:50px;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid #3A3F49;border-radius:13px;background:transparent;color:#F5F6F8;font-family:Nunito,sans-serif;font-size:16px;font-weight:700;cursor:pointer">
+                <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path fill="#4285F4" d="M23 12.2c0-.8-.1-1.6-.2-2.3H12v4.5h6.1c-.3 1.4-1.1 2.6-2.3 3.4v2.8h3.7C21.7 18.6 23 15.7 23 12.2z"></path><path fill="#34A853" d="M12 23.5c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.3 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.6H2.1v2.9C3.9 21 7.7 23.5 12 23.5z"></path><path fill="#FBBC05" d="M5.8 14.5c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V7H2.1C1.4 8.5 1 10.2 1 12.2s.4 3.7 1.1 5.2l3.7-2.9z"></path><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2C17.5 2.1 15 1 12 1 7.7 1 3.9 3.4 2.1 7l3.7 2.9C6.7 7.2 9.1 5.4 12 5.4z"></path></svg>
+                Seguir con Google
+              </button>
+              <p style="margin:3px 0 0;font-size:13px;line-height:1.45;color:#9AA1AE">Te escribimos solo cuando hay algo nuevo. Podés borrar tu cuenta cuando quieras.</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin:0;font-size:15px;line-height:1.55;color:#C3C8D2;max-width:70ch">El interruptor está en los tweaks de esta página: <strong>Variante de la cuenta</strong> cambia A por B, y <strong>Prueba en vivo</strong> saca o pone la dropzone en <a href="#1b">1b</a> y <a href="#1c">1c</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;variante&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Muro blando (A)&quot;,&quot;Muro duro (B)&quot;],&quot;default&quot;:&quot;Muro blando (A)&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Cuenta&quot;},&quot;pruebaEnVivo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Cuenta&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const variante = this.props.variante ?? 'Muro blando (A)'
+    return {
+      pruebaEnVivo: (this.props.pruebaEnVivo ?? true) && variante !== 'Muro duro (B)',
+    }
+  }
+}
+</script>
+</body>
+</html>

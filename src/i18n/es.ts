@@ -9,7 +9,7 @@ const g = (gramos: number) =>
 const mm = (n: number) => n.toFixed(1).replace('.', ',')
 
 export const es = {
-  marca: '3DLlaveros',
+  marca: 'Chapita3d',
 
   inicio: {
     // Texto 2
