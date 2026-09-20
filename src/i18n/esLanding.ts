@@ -110,9 +110,18 @@ export const esLanding = {
     google: 'Seguir con Google',
     correo: 'Crear cuenta con correo',
     honesta: 'Te escribimos solo cuando hay algo nuevo. Podés borrar tu cuenta cuando quieras.',
-    // Todavia no hay cuentas: se dice, no se esconde
+    correoEtiqueta: 'Tu correo',
+    correoEjemplo: 'vos@correo.com',
+    mandar: 'Mandame el enlace',
+    mandando: 'Mandando…',
+    enviado: (correo: string) =>
+      `Te mandé un enlace a ${correo}. Abrilo desde este mismo aparato y ya estás adentro.`,
+    fallo: 'No pude mandar el enlace. Fijate que el correo esté bien escrito y probá de nuevo.',
+    sinCuentas:
+      'Las cuentas todavía no están prendidas acá. Igual podés usar todo sin registrarte.',
+    // El boton de Google llega cuando haya credenciales propias
     pronto: 'Muy pronto',
-    todavia: 'Las cuentas todavía no están listas. Mientras tanto usás todo sin registrarte.',
+    aclaracion: 'Guardamos el llavero, no tu imagen: esa nunca sale de tu computadora.',
   },
 
   preguntas: {

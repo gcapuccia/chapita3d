@@ -6,6 +6,7 @@ import { BotonPrimario, BotonSecundario, Grupo, Opciones } from '../crear/contro
 import { bajarArchivo, coloresDePiezas } from '../crear/util.ts'
 import Vista3D from '../crear/Vista3D.tsx'
 import { desarmarZip } from '../export/paquete.ts'
+import { guardarDiseno, useCuenta } from '../estado/cuenta.ts'
 import { armarZip, empezarDeNuevo, useDocumento, type Construccion } from '../estado/documento.ts'
 import { es } from '../i18n/es.ts'
 import { ir } from '../ruta.ts'
@@ -16,6 +17,8 @@ export default function Descargar() {
   const diseno = useDocumento((s) => s.diseno)
   const [armado, setArmado] = useState<Construccion | null>(null)
   const [slicer, setSlicer] = useState<Slicer>('bambu')
+  const { correo, guardando } = useCuenta()
+  const [guardado, setGuardado] = useState(false)
   const [fallo, setFallo] = useState(false)
 
   useEffect(() => {
@@ -234,6 +237,22 @@ export default function Descargar() {
             >
               {es.descargar.guardar}
             </BotonSecundario>
+            {correo ? (
+              <BotonPrimario
+                onClick={() => void guardarDiseno(diseno).then(setGuardado)}
+                disabled={guardando || guardado}
+              >
+                {guardado
+                  ? es.cuenta.guardado
+                  : guardando
+                    ? es.cuenta.guardando
+                    : es.cuenta.guardar}
+              </BotonPrimario>
+            ) : (
+              <BotonSecundario onClick={() => ir('/', 'cuenta')}>
+                {es.cuenta.paraGuardar}
+              </BotonSecundario>
+            )}
           </div>
         </>
       )}

@@ -3,6 +3,7 @@
 // La prueba en vivo es la misma dropzone de la app: sin cuenta, sin subir nada a ningun lado.
 
 import { useEffect, useRef, useState } from 'react'
+import BloqueCuenta from '../cuenta/BloqueCuenta.tsx'
 import Figura from '../marca/Figura.tsx'
 import Isotipo, { Marca } from '../marca/Isotipo.tsx'
 import {
@@ -12,6 +13,7 @@ import {
   useDocumento,
   type ErrorArchivo,
 } from '../estado/documento.ts'
+import { useCuenta } from '../estado/cuenta.ts'
 import { precalentar } from '../estado/motor.ts'
 import { es } from '../i18n/es.ts'
 import { esLanding as t } from '../i18n/esLanding.ts'
@@ -50,6 +52,7 @@ const TITULO_SECCION = 'font-titulo text-[28px] font-normal tracking-[0.01em] sm
 
 export default function Inicio() {
   const error = useDocumento((s) => s.error)
+  const correo = useCuenta((s) => s.correo)
   const [arrastrando, setArrastrando] = useState(false)
   const selector = useRef<HTMLInputElement>(null)
   const camara = useRef<HTMLInputElement>(null)
@@ -98,12 +101,24 @@ export default function Inicio() {
           >
             {t.barra.preguntas}
           </a>
-          <a href="#cuenta" className="min-h-11 content-center font-bold text-tiza">
-            {t.barra.entrar}
-          </a>
-          <a href="#cuenta" className={`${BOTON_TIZA} content-center text-[15px] sm:text-base`}>
-            {t.barra.crearCuenta}
-          </a>
+          {correo ? (
+            <button
+              type="button"
+              onClick={() => ir('/mis-llaveros')}
+              className={`${BOTON_TIZA} text-[15px] sm:text-base`}
+            >
+              {es.cuenta.misLlaveros}
+            </button>
+          ) : (
+            <>
+              <a href="#cuenta" className="min-h-11 content-center font-bold text-tiza">
+                {t.barra.entrar}
+              </a>
+              <a href="#cuenta" className={`${BOTON_TIZA} content-center text-[15px] sm:text-base`}>
+                {t.barra.crearCuenta}
+              </a>
+            </>
+          )}
         </nav>
       </header>
 
@@ -392,51 +407,7 @@ export default function Inicio() {
                 ))}
               </ul>
             </div>
-            <div className="flex flex-col gap-3">
-              <button
-                type="button"
-                disabled
-                className="flex min-h-13 items-center justify-center gap-2.5 rounded-2xl bg-tiza text-[17px] font-extrabold text-carbon opacity-50"
-              >
-                <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
-                  <path
-                    fill="#4285F4"
-                    d="M23 12.2c0-.8-.1-1.6-.2-2.3H12v4.5h6.1c-.3 1.4-1.1 2.6-2.3 3.4v2.8h3.7C21.7 18.6 23 15.7 23 12.2z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M12 23.5c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.3 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.6H2.1v2.9C3.9 21 7.7 23.5 12 23.5z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M5.8 14.5c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V7H2.1C1.4 8.5 1 10.2 1 12.2s.4 3.7 1.1 5.2l3.7-2.9z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2C17.5 2.1 15 1 12 1 7.7 1 3.9 3.4 2.1 7l3.7 2.9C6.7 7.2 9.1 5.4 12 5.4z"
-                  />
-                </svg>
-                {t.cuenta.google}
-                <span className="rounded-full bg-carbon px-2 py-0.5 text-xs font-bold text-lima">
-                  {t.cuenta.pronto}
-                </span>
-              </button>
-              <button
-                type="button"
-                disabled
-                className="min-h-13 rounded-2xl border border-borde-fuerte text-[17px] font-bold text-tiza opacity-50"
-              >
-                {t.cuenta.correo}
-              </button>
-              <p className="text-sm leading-relaxed text-tenue">{t.cuenta.todavia}</p>
-              <button
-                type="button"
-                onClick={() => selector.current?.click()}
-                className={BOTON_LIMA}
-              >
-                {t.hero.principal}
-              </button>
-            </div>
+            <BloqueCuenta />
           </div>
         </section>
       </main>

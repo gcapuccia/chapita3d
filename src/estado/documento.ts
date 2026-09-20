@@ -261,6 +261,19 @@ export async function abrirProyecto(archivo: File): Promise<boolean> {
   }
 }
 
+/** Carga un diseño ya armado (de un proyecto.json o de la cuenta) y lo reconstruye. */
+export function usarDiseno(d: Diseno): void {
+  set({
+    archivo: null,
+    conversion: null,
+    construccion: null,
+    diseno: d,
+    error: null,
+    procesando: { hito: 'llavero', desde: performance.now() },
+  })
+  reconstruir(0)
+}
+
 export function cambiarPreset(preset: NombrePreset | 'auto'): void {
   set({ preset })
   void procesar()

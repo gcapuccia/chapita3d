@@ -27,3 +27,6 @@ dist-ssr
 spikes/**/salida/
 
 .vercel
+
+# Variables de entorno locales
+.env.local

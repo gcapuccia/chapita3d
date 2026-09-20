@@ -217,6 +217,22 @@ export const es = {
     guardar: 'Guardar el proyecto',
   },
 
+  cuenta: {
+    entrar: 'Entrar',
+    salir: 'Salir',
+    misLlaveros: 'Mis llaveros',
+    guardar: 'Guardar en mi cuenta',
+    guardando: 'Guardando…',
+    guardado: 'Guardado ✓',
+    paraGuardar: 'Entrá con tu correo para guardar este llavero',
+    vacio: 'Todavía no guardaste ningún llavero.',
+    empezar: 'Hacer uno',
+    abrir: 'Abrir',
+    borrar: 'Borrar',
+    guardadoEl: (fecha: string) => `Guardado el ${fecha}`,
+    volver: 'Volver al inicio',
+  },
+
   pie: {
     enlaces: ['Términos', 'Privacidad', 'Compatibilidad con slicers', 'Licencias'],
   },
