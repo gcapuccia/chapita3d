@@ -219,6 +219,7 @@ export const es = {
 
   marco: {
     llaveros: 'Llaveros',
+    calculadora: 'Calculadora',
     acaEstas: 'acá estás',
     masApps: 'Más herramientas',
     pronto: 'pronto',

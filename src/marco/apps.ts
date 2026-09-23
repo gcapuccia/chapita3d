@@ -11,4 +11,7 @@ export type App = {
   ruta?: Ruta
 }
 
-export const APPS: App[] = [{ id: 'llaveros', nombre: es.marco.llaveros, ruta: '/llaveros/crear' }]
+export const APPS: App[] = [
+  { id: 'llaveros', nombre: es.marco.llaveros, ruta: '/llaveros/crear' },
+  { id: 'calculadora', nombre: es.marco.calculadora, ruta: '/calculadora' },
+]
