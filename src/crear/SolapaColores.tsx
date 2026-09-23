@@ -34,13 +34,13 @@ export function PanelColores() {
             opciones={[2, 3, 4, 5, 6].map((n) => ({ valor: n, etiqueta: n }))}
           />
           {enImagen < colores && (
-            <p className="text-sm text-stone-600">{es.colores.fusionados(enImagen)}</p>
+            <p className="text-sm text-tiza-suave">{es.colores.fusionados(enImagen)}</p>
           )}
         </Grupo>
       )}
 
       <Grupo titulo={es.colores.lista}>
-        <ul className="flex flex-col divide-y divide-stone-200 overflow-hidden rounded-lg border border-stone-200 bg-white">
+        <ul className="flex flex-col divide-y divide-borde overflow-hidden rounded-lg border border-borde bg-grafito">
           {filamentos.map((f) => {
             const i = orden(f.id)
             return (
@@ -49,21 +49,21 @@ export function PanelColores() {
                   type="button"
                   onClick={() => setAbierto(abierto === f.id ? null : f.id)}
                   aria-expanded={abierto === f.id}
-                  className="flex min-h-11 items-center gap-3 px-3 py-2 text-left text-sm hover:bg-stone-50"
+                  className="flex min-h-11 items-center gap-3 px-3 py-2 text-left text-sm hover:bg-carbon"
                 >
                   <span
-                    className="size-6 shrink-0 rounded-md border border-stone-300"
+                    className="size-6 shrink-0 rounded-md border border-borde-fuerte"
                     style={{ background: f.hex }}
                   />
                   <span className="flex-1">{f.nombre}</span>
-                  <span className="text-xs text-stone-500">
+                  <span className="text-xs text-tenue">
                     {modo === 'a_ras'
                       ? es.colores.lugar(f.slot)
                       : i <= 0
                         ? es.colores.base
                         : `${i}°`}
                   </span>
-                  <span aria-hidden className="text-stone-400">
+                  <span aria-hidden className="text-tenue">
                     {abierto === f.id ? '▴' : '▾'}
                   </span>
                 </button>
@@ -76,7 +76,7 @@ export function PanelColores() {
             )
           })}
         </ul>
-        <p className="text-xs text-stone-500">{es.colores.tocarParaCambiar}</p>
+        <p className="text-xs text-tenue">{es.colores.tocarParaCambiar}</p>
       </Grupo>
 
       <Grupo titulo={es.colores.impresora}>
@@ -92,7 +92,7 @@ export function PanelColores() {
           ]}
         />
         {modo === 'apilado' && r && r.cambiosDeCapa.length > 0 && (
-          <p className="text-sm text-stone-600">{es.colores.pausas(r.cambiosDeCapa.length)}</p>
+          <p className="text-sm text-tiza-suave">{es.colores.pausas(r.cambiosDeCapa.length)}</p>
         )}
       </Grupo>
     </div>

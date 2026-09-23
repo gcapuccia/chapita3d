@@ -67,3 +67,33 @@ También se arregló el layout: con el editor abierto, el panel derecho estiraba
 quedaba recortada. Ahora en pantallas grandes la página ocupa el alto de la ventana, el panel tiene su
 propio scroll, y la cámara se reencuadra cuando el lienzo cambia de forma (antes solo usaba el campo
 de visión vertical).
+
+## Incremento 1c · La app en Modo taller (2026-09-22)
+
+Se migró `/crear` y `/descargar` a la paleta oscura de la marca, siguiendo el turno 7 del diseño
+(`docs/marca/diseno/Chapita3d.dc.html`). Los colores salen del mapa que da el propio diseño (7b):
+
+| Antes | Ahora |
+|---|---|
+| `stone-50` panel | `carbon` #14161A |
+| `white` header, pie, tarjetas | `grafito` #1E222A |
+| `stone-100` lienzo | `lienzo` #101317 |
+| `stone-200` / `300` bordes | `borde` #2A2E36 / `borde-fuerte` #3A3F49 |
+| `stone-900` botón y solapa activa | `lima` #C6F24E con texto carbón |
+| `stone-700` / `500` texto | `tiza-suave` #C3C8D2 / `tenue` #9AA1AE |
+| `amber-50` / `950` aviso | `aviso` #2A2312 / `aviso-texto` #F5D08A |
+| `red-50` / `900` bloqueante | `alerta` #2C1618 / `alerta-texto` #FFA9A9 |
+
+No cambió ningún texto, ninguna medida ni el alto mínimo de 44 px de los controles.
+
+**El marco compartido** (`src/marco/Encabezado.tsx` + `src/marco/apps.ts`): marca a la izquierda,
+conmutador de apps al lado, los pasos de la app en el medio y su botón principal a la derecha. Lo usan
+`/llaveros/crear` y `/llaveros/descargar`.
+
+**Las direcciones se mudaron** a `/llaveros/crear` y `/llaveros/descargar`, como recomienda el diseño,
+así sumar la segunda app es agregarla a `APPS` y crear su carpeta de páginas. Las direcciones viejas
+redirigen solas.
+
+Además: el damero de la solapa Fondo ahora es oscuro, el color elegido en la paleta se marca con un
+anillo lima, y las capturas de la landing (`public/marca/paso-*.png`, `resuelve-4.png`) se rehicieron
+con la app oscura.

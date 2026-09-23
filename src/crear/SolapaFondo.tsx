@@ -11,7 +11,7 @@ export function PanelFondo() {
   const usado = useDocumento((s) => s.conversion?.preset)
   return (
     <div className="flex flex-col gap-5">
-      <p className="text-sm text-stone-600">{es.fondo.ayuda}</p>
+      <p className="text-sm text-tiza-suave">{es.fondo.ayuda}</p>
       <Grupo titulo={es.fondo.tipo}>
         <Opciones<NombrePreset | 'auto'>
           nombre="preset"

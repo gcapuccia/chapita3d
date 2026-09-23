@@ -32,7 +32,7 @@ export default function VistaMascara({
   return (
     <canvas
       ref={lienzo}
-      className={`bg-[repeating-conic-gradient(#e7e5e4_0_25%,#fafaf9_0_50%)] bg-[length:20px_20px] object-contain ${className ?? ''}`}
+      className={`bg-[repeating-conic-gradient(#1e222a_0_25%,#262b34_0_50%)] bg-[length:20px_20px] object-contain ${className ?? ''}`}
     />
   )
 }

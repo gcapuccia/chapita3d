@@ -66,10 +66,10 @@ export default function Inicio() {
   const recibir = async (archivo: File | undefined) => {
     if (!archivo) return
     if (archivo.name.toLowerCase().endsWith('.json')) {
-      if (await abrirProyecto(archivo)) ir('/crear', 'llavero')
+      if (await abrirProyecto(archivo)) ir('/llaveros/crear', 'llavero')
       return
     }
-    if (elegirArchivo(archivo)) ir('/crear', 'fondo')
+    if (elegirArchivo(archivo)) ir('/llaveros/crear', 'fondo')
   }
 
   const probarMuestra = async (nombre: string) => {

@@ -44,11 +44,11 @@ export default function OverlayProcesando({
       role="dialog"
       aria-modal="true"
       aria-live="polite"
-      className="fixed inset-0 z-50 grid place-items-center bg-stone-50/95 p-6 backdrop-blur-sm"
+      className="fixed inset-0 z-50 grid place-items-center bg-grafito/95 p-6 backdrop-blur-sm"
     >
       <div className="flex w-full max-w-sm flex-col items-center gap-6">
         {url && (
-          <div className="relative size-40 overflow-hidden rounded-2xl bg-white shadow-md">
+          <div className="relative size-40 overflow-hidden rounded-2xl bg-grafito shadow-md">
             <img src={url} alt="" className="size-full object-contain" />
             <div className="animate-barrido pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent" />
           </div>
@@ -57,13 +57,13 @@ export default function OverlayProcesando({
           {ORDEN.map((h, i) => (
             <li
               key={h}
-              className={`flex items-center gap-3 text-base ${i > actual ? 'text-stone-400' : 'text-stone-900'}`}
+              className={`flex items-center gap-3 text-base ${i > actual ? 'text-tenue' : 'text-tiza'}`}
             >
               <span className="grid size-6 place-items-center rounded-full text-sm" aria-hidden>
                 {i < actual ? (
                   '✓'
                 ) : i === actual ? (
-                  <span className="size-3 animate-pulse rounded-full bg-amber-500" />
+                  <span className="size-3 animate-pulse rounded-full bg-aviso0" />
                 ) : (
                   '·'
                 )}
@@ -73,7 +73,7 @@ export default function OverlayProcesando({
           ))}
         </ol>
         {segundos >= 3 && (
-          <p className="text-center text-sm text-stone-600">
+          <p className="text-center text-sm text-tiza-suave">
             {segundos >= 8 ? es.procesando.lento : es.procesando.grande}
           </p>
         )}
@@ -83,7 +83,7 @@ export default function OverlayProcesando({
             cancelar()
             ir('/')
           }}
-          className="min-h-11 rounded-lg px-4 text-stone-700 underline underline-offset-4 hover:text-stone-900"
+          className="min-h-11 rounded-lg px-4 text-tiza-suave underline underline-offset-4 hover:text-tiza"
         >
           {es.procesando.cancelar}
         </button>

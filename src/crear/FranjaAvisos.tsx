@@ -17,14 +17,14 @@ export default function FranjaAvisos({ avisos, casos }: { avisos: Aviso[]; casos
   const hayError = todos.some((t) => t.error)
   return (
     <section aria-label={es.avisos.titulo(todos.length)} className="flex flex-col gap-2">
-      <h3 className="text-sm font-semibold text-stone-700">
+      <h3 className="text-sm font-semibold text-tiza-suave">
         {hayError ? es.avisos.bloqueante : es.avisos.titulo(todos.length)}
       </h3>
       <ul className="flex flex-col gap-2">
         {todos.map((t) => (
           <li
             key={t.clave}
-            className={`flex gap-2 rounded-lg p-3 text-sm ${t.error ? 'bg-red-50 text-red-900' : 'bg-amber-50 text-amber-950'}`}
+            className={`flex gap-2 rounded-lg p-3 text-sm ${t.error ? 'bg-alerta text-alerta-texto' : 'bg-aviso text-aviso-texto'}`}
           >
             <span aria-hidden>{t.error ? '🔴' : '🟡'}</span>
             <span>{t.mensaje}</span>

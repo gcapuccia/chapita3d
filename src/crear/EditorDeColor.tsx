@@ -36,7 +36,7 @@ export default function EditorDeColor({
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-stone-300 bg-white p-3">
+    <div className="flex flex-col gap-4 rounded-xl border border-borde-fuerte bg-grafito p-3">
       <Grupo titulo={es.colores.elegirColor}>
         <div className="grid grid-cols-8 gap-1.5">
           {PALETA.map((c) => (
@@ -50,18 +50,18 @@ export default function EditorDeColor({
               style={{ background: c.hex }}
               className={`size-8 rounded-full border transition-transform hover:scale-110 ${
                 c.hex.toUpperCase() === filamento.hex.toUpperCase()
-                  ? 'border-stone-900 ring-2 ring-stone-900 ring-offset-1'
-                  : 'border-stone-300'
+                  ? 'border-lima ring-2 ring-lima ring-offset-2 ring-offset-carbon'
+                  : 'border-borde-fuerte'
               }`}
             />
           ))}
         </div>
-        <label className="flex min-h-11 items-center gap-2 text-sm text-stone-600">
+        <label className="flex min-h-11 items-center gap-2 text-sm text-tiza-suave">
           <input
             type="color"
             value={filamento.hex}
             onChange={(e) => cambiarColorDeFilamento(filamento.id, e.target.value.toUpperCase())}
-            className="size-8 cursor-pointer rounded border border-stone-300 bg-white"
+            className="size-8 cursor-pointer rounded border border-borde-fuerte bg-grafito"
           />
           {es.colores.colorPropio}
         </label>
@@ -77,7 +77,7 @@ export default function EditorDeColor({
               step={0.1}
               value={grosor ?? D.GROSOR_LINEAS_MM.porDefecto}
               onChange={(e) => ponerGrosor(paso(Number(e.target.value)))}
-              className="h-11 flex-1 accent-stone-900"
+              className="h-11 flex-1 accent-lima"
               aria-label={es.colores.grosor}
             />
             <span className="w-20 text-right text-sm font-semibold tabular-nums">
@@ -88,14 +88,14 @@ export default function EditorDeColor({
             <button
               type="button"
               onClick={() => ponerGrosor(null)}
-              className="min-h-11 self-start text-sm text-stone-600 underline underline-offset-4"
+              className="min-h-11 self-start text-sm text-tiza-suave underline underline-offset-4"
             >
               {es.colores.volverAuto}
             </button>
           )}
-          <p className="text-xs text-stone-500">{es.colores.grosorAyuda}</p>
+          <p className="text-xs text-tenue">{es.colores.grosorAyuda}</p>
           {grosor !== null && grosor < D.GROSOR_LINEAS_SEGURO_MM && (
-            <p className="rounded-lg bg-amber-50 p-2 text-xs text-amber-900">
+            <p className="rounded-lg bg-aviso p-2 text-xs text-aviso-texto">
               ⚠ {es.colores.grosorFragil(D.GROSOR_LINEAS_SEGURO_MM)}
             </p>
           )}

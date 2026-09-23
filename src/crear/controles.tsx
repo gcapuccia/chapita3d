@@ -14,7 +14,7 @@ export function Grupo({
 }) {
   return (
     <fieldset data-control={avanzado ? undefined : ''} className="flex flex-col gap-2">
-      <legend className="mb-1 text-xs font-semibold tracking-wide text-stone-500 uppercase">
+      <legend className="mb-1 text-xs font-semibold tracking-wide text-tenue uppercase">
         {titulo}
       </legend>
       {children}
@@ -40,8 +40,8 @@ export function Opciones<T extends string | number>({
           key={String(o.valor)}
           className={`flex min-h-11 min-w-11 cursor-pointer flex-col items-center justify-center rounded-lg border px-3 py-1.5 text-sm transition-colors ${
             o.valor === valor
-              ? 'border-stone-900 bg-stone-900 text-white'
-              : 'border-stone-300 bg-white hover:border-stone-500'
+              ? 'border-lima bg-lima text-carbon'
+              : 'border-borde-fuerte bg-grafito hover:border-tiza'
           }`}
         >
           <input
@@ -53,7 +53,7 @@ export function Opciones<T extends string | number>({
           />
           <span>{o.etiqueta}</span>
           {o.detalle && (
-            <span className={`text-xs ${o.valor === valor ? 'text-stone-300' : 'text-stone-500'}`}>
+            <span className={`text-xs ${o.valor === valor ? 'text-carbon/70' : 'text-tenue'}`}>
               {o.detalle}
             </span>
           )}
@@ -79,7 +79,7 @@ export function BotonPrimario({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`${className} min-h-11 rounded-lg bg-stone-900 px-5 font-semibold text-white transition-colors hover:bg-stone-700 disabled:opacity-40`}
+      className={`${className} min-h-11 rounded-lg bg-lima px-5 font-semibold text-carbon transition-colors hover:bg-lima-claro disabled:opacity-40`}
     >
       {children}
     </button>
@@ -97,7 +97,7 @@ export function BotonSecundario({
     <button
       type="button"
       onClick={onClick}
-      className="min-h-11 rounded-lg px-4 text-stone-700 underline-offset-4 hover:text-stone-900 hover:underline"
+      className="min-h-11 rounded-lg px-4 text-tiza-suave underline-offset-4 hover:text-tiza hover:underline"
     >
       {children}
     </button>

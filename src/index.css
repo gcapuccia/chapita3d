@@ -24,17 +24,25 @@
   --color-lima: #c6f24e;
   --color-lima-claro: #e3fa9b;
 
+  /* Dentro de la app: el lienzo es mas oscuro que el fondo, y los avisos tienen su propio par */
+  --color-lienzo: #101317;
+  --color-aviso: #2a2312;
+  --color-aviso-texto: #f5d08a;
+  --color-alerta: #2c1618;
+  --color-alerta-texto: #ffa9a9;
+
   --font-sans: Nunito, ui-sans-serif, system-ui, sans-serif;
   --font-titulo: 'Lilita One', Nunito, ui-sans-serif, sans-serif;
 }
 
 body {
-  background-color: var(--color-stone-50);
+  background-color: var(--color-carbon);
   font-family: var(--font-sans);
 }
 
 html {
-  color: var(--color-stone-900);
+  color: var(--color-tiza);
+  color-scheme: dark;
   -webkit-tap-highlight-color: transparent;
 }
 

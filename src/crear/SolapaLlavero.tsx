@@ -60,12 +60,12 @@ export function PanelLlavero() {
             max={80}
             value={lado}
             onChange={(e) => cambiarDiseno((d) => escalar(d, Number(e.target.value)))}
-            className="h-11 flex-1 accent-stone-900"
+            className="h-11 flex-1 accent-lima"
             aria-label={es.llavero.tamano}
           />
           <span className="w-16 text-right text-sm font-semibold tabular-nums">{lado} mm</span>
         </div>
-        <p className="text-xs text-stone-500">{es.llavero.referencia(lado)}</p>
+        <p className="text-xs text-tenue">{es.llavero.referencia(lado)}</p>
       </Grupo>
 
       <Grupo titulo={es.llavero.espesor}>
@@ -107,7 +107,7 @@ export function PanelLlavero() {
                 contorno: { ...d.contorno, activo: e.target.checked },
               }))
             }
-            className="size-5 accent-stone-900"
+            className="size-5 accent-lima"
           />
           {es.llavero.borde} de {String(diseno.contorno.offset).replace('.', ',')} mm
         </label>
@@ -126,13 +126,13 @@ export function PanelLlavero() {
               ponerTexto(e.target.value, fuente)
             }}
             onBlur={() => setBorrador(null)}
-            className="min-h-11 min-w-0 flex-1 rounded-lg border border-stone-300 px-3"
+            className="min-h-11 min-w-0 flex-1 rounded-lg border border-borde-fuerte px-3"
           />
           <select
             value={fuente}
             onChange={(e) => ponerTexto(valorTexto, e.target.value as IdFuente)}
             aria-label={es.llavero.fuente}
-            className="min-h-11 rounded-lg border border-stone-300 bg-white px-2"
+            className="min-h-11 rounded-lg border border-borde-fuerte bg-grafito px-2"
           >
             {FUENTES.map((f) => (
               <option key={f.id} value={f.id}>

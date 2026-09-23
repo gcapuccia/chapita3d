@@ -217,6 +217,14 @@ export const es = {
     guardar: 'Guardar el proyecto',
   },
 
+  marco: {
+    llaveros: 'Llaveros',
+    acaEstas: 'acá estás',
+    masApps: 'Más herramientas',
+    pronto: 'pronto',
+    pasos: 'Pasos',
+  },
+
   cuenta: {
     entrar: 'Entrar',
     salir: 'Salir',
