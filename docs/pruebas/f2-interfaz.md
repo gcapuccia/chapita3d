@@ -97,3 +97,17 @@ redirigen solas.
 Además: el damero de la solapa Fondo ahora es oscuro, el color elegido en la paleta se marca con un
 anillo lima, y las capturas de la landing (`public/marca/paso-*.png`, `resuelve-4.png`) se rehicieron
 con la app oscura.
+
+## La landing con las tres herramientas (2026-09-23)
+
+La página de inicio hablaba solo de llaveros. Ahora, debajo de la prueba en vivo, hay una sección
+«Las herramientas de la casa» con las tres: Llaveros, Sellos y Calculadora, cada una con su imagen
+real y su botón. La lista sale de `src/marco/apps.ts`, la misma que usa el conmutador: sumar una
+app la pone en los dos lugares.
+
+También: la barra suma «Herramientas», el título de la pestaña y la descripción hablan de las tres,
+y el pie dice «Herramientas para imprimir en 3D» en vez de solo llaveros. El hero sigue siendo el de
+llaveros, que es el que mejor entra por los ojos.
+
+Las imágenes (`public/marca/app-*.png`) salieron de las apps funcionando: el llavero y el sello del
+visor 3D, y la calculadora de su propio panel de resultados.

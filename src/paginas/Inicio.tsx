@@ -17,6 +17,7 @@ import { useCuenta } from '../estado/cuenta.ts'
 import { precalentar } from '../estado/motor.ts'
 import { es } from '../i18n/es.ts'
 import { esLanding as t } from '../i18n/esLanding.ts'
+import { APPS } from '../marco/apps.ts'
 import { ir } from '../ruta.ts'
 
 const MUESTRAS = [
@@ -90,8 +91,14 @@ export default function Inicio() {
         <Marca tam={30} texto="text-[17px] sm:text-[21px]" />
         <nav className="flex items-center gap-3 sm:gap-5">
           <a
-            href="#como-funciona"
+            href="#herramientas"
             className="hidden font-semibold text-tiza-suave hover:text-tiza sm:block"
+          >
+            {t.barra.herramientas}
+          </a>
+          <a
+            href="#como-funciona"
+            className="hidden font-semibold text-tiza-suave hover:text-tiza lg:block"
           >
             {t.barra.comoFunciona}
           </a>
@@ -289,6 +296,47 @@ export default function Inicio() {
           className="hidden"
           onChange={(e) => void recibir(e.target.files?.[0])}
         />
+
+        {/* ------------------------------------------------------------------ las herramientas */}
+        <section
+          id="herramientas"
+          className="flex scroll-mt-20 flex-col gap-6 px-4 pb-14 sm:gap-8 sm:px-8 lg:pb-20"
+        >
+          <div className="flex flex-col gap-1.5">
+            <h2 className={TITULO_SECCION}>{t.herramientas.titulo}</h2>
+            <p className="text-base text-tiza-suave sm:text-lg">{t.herramientas.bajada}</p>
+          </div>
+          <ul className="grid gap-4 sm:gap-6 lg:grid-cols-3">
+            {t.herramientas.lista.map((h) => {
+              const ruta = APPS.find((a) => a.id === h.id)?.ruta
+              return (
+                <li
+                  key={h.id}
+                  className="flex flex-col gap-4 rounded-2xl border border-borde bg-grafito p-4 sm:p-5"
+                >
+                  <Figura
+                    src={`/marca/app-${h.id}.png`}
+                    texto={h.figura}
+                    className="h-[150px] w-full sm:h-[170px]"
+                  />
+                  <div className="flex flex-1 flex-col gap-1.5">
+                    <h3 className="text-lg font-extrabold sm:text-xl">{h.nombre}</h3>
+                    <p className="text-[15px] leading-relaxed text-tiza-suave">{h.texto}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      h.id === 'llaveros' ? selector.current?.click() : ruta && ir(ruta)
+                    }
+                    className={`${BOTON_TIZA} w-full`}
+                  >
+                    {h.boton}
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
 
         {/* ------------------------------------------------------------------ como funciona */}
         <section

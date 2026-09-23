@@ -6,6 +6,7 @@ export const esLanding = {
   descriptor: 'llaveros 3D desde tu imagen',
 
   barra: {
+    herramientas: 'Herramientas',
     comoFunciona: 'Cómo funciona',
     preguntas: 'Preguntas',
     entrar: 'Entrar',
@@ -38,8 +39,38 @@ export const esLanding = {
     etiquetas: { logo: 'Logo', dibujo: 'Dibujo', silueta: 'Silueta' },
   },
 
+  herramientas: {
+    titulo: 'Las herramientas de la casa',
+    bajada: 'Tres, y todas gratis. La misma cuenta te sirve para las tres.',
+    lista: [
+      {
+        id: 'llaveros',
+        nombre: 'Llaveros',
+        texto: 'Tu logo o tu dibujo convertido en un llavero multicolor, listo para el AMS.',
+        boton: 'Probar con mi imagen',
+        figura: 'Un llavero hecho con esta herramienta',
+      },
+      {
+        id: 'sellos',
+        nombre: 'Sellos para gofrar',
+        texto:
+          'Dos placas con bisagra que se imprime armada. Lo cerrás como un libro y el dibujo queda marcado en el papel.',
+        boton: 'Armar un sello',
+        figura: 'Un sello abierto, con el relieve y su hueco',
+      },
+      {
+        id: 'calculadora',
+        nombre: 'Calculadora de costos',
+        texto:
+          'Cuánto te sale de verdad una impresión, contando filamento, luz, desgaste y fallas. Y a cuánto conviene venderla.',
+        boton: 'Abrir la calculadora',
+        figura: 'La calculadora con sus resultados',
+      },
+    ],
+  },
+
   pasos: {
-    titulo: 'Cómo funciona',
+    titulo: 'Cómo funciona el de llaveros',
     lista: [
       {
         titulo: 'Subís tu imagen.',
@@ -153,7 +184,7 @@ export const esLanding = {
   },
 
   pie: {
-    descripcion: 'Llaveros 3D desde tu imagen, listos para imprimir.',
+    descripcion: 'Herramientas para imprimir en 3D: llaveros, sellos y costos.',
     enlaces: ['Privacidad', 'Términos', 'Contacto', 'Instagram'],
     lugar: 'Hecho en Argentina',
   },
