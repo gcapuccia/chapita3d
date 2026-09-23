@@ -3,7 +3,12 @@
 import { useSyncExternalStore } from 'react'
 
 export type Ruta =
-  '/' | '/llaveros/crear' | '/llaveros/descargar' | '/calculadora' | '/mis-llaveros'
+  | '/'
+  | '/llaveros/crear'
+  | '/llaveros/descargar'
+  | '/sellos/crear'
+  | '/calculadora'
+  | '/mis-llaveros'
 
 const oyentes = new Set<() => void>()
 const avisar = () => oyentes.forEach((o) => o())
