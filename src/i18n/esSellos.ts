@@ -16,6 +16,7 @@ export const esSellos = {
     cambiarArchivo: 'Cambiar el SVG',
     arrastrar: 'Arrastrá tu SVG acá',
     formatos: 'Solo SVG: es el formato que guarda las formas, no los cuadritos.',
+    renglones: 'Enter abre un renglón nuevo. El texto se achica solo para entrar en la placa.',
   },
 
   material: {

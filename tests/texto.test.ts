@@ -69,6 +69,52 @@ describe('contornos de texto', () => {
   )
 })
 
+describe('texto en varios renglones', () => {
+  const caja = (c: [number, number][][]) => {
+    const xs = c.flat().map((p) => p[0])
+    const ys = c.flat().map((p) => p[1])
+    return {
+      ancho: Math.max(...xs) - Math.min(...xs),
+      alto: Math.max(...ys) - Math.min(...ys),
+      cx: (Math.min(...xs) + Math.max(...xs)) / 2,
+      cy: (Math.min(...ys) + Math.max(...ys)) / 2,
+    }
+  }
+
+  test('un salto de linea apila: el bloque queda mas angosto y mas alto', () => {
+    const unaLinea = caja(contornosDeTexto('redonda', 'HOLA MUNDO', 10))
+    const dos = caja(contornosDeTexto('redonda', 'HOLA\nMUNDO', 10))
+    expect(dos.ancho).toBeLessThan(unaLinea.ancho)
+    expect(dos.alto).toBeGreaterThan(unaLinea.alto * 1.8)
+  })
+
+  test('el bloque entero queda centrado en el origen', () => {
+    const c = caja(contornosDeTexto('redonda', 'I\nMMMMM\nI', 10))
+    expect(c.cx).toBeCloseTo(0, 5)
+    expect(c.cy).toBeCloseTo(0, 5)
+  })
+
+  test('cada renglon se centra solo, no se alinea a la izquierda', () => {
+    // La I angosta arriba de la M ancha: si se alinearan a la izquierda, la I quedaria en el borde
+    const c = contornosDeTexto('redonda', 'I\nMMMMM', 10)
+    const arriba = c.filter((a) => a.some(([, y]) => y > 0))
+    const xs = arriba.flat().map((p) => p[0])
+    expect((Math.min(...xs) + Math.max(...xs)) / 2).toBeCloseTo(0, 1)
+  })
+
+  test('un renglon vacio deja el hueco igual', () => {
+    const juntos = caja(contornosDeTexto('redonda', 'A\nB', 10))
+    const separados = caja(contornosDeTexto('redonda', 'A\n\nB', 10))
+    expect(separados.alto).toBeGreaterThan(juntos.alto * 1.5)
+  })
+
+  test('un salto al final no corre nada', () => {
+    const sin = contornosDeTexto('redonda', 'A', 10)
+    const con = contornosDeTexto('redonda', 'A\n', 10)
+    expect(caja(con)).toEqual(caja(sin))
+  })
+})
+
 describe('texto en el llavero', () => {
   test('se agrega debajo del dibujo, en un color que contrasta, y construye sin errores', () => {
     const d = agregarTexto(disenoConDibujo(), 'Guido')

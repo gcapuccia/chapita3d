@@ -111,3 +111,29 @@ llaveros, que es el que mejor entra por los ojos.
 
 Las imágenes (`public/marca/app-*.png`) salieron de las apps funcionando: el llavero y el sello del
 visor 3D, y la calculadora de su propio panel de resultados.
+
+## El sello: que se lea el relieve, renglones y más tipografías (2026-09-29)
+
+Tres cosas que salieron de probar la app de sellos con el logo de la casa.
+
+**El relieve no se leía.** El problema no eran los colores sino la luz. La cara de arriba de cada
+letra tiene la misma inclinación que la placa, así que el motor le daba el mismo color; lo único
+distinto eran las paredes de 0,4 mm, que en pantalla no llegan a un píxel. Ahora la vista de sellos
+enciende una luz rasante con sombra proyectada y baja el resto: el dibujo se lee solo, como un
+relieve de verdad con el sol bajo. Es opcional por vista (`relieve`), así que la de llaveros quedó
+igual que antes.
+
+**Enter abre un renglón.** El campo pasó de `input` a `textarea`, hasta 4 renglones de 24 letras.
+Probado con «CHAPITA / 3D» y «TALLER / LA RONDA»: los dos renglones salen centrados uno sobre otro
+y el bloque se achica solo para entrar en la placa, en las dos caras. No hizo falta un aviso nuevo:
+si al achicarse los trazos bajan de 0,8 mm ya salta el de detalle fino.
+
+**De 3 tipografías a 8.** Redonda, Gruesa, Negra, Angosta, Con serifas, De bloque, Clásica y
+Manuscrita, todas OFL. Sirven igual para los llaveros, que usan la misma lista.
+
+Una quedó en el camino: Lobster («Cursiva») dibuja la «O» como un solo contorno pinchado en vez de
+anillo más agujero, así que la letra sale con el centro lleno. Lo agarró el test de la «O» antes de
+llegar a la pantalla; en su lugar entró Merriweather Black como «Clásica», que era además el estilo
+que faltaba.
+
+`pnpm verificar` en verde: 154 pruebas (15 nuevas), licencias OK, build OK.

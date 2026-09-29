@@ -1,6 +1,9 @@
 // Texto → contornos en mm (plan §8.2 herramienta 9): opentype.js lee la fuente y las curvas se
 // aproximan con polilineas. La limpieza con regla NonZero y la negrita se hacen en construir(),
 // con Manifold, porque las fuentes TrueType superponen contornos dentro de una misma letra.
+//
+// El texto puede traer saltos de linea: cada renglon se arma por separado, se centra por su propia
+// tinta y se apila con el alto natural de la fuente. Quien llama decide si el bloque entra.
 
 import * as opentype from 'opentype.js'
 
@@ -13,23 +16,21 @@ const fuentes = new Map<string, opentype.Font>()
 /** mm. Largo de cada tramo recto con que se aproxima una curva. */
 const TRAMO_CURVA_MM = 0.25
 
+/** Separacion entre renglones, sobre el alto natural de la fuente. */
+const INTERLINEA = 0.92
+
 export function registrarFuente(id: string, datos: ArrayBuffer): void {
   fuentes.set(id, parse(datos))
 }
 
 export const fuenteRegistrada = (id: string) => fuentes.has(id)
 
-/**
- * Contornos del texto, en mm, con y hacia arriba y centrados en el origen.
- * `tamanoMm` es el tamaño de la fuente (el em); la altura de una mayuscula ronda el 70 %.
- */
-export function contornosDeTexto(
-  idFuente: string,
+/** Contornos de UN renglon, con y hacia arriba, apoyado en la linea de base en el origen. */
+function contornosDeRenglon(
+  fuente: opentype.Font,
   texto: string,
   tamanoMm: number,
 ): [number, number][][] {
-  const fuente = fuentes.get(idFuente)
-  if (!fuente) throw new Error(`La fuente "${idFuente}" no está cargada.`)
   const contornos: [number, number][][] = []
   let actual: [number, number][] = []
   let x0 = 0
@@ -111,10 +112,48 @@ export function contornosDeTexto(
     }
   }
   cerrar()
+  return contornos
+}
+
+/** Corre un grupo de contornos. */
+const correr = (anillos: [number, number][][], dx: number, dy: number) =>
+  anillos.map((a) => a.map(([x, y]) => [x + dx, y + dy] as [number, number]))
+
+/** Centro horizontal y vertical de la tinta de un grupo de contornos. */
+function centroDe(anillos: [number, number][][]): [number, number] {
+  const puntos = anillos.flat()
+  const xs = puntos.map((p) => p[0])
+  const ys = puntos.map((p) => p[1])
+  return [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2]
+}
+
+/**
+ * Contornos del texto, en mm, con y hacia arriba y centrados en el origen.
+ * `tamanoMm` es el tamaño de la fuente (el em); la altura de una mayuscula ronda el 70 %.
+ * Los saltos de linea abren un renglon nuevo: cada uno va centrado sobre el de arriba.
+ */
+export function contornosDeTexto(
+  idFuente: string,
+  texto: string,
+  tamanoMm: number,
+): [number, number][][] {
+  const fuente = fuentes.get(idFuente)
+  if (!fuente) throw new Error(`La fuente "${idFuente}" no está cargada.`)
+
+  const renglones = texto.split('\n')
+  // El alto natural de la fuente, no el de la tinta: asi dos renglones no se juntan por casualidad
+  // cuando uno no tiene letras con cola
+  const altoRenglon =
+    ((fuente.ascender - fuente.descender) / fuente.unitsPerEm) * tamanoMm * INTERLINEA
+
+  const contornos = renglones.flatMap((renglon, i) => {
+    const anillos = contornosDeRenglon(fuente, renglon, tamanoMm)
+    if (!anillos.length) return []
+    const [cx] = centroDe(anillos)
+    return correr(anillos, -cx, -i * altoRenglon)
+  })
   if (!contornos.length) return []
 
-  const puntos = contornos.flat()
-  const cx = (Math.min(...puntos.map((p) => p[0])) + Math.max(...puntos.map((p) => p[0]))) / 2
-  const cy = (Math.min(...puntos.map((p) => p[1])) + Math.max(...puntos.map((p) => p[1]))) / 2
-  return contornos.map((anillo) => anillo.map(([x, y]) => [x - cx, y - cy] as [number, number]))
+  const [cx, cy] = centroDe(contornos)
+  return correr(contornos, -cx, -cy)
 }

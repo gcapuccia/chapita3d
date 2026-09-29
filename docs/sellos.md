@@ -37,6 +37,27 @@ Implementa `docs/sellomaker-bisagra-replica.md` como app de Chapita3d, en `/sell
 - El hueco siempre es más hondo que el relieve, con los cuatro materiales.
 - El dibujo entra con su margen, y con 2 o 3 bisagras las placas se alargan igual.
 
+## Lo que se agregó después (2026-09-29)
+
+- **El relieve se lee en pantalla.** Una cara de 0,4 mm tiene la misma inclinación que la placa, así
+  que el motor le daba el mismo color: no se veía nada. La vista de sellos enciende una luz rasante
+  (`relieve` en `src/crear/Vista3D.tsx`) a unos 20° sobre el plano, que proyecta ~1 mm de sombra
+  por cada 0,4 mm de relieve, y baja el resto de las luces para no lavarla. Entra casi por el eje de
+  la bisagra, así los nudillos no tiran sombra sobre las placas. La placa del hueco pasó de casi
+  blanca a gris: dos claros pegados no se distinguían.
+- **Texto en varios renglones.** El campo es un `textarea`: Enter abre un renglón nuevo, hasta 4
+  renglones de 24 letras. Cada renglón se centra por su propia tinta y se apila con el alto natural
+  de la fuente (`INTERLINEA` en `src/geometria/texto.ts`). No hace falta avisar cuando no entra:
+  `sello()` escala el dibujo para que entre con su margen, y si al achicarse los trazos quedan por
+  debajo de 0,8 mm salta el aviso de detalle fino que ya existía.
+- **Ocho tipografías en vez de tres**: Redonda, Gruesa, Negra, Angosta, Con serifas, De bloque,
+  Clásica y Manuscrita. Todas OFL-1.1, todas del subset latino de @fontsource, y cada `.woff` se
+  baja recién cuando alguien la elige.
+
+  Probé Lobster como «Cursiva» y **quedó afuera**: su «O» viene como un solo contorno pinchado en
+  vez de anillo de afuera + agujero, así que la letra sale con el centro lleno. Lo agarró el test
+  `la O de %s conserva su agujero`, que ahora corre sobre las ocho.
+
 ## Probado en el navegador
 
 Texto «CHAPITA» y un SVG con agujero (una dona): las dos se ven en 3D con el relieve de un lado y el

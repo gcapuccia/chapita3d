@@ -17,6 +17,10 @@ declare module 'opentype.js' {
 
   export interface Font {
     unitsPerEm: number
+    /** Alto sobre la linea de base, en unidades de la fuente. */
+    ascender: number
+    /** Bajo la linea de base: negativo. */
+    descender: number
     charToGlyph(caracter: string): Glyph
     getKerningValue(izquierda: Glyph, derecha: Glyph): number
     getPath(

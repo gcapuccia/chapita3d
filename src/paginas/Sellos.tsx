@@ -22,6 +22,22 @@ import { MATERIALES, profundidadDe } from '../sellos/placas.ts'
 
 const pct = (v: number) => Math.round(v * 100)
 
+/** Renglones y letras por renglon que se aceptan. Mas que eso ya no entra en la placa. */
+const MAX_RENGLONES = 4
+const MAX_LETRAS = 24
+
+/** Recorta lo que no entra, sin pelear con lo que la persona escribe. */
+const acomodar = (texto: string) =>
+  texto
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .slice(0, MAX_RENGLONES)
+    .map((renglon) => renglon.slice(0, MAX_LETRAS))
+    .join('\n')
+
+/** Vista: el relieve va en lima y el hueco en gris, para no tener dos claros pegados. */
+const COLORES = ['#C6F24E', '#98A0AD']
+
 /** Un deslizador con su número al lado. */
 function Deslizador({
   etiqueta,
@@ -78,7 +94,6 @@ export default function Sellos() {
 
   const r = construccion?.resultado
   const piezas = useMemo(() => (r ? [r.macho, r.hembra] : []), [r])
-  const colores = ['#C6F24E', '#F5F6F8']
 
   const material =
     MATERIALES.find((m) => Math.abs(m.relieve - params.relieve) < 0.001) ?? MATERIALES[0]
@@ -108,7 +123,7 @@ export default function Sellos() {
         <section className="relative bg-lienzo">
           {r && (
             <div className="relative size-full min-h-64">
-              <Vista3D piezas={piezas} colores={colores} modo="3d" />
+              <Vista3D piezas={piezas} colores={COLORES} modo="3d" relieve />
               {construyendo && (
                 <span className="absolute top-3 right-3 rounded-full border border-borde bg-grafito/95 px-3 py-1 text-xs text-tiza-suave">
                   {t.vista.actualizando}
@@ -141,31 +156,34 @@ export default function Sellos() {
             />
 
             {dibujo.tipo === 'texto' ? (
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={textoActual}
-                  maxLength={24}
-                  onChange={(e) => {
-                    setBorrador(e.target.value)
-                    ponerTexto(e.target.value, fuenteActual)
-                  }}
-                  onBlur={() => setBorrador(null)}
-                  aria-label={t.dibujo.escribir}
-                  className="min-h-11 min-w-0 flex-1 rounded-lg border border-borde-fuerte bg-grafito px-3 text-tiza"
-                />
-                <select
-                  value={fuenteActual}
-                  onChange={(e) => ponerTexto(textoActual, e.target.value)}
-                  aria-label={t.dibujo.fuente}
-                  className="min-h-11 rounded-lg border border-borde-fuerte bg-grafito px-2 text-tiza"
-                >
-                  {FUENTES.map((f) => (
-                    <option key={f.id} value={f.id}>
-                      {f.nombre}
-                    </option>
-                  ))}
-                </select>
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-start gap-2">
+                  <textarea
+                    value={textoActual}
+                    rows={2}
+                    onChange={(e) => {
+                      const texto = acomodar(e.target.value)
+                      setBorrador(texto)
+                      ponerTexto(texto, fuenteActual)
+                    }}
+                    onBlur={() => setBorrador(null)}
+                    aria-label={t.dibujo.escribir}
+                    className="min-h-11 min-w-0 flex-1 resize-none rounded-lg border border-borde-fuerte bg-grafito px-3 py-2 leading-snug text-tiza"
+                  />
+                  <select
+                    value={fuenteActual}
+                    onChange={(e) => ponerTexto(textoActual, e.target.value)}
+                    aria-label={t.dibujo.fuente}
+                    className="min-h-11 rounded-lg border border-borde-fuerte bg-grafito px-2 text-tiza"
+                  >
+                    {FUENTES.map((f) => (
+                      <option key={f.id} value={f.id}>
+                        {f.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <p className="text-xs leading-relaxed text-tenue">{t.dibujo.renglones}</p>
               </div>
             ) : (
               <button
