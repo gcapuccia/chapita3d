@@ -83,6 +83,9 @@ export const es = {
   },
 
   fondo: {
+    desdeElEditor:
+      'Este dibujo lo limpiaste en Vectorizar, así que acá no hay foto que volver a procesar. Para cambiar el fondo o los colores, volvé al editor.',
+    volverAlEditor: 'Volver a Vectorizar',
     tipo: 'Tipo de imagen',
     presets: { auto: 'Automático', dibujo: 'Dibujo', foto: 'Foto', silueta: 'Silueta' },
     listo: 'El fondo está bien',
@@ -219,6 +222,7 @@ export const es = {
 
   marco: {
     llaveros: 'Llaveros',
+    vector: 'Vectorizar',
     calculadora: 'Calculadora',
     sellos: 'Sellos',
     acaEstas: 'acá estás',

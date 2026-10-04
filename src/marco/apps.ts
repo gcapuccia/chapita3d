@@ -13,6 +13,7 @@ export type App = {
 
 export const APPS: App[] = [
   { id: 'llaveros', nombre: es.marco.llaveros, ruta: '/llaveros/crear' },
+  { id: 'vector', nombre: es.marco.vector, ruta: '/vector/crear' },
   { id: 'sellos', nombre: es.marco.sellos, ruta: '/sellos/crear' },
   { id: 'calculadora', nombre: es.marco.calculadora, ruta: '/calculadora' },
 ]

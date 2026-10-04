@@ -84,6 +84,12 @@ export function ponerTexto(texto: string, fuente: string): void {
   construirSello(350)
 }
 
+/** Entra con contornos ya listos (de Vectorizar), sin pasar por un archivo. */
+export function ponerContornos(nombre: string, contornos: [number, number][][]): void {
+  set({ dibujo: { tipo: 'svg', nombre, contornos }, error: null })
+  construirSello(0)
+}
+
 /** Lee el SVG en la pantalla (el lector necesita el DOM) y manda solo los contornos al motor. */
 export async function ponerSvg(archivo: File): Promise<boolean> {
   try {

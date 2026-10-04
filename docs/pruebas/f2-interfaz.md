@@ -137,3 +137,25 @@ llegar a la pantalla; en su lugar entró Merriweather Black como «Clásica», q
 que faltaba.
 
 `pnpm verificar` en verde: 154 pruebas (15 nuevas), licencias OK, build OK.
+
+## Vectorizar: la cuarta app (2026-10-04)
+
+Faltaba un paso entre la imagen y el llavero: el pipeline saca el fondo y separa colores bien, pero
+siempre deja algo de más, y hasta ahora no había forma de sacarlo a mano.
+
+La app nueva vive en `/vector/crear` y edita el **mapa de etiquetas** que ya devuelve `convertir()`,
+no los contornos. Tres herramientas: borrar la mancha de un clic, borrador de pincel y pincel para
+pintar. Con la de manchas, pasar por encima prende en rojo lo que se iría antes de tocar.
+
+Probado con el logo de La Ronda: el aro exterior se prende entero y se va de un clic, deshacer lo
+trae, el borrador recorta a mano, el SVG baja con un path por color, y los dos botones de salida
+abren el sello y el llavero con el dibujo ya editado. En el llavero, la solapa Fondo avisa que ese
+dibujo vino del editor y no ofrece reprocesar, porque reprocesar perdería lo editado.
+
+Una vuelta atrás que valió la pena: la primera versión agrupaba toda la tinta como una sola mancha,
+para que una mota de dos colores se fuera de un clic. Con un logo relleno eso prendía el dibujo
+entero. Ahora la mancha es la del mismo color.
+
+La landing pasó a cuatro tarjetas, de a dos en tablet y de a cuatro en pantalla grande.
+
+`pnpm verificar` en verde: 167 pruebas (13 nuevas), licencias OK, build OK.

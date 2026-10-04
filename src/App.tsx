@@ -10,6 +10,7 @@ const Descargar = lazy(() => import('./paginas/Descargar.tsx'))
 const MisLlaveros = lazy(() => import('./paginas/MisLlaveros.tsx'))
 const Calculadora = lazy(() => import('./paginas/Calculadora.tsx'))
 const Sellos = lazy(() => import('./paginas/Sellos.tsx'))
+const Vector = lazy(() => import('./paginas/Vector.tsx'))
 // Paginas de diagnostico de la Fase 0 y 1. Carga diferida: no pesan en la app.
 const DiagnosticoGeometria = lazy(() => import('./dev/DiagnosticoGeometria.tsx'))
 const DiagnosticoPipeline = lazy(() => import('./dev/DiagnosticoPipeline.tsx'))
@@ -26,6 +27,7 @@ function Pagina() {
     return null
   }
   if (ruta === '/sellos/crear') return <Sellos />
+  if (ruta === '/vector/crear') return <Vector />
   if (ruta === '/calculadora') return <Calculadora />
   if (ruta === '/mis-llaveros') return <MisLlaveros />
   return <Inicio />

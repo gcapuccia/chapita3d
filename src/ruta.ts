@@ -7,6 +7,7 @@ export type Ruta =
   | '/llaveros/crear'
   | '/llaveros/descargar'
   | '/sellos/crear'
+  | '/vector/crear'
   | '/calculadora'
   | '/mis-llaveros'
 

@@ -306,7 +306,7 @@ export default function Inicio() {
             <h2 className={TITULO_SECCION}>{t.herramientas.titulo}</h2>
             <p className="text-base text-tiza-suave sm:text-lg">{t.herramientas.bajada}</p>
           </div>
-          <ul className="grid gap-4 sm:gap-6 lg:grid-cols-3">
+          <ul className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             {t.herramientas.lista.map((h) => {
               const ruta = APPS.find((a) => a.id === h.id)?.ruta
               return (

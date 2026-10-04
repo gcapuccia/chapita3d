@@ -9,6 +9,7 @@ import { crearDiseno, nombreDeColor } from '../diseno/crear.ts'
 import { agregarTexto } from '../diseno/texto.ts'
 import type { Diseno, Filamento } from '../diseno/tipos.ts'
 import type { NombrePreset } from '../pipeline/presets.ts'
+import type { RegionTrazada } from '../pipeline/tipos.ts'
 import { crearGeneracion } from '../workers/clientes.ts'
 import type { ApiGeometria } from '../workers/geometria.worker.ts'
 import type { ApiImagen, EtapaImagen } from '../workers/imagen.worker.ts'
@@ -259,6 +260,34 @@ export async function abrirProyecto(archivo: File): Promise<boolean> {
     set({ error: { codigo: 'proyecto-invalido', archivo: archivo.name } })
     return false
   }
+}
+
+/**
+ * Entra con un dibujo que ya viene convertido y limpiado en Vectorizar. Sin archivo: Fondo y
+ * Colores no pueden reprocesar (procesar() sale solo), que es lo que se busca — reprocesar
+ * perderia lo editado.
+ */
+export function usarDesdeEditor(
+  conversion: Conversion,
+  regiones: RegionTrazada[],
+  nombre: string,
+): void {
+  const anterior = get().diseno
+  set({
+    archivo: null,
+    conversion,
+    construccion: null,
+    grosorPorHex: {},
+    error: null,
+    diseno: crearDiseno(regiones, {
+      nombre,
+      id: anterior?.id ?? crypto.randomUUID(),
+      ahora: new Date().toISOString(),
+      appVersion: '0.1.0',
+    }),
+    procesando: { hito: 'llavero', desde: performance.now() },
+  })
+  reconstruir(0)
 }
 
 /** Carga un diseño ya armado (de un proyecto.json o de la cuenta) y lo reconstruye. */

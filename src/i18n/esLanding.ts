@@ -41,7 +41,7 @@ export const esLanding = {
 
   herramientas: {
     titulo: 'Las herramientas de la casa',
-    bajada: 'Tres, y todas gratis. La misma cuenta te sirve para las tres.',
+    bajada: 'Cuatro, y todas gratis. La misma cuenta te sirve para todas.',
     lista: [
       {
         id: 'llaveros',
@@ -49,6 +49,14 @@ export const esLanding = {
         texto: 'Tu logo o tu dibujo convertido en un llavero multicolor, listo para el AMS.',
         boton: 'Probar con mi imagen',
         figura: 'Un llavero hecho con esta herramienta',
+      },
+      {
+        id: 'vector',
+        nombre: 'Vectorizar',
+        texto:
+          'Le saca el fondo a una imagen y la convierte en formas. Después borrás a mano lo que sobró y te llevás el SVG.',
+        boton: 'Limpiar un dibujo',
+        figura: 'El editor con una parte del dibujo marcada para borrar',
       },
       {
         id: 'sellos',
@@ -184,7 +192,7 @@ export const esLanding = {
   },
 
   pie: {
-    descripcion: 'Herramientas para imprimir en 3D: llaveros, sellos y costos.',
+    descripcion: 'Herramientas para imprimir en 3D: llaveros, dibujos, sellos y costos.',
     enlaces: ['Privacidad', 'Términos', 'Contacto', 'Instagram'],
     lugar: 'Hecho en Argentina',
   },
