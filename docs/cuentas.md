@@ -1,7 +1,8 @@
 # Cuentas · cómo está armado y qué falta configurar
 
-**Fecha:** 2026-09-20 · Proyecto Supabase **chapita3d** (`cplgguhtibrshficpmki`, región San Pablo),
-organización TalentoAr, plan gratis (0 USD).
+**Fecha:** 2026-09-20 · Proyecto Supabase **chapita3d**, región San Pablo, organización TalentoAr,
+plan gratis (0 USD). La dirección del proyecto no va escrita acá: vive en `.env.local` y en las
+variables de entorno de Vercel, que es de donde la lee la app.
 
 ## Cómo funciona
 
@@ -30,7 +31,7 @@ suyo. `actualizado_en` lo pone un disparador, no el cliente.
 `.env.local` (no va al repo) y en Vercel, entorno Producción:
 
 ```
-VITE_SUPABASE_URL=https://cplgguhtibrshficpmki.supabase.co
+VITE_SUPABASE_URL=https://TU-PROYECTO.supabase.co
 VITE_SUPABASE_CLAVE=sb_publishable_…
 ```
 
