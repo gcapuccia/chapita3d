@@ -28,5 +28,17 @@ spikes/**/salida/
 
 .vercel
 
-# Variables de entorno locales
-.env.local
+# Secretos. El repo es publico: nada de esto se sube.
+# Se ignora TODO .env salvo el ejemplo con marcadores, asi un .env.produccion nuevo
+# queda afuera sin que nadie se tenga que acordar de agregarlo.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+credenciales*.json
+secretos*.json
+service-account*.json
