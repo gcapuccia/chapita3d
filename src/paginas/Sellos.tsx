@@ -36,7 +36,7 @@ const acomodar = (texto: string) =>
     .join('\n')
 
 /** Vista: el relieve va en lima y el hueco en gris, para no tener dos claros pegados. */
-const COLORES = ['#C6F24E', '#98A0AD']
+const COLORES = ['#B5D36A', '#98A0AD']
 
 /** Un deslizador con su número al lado. */
 function Deslizador({
@@ -135,7 +135,7 @@ export default function Sellos() {
 
         <aside className="flex flex-col gap-6 border-stone-200 bg-carbon p-5 pb-28 lg:overflow-y-auto lg:border-l lg:border-borde lg:pb-5">
           <div className="flex flex-col gap-1">
-            <h1 className="font-titulo text-2xl font-normal">{t.titulo}</h1>
+            <h1 className="font-titulo text-2xl font-extrabold tracking-tight">{t.titulo}</h1>
             <p className="text-sm leading-relaxed text-tiza-suave">{t.bajada}</p>
           </div>
 

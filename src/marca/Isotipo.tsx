@@ -8,8 +8,8 @@ import { useId } from 'react'
 
 type Variante = 'lima' | 'tiza' | 'oscuro'
 
-const CHAPA: Record<Variante, string> = { lima: '#C6F24E', tiza: '#F5F6F8', oscuro: '#14161A' }
-const LETRA: Record<Variante, string> = { lima: '#14161A', tiza: '#14161A', oscuro: '#C6F24E' }
+const CHAPA: Record<Variante, string> = { lima: '#B5D36A', tiza: '#EEF0F2', oscuro: '#15171B' }
+const LETRA: Record<Variante, string> = { lima: '#15171B', tiza: '#15171B', oscuro: '#B5D36A' }
 
 export default function Isotipo({
   tam = 34,

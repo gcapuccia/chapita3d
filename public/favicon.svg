@@ -4,5 +4,5 @@
     <rect width="120" height="120" fill="#fff"/>
     <circle cx="28" cy="27" r="9" fill="#000"/>
   </mask>
-  <rect x="6" y="6" width="108" height="108" rx="30" fill="#C6F24E" mask="url(#a)"/>
+  <rect x="6" y="6" width="108" height="108" rx="30" fill="#B5D36A" mask="url(#a)"/>
 </svg>

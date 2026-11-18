@@ -49,7 +49,7 @@ export default function MisLlaveros() {
       </header>
 
       <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-8 sm:px-8">
-        <h1 className="font-titulo text-[28px] font-normal sm:text-[38px]">
+        <h1 className="font-titulo text-[28px] font-extrabold tracking-tight sm:text-[38px]">
           {es.cuenta.misLlaveros}
         </h1>
 

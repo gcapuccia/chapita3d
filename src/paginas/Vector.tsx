@@ -151,7 +151,7 @@ export default function Vector() {
 
         <aside className="flex flex-col gap-6 border-borde bg-carbon p-5 pb-28 lg:overflow-y-auto lg:border-l lg:pb-5">
           <div className="flex flex-col gap-1">
-            <h1 className="font-titulo text-2xl font-normal">{t.titulo}</h1>
+            <h1 className="font-titulo text-2xl font-extrabold tracking-tight">{t.titulo}</h1>
             <p className="text-sm leading-relaxed text-tiza-suave">{t.bajada}</p>
           </div>
 

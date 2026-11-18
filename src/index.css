@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
-/* Tipografias empaquetadas (OFL): Nunito para todo, Lilita One para titulos cortos. */
+/* Tipografias empaquetadas (OFL): Nunito para todo, titulos incluidos. Lilita One queda solo para
+   las letras del isotipo: dos familias en la pagina la hacian ver cargada. */
 @import '@fontsource/nunito/latin-400.css';
 @import '@fontsource/nunito/latin-600.css';
 @import '@fontsource/nunito/latin-700.css';
@@ -9,30 +10,31 @@
 @import '@fontsource/lilita-one/latin-400.css';
 
 /*
- * Paleta "Modo taller" de la marca Chapita3d (diseño en docs/marca/diseno/Chapita3d.dc.html).
- * El lima es el unico color de marca: se usa para lo que hay que tocar y nada mas.
- * Los botones lima llevan texto carbon, nunca blanco.
+ * Paleta "Lima calmo" de la marca Chapita3d (2026-11-17). Es el "Modo taller" del diseño original
+ * (docs/marca/diseno/Chapita3d.dc.html) con el lima menos saturado: el #C6F24E de antes gritaba.
+ * El lima es el unico color de marca: se usa para lo que hay que tocar y nada mas, y un solo boton
+ * lima por pantalla. Los botones lima llevan texto lima-tinta, nunca blanco.
  */
 @theme {
-  --color-carbon: #14161a;
-  --color-grafito: #1e222a;
-  --color-borde: #2a2e36;
-  --color-borde-fuerte: #3a3f49;
-  --color-tiza: #f5f6f8;
-  --color-tiza-suave: #c3c8d2;
-  --color-tenue: #9aa1ae;
-  --color-lima: #c6f24e;
-  --color-lima-claro: #e3fa9b;
+  --color-carbon: #15171b;
+  --color-grafito: #1c1f25;
+  --color-borde: #262a31;
+  --color-borde-fuerte: #343943;
+  --color-tiza: #eef0f2;
+  --color-tiza-suave: #bcc1ca;
+  --color-tenue: #8f96a1;
+  --color-lima: #b5d36a;
+  --color-lima-claro: #dce9b8;
 
   /* Dentro de la app: el lienzo es mas oscuro que el fondo, y los avisos tienen su propio par */
-  --color-lienzo: #101317;
+  --color-lienzo: #111317;
   --color-aviso: #2a2312;
   --color-aviso-texto: #f5d08a;
   --color-alerta: #2c1618;
   --color-alerta-texto: #ffa9a9;
 
   --font-sans: Nunito, ui-sans-serif, system-ui, sans-serif;
-  --font-titulo: 'Lilita One', Nunito, ui-sans-serif, sans-serif;
+  --font-titulo: Nunito, ui-sans-serif, system-ui, sans-serif;
 }
 
 body {

@@ -147,7 +147,9 @@ export default function Calculadora() {
 
       <main className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6">
         <header className="flex flex-col gap-1">
-          <h1 className="font-titulo text-[28px] font-normal sm:text-[38px]">{t.nombre}</h1>
+          <h1 className="font-titulo text-[28px] font-extrabold tracking-tight sm:text-[38px]">
+            {t.nombre}
+          </h1>
           <p className="text-tiza-suave">{t.bajada}</p>
         </header>
 

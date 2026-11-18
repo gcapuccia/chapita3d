@@ -47,9 +47,10 @@ const BOTON_LIMA =
   'min-h-13 rounded-2xl bg-lima px-6 text-lg font-extrabold text-carbon transition-colors hover:bg-lima-claro'
 const BOTON_BORDE =
   'min-h-12 rounded-2xl border border-borde-fuerte px-6 text-[17px] font-bold text-tiza transition-colors hover:border-tiza'
-const BOTON_TIZA =
-  'min-h-11 rounded-xl bg-tiza px-5 font-bold text-carbon transition-colors hover:bg-white'
-const TITULO_SECCION = 'font-titulo text-[28px] font-normal tracking-[0.01em] sm:text-[38px]'
+// Secundario: blanco translucido, para que el unico boton que se destaque sea el lima
+const BOTON_SUAVE =
+  'min-h-11 rounded-xl bg-white/[0.07] px-5 font-bold text-tiza ring-1 ring-white/10 transition-colors hover:bg-white/[0.12]'
+const TITULO_SECCION = 'font-titulo text-[28px] font-extrabold tracking-tight sm:text-[38px]'
 
 export default function Inicio() {
   const error = useDocumento((s) => s.error)
@@ -112,7 +113,7 @@ export default function Inicio() {
             <button
               type="button"
               onClick={() => ir('/mis-llaveros')}
-              className={`${BOTON_TIZA} text-[15px] sm:text-base`}
+              className={`${BOTON_SUAVE} text-[15px] sm:text-base`}
             >
               {es.cuenta.misLlaveros}
             </button>
@@ -121,7 +122,10 @@ export default function Inicio() {
               <a href="#cuenta" className="min-h-11 content-center font-bold text-tiza">
                 {t.barra.entrar}
               </a>
-              <a href="#cuenta" className={`${BOTON_TIZA} content-center text-[15px] sm:text-base`}>
+              <a
+                href="#cuenta"
+                className={`${BOTON_SUAVE} content-center text-[15px] sm:text-base`}
+              >
                 {t.barra.crearCuenta}
               </a>
             </>
@@ -187,7 +191,7 @@ export default function Inicio() {
         <section className="px-4 pb-14 sm:px-8 lg:pb-18">
           <div className="flex flex-col gap-5 rounded-3xl border border-borde bg-grafito p-5 sm:p-9">
             <div className="flex flex-col gap-1.5">
-              <h2 className="font-titulo text-2xl font-normal tracking-[0.01em] sm:text-[32px]">
+              <h2 className="font-titulo text-2xl font-extrabold tracking-tight sm:text-[32px]">
                 {t.pruebaEnVivo.titulo}
               </h2>
               <p className="text-base text-tiza-suave sm:text-lg">{t.pruebaEnVivo.bajada}</p>
@@ -235,7 +239,7 @@ export default function Inicio() {
                     e.stopPropagation()
                     camara.current?.click()
                   }}
-                  className={`${BOTON_TIZA} w-full sm:hidden`}
+                  className={`${BOTON_SUAVE} w-full sm:hidden`}
                 >
                   {t.pruebaEnVivo.sacarFoto}
                 </button>
@@ -249,7 +253,7 @@ export default function Inicio() {
                 >
                   {t.pruebaEnVivo.galeria}
                 </button>
-                <span className={`${BOTON_TIZA} hidden content-center sm:inline-block`}>
+                <span className={`${BOTON_SUAVE} hidden content-center sm:inline-block`}>
                   {t.pruebaEnVivo.elegir}
                 </span>
               </div>
@@ -328,7 +332,7 @@ export default function Inicio() {
                     onClick={() =>
                       h.id === 'llaveros' ? selector.current?.click() : ruta && ir(ruta)
                     }
-                    className={`${BOTON_TIZA} w-full`}
+                    className={`${BOTON_SUAVE} w-full`}
                   >
                     {h.boton}
                   </button>
@@ -421,7 +425,7 @@ export default function Inicio() {
               viewBox="0 0 24 24"
               className="size-8 flex-none sm:size-[34px]"
               fill="none"
-              stroke="#C6F24E"
+              stroke="#B5D36A"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -443,7 +447,7 @@ export default function Inicio() {
         <section id="cuenta" className="scroll-mt-20 px-4 pb-12 sm:px-8 sm:pb-20">
           <div className="grid items-center gap-8 rounded-3xl border border-borde bg-grafito p-5 sm:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:gap-12">
             <div className="flex flex-col gap-4">
-              <h2 className="font-titulo text-2xl font-normal tracking-[0.01em] sm:text-[36px]">
+              <h2 className="font-titulo text-2xl font-extrabold tracking-tight sm:text-[36px]">
                 {t.cuenta.titulo}
               </h2>
               <ul className="flex flex-col gap-2.5">
