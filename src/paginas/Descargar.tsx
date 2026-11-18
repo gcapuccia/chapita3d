@@ -34,6 +34,8 @@ export default function Descargar() {
     }
   }, [diseno])
 
+  const esNombre = diseno?.producto === 'nombre'
+  const volver = () => (esNombre ? ir('/nombres/crear') : ir('/llaveros/crear', 'llavero'))
   const r = armado?.resultado
   const colores = useMemo(() => (r ? coloresDePiezas(r) : []), [r])
   if (!diseno) return null
@@ -47,11 +49,8 @@ export default function Descargar() {
   return (
     <div className="min-h-svh">
       <Encabezado
-        accion={
-          <BotonSecundario onClick={() => ir('/llaveros/crear', 'llavero')}>
-            ← {es.descargar.volver}
-          </BotonSecundario>
-        }
+        appActual={esNombre ? 'nombres' : 'llaveros'}
+        accion={<BotonSecundario onClick={volver}>← {es.descargar.volver}</BotonSecundario>}
       />
       <div className="mx-auto flex max-w-3xl flex-col gap-6 px-5 py-6">
         {!r ? (
@@ -230,7 +229,8 @@ export default function Descargar() {
               <BotonSecundario
                 onClick={() => {
                   empezarDeNuevo()
-                  ir('/')
+                  // Otro nombre se empieza en la misma pantalla; otro dibujo, desde la portada
+                  ir(esNombre ? '/nombres/crear' : '/')
                 }}
               >
                 {es.descargar.otro}
@@ -265,11 +265,7 @@ export default function Descargar() {
             </div>
           </>
         )}
-        {!r && (
-          <BotonPrimario onClick={() => ir('/llaveros/crear', 'llavero')}>
-            {es.descargar.volver}
-          </BotonPrimario>
-        )}
+        {!r && <BotonPrimario onClick={volver}>{es.descargar.volver}</BotonPrimario>}
       </div>
     </div>
   )

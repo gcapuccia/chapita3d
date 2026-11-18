@@ -25,8 +25,9 @@ export function cuerpoDelLlavero(
   contorno: Diseno['contorno'],
   argolla: Diseno['argolla'],
 ): CuerpoDelLlavero {
-  const conBorde =
+  let conBorde =
     contorno.activo && contorno.offset > 0 ? silueta.offset(contorno.offset, 'Round') : silueta
+  if (contorno.unir) conBorde = unirPartes(m, silueta, conBorde, contorno.offset)
   if (argolla.tipo === 'sin') return { cuerpo: conBorde, cuerpoRelleno: conBorde, agujero: null }
 
   const radio = D.DIAMETRO_AGUJERO[argolla.tipo] / 2
@@ -35,7 +36,18 @@ export function cuerpoDelLlavero(
 
   let cx: number
   let cy: number
-  if (argolla.posicion === 'auto') {
+  if (argolla.posicion === 'izquierda') {
+    // A media altura; el borde se mide en ESA fila (una "J" o una "T" no llegan al costado)
+    cy = (caja.min[1] + caja.max[1]) / 2
+    const fila = conBorde.intersect(
+      m.CrossSection.square([caja.max[0] - caja.min[0] + 2, 0.5]).translate([
+        caja.min[0] - 1,
+        cy - 0.25,
+      ]),
+    )
+    const izquierda = fila.isEmpty() ? caja.min[0] : fila.bounds().min[0]
+    cx = izquierda - radioPestana + D.SOLAPE_PESTANA
+  } else if (argolla.posicion === 'auto') {
     // Borde superior, centrado en X; la altura se mide en ESA columna (en un corazon el centro esta hundido)
     cx = (caja.min[0] + caja.max[0]) / 2
     const columna = conBorde.intersect(
@@ -59,4 +71,24 @@ export function cuerpoDelLlavero(
   const cuerpo = cuerpoRelleno.subtract(m.CrossSection.circle(radio, 96).translate([cx, cy]))
 
   return { cuerpo, cuerpoRelleno, agujero: { cx, cy, radio } }
+}
+
+/**
+ * Un nombre con letras separadas (dos palabras, o una fuente con mucho aire) deja el borde en
+ * varias partes, y cada una saldria de la impresora suelta. Si pasa, una franja a media altura de
+ * punta a punta las une. Si el borde ya es una sola pieza no se toca: se ve mas lindo sin franja.
+ */
+function unirPartes(
+  m: ManifoldToplevel,
+  silueta: CrossSection,
+  conBorde: CrossSection,
+  offset: number,
+): CrossSection {
+  if (conBorde.decompose().length <= 1) return conBorde
+  const caja = silueta.bounds()
+  const alto = Math.max(1, (caja.max[1] - caja.min[1]) * D.FRANJA_NOMBRE)
+  const franja = m.CrossSection.square([caja.max[0] - caja.min[0], alto])
+    .translate([caja.min[0], (caja.min[1] + caja.max[1]) / 2 - alto / 2])
+    .offset(Math.max(offset, 0.5), 'Round')
+  return m.CrossSection.union([conBorde, franja])
 }

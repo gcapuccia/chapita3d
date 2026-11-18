@@ -26,7 +26,8 @@ export default function MisLlaveros() {
     const d = await traerDiseno(id)
     if (d) {
       usarDiseno(d)
-      ir('/llaveros/crear', 'llavero')
+      if (d.producto === 'nombre') ir('/nombres/crear')
+      else ir('/llaveros/crear', 'llavero')
     }
   }
 

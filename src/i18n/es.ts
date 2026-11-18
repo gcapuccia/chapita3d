@@ -139,6 +139,24 @@ export const es = {
     listo: 'Descargar mi llavero',
   },
 
+  nombres: {
+    titulo: 'Llavero con nombre',
+    bajada: 'Escribí un nombre, elegí la letra y los colores. Sin imagen.',
+    nombre: 'Nombre',
+    placeholder: 'Escribí un nombre',
+    ejemplo: 'Sofía',
+    vacio: 'Escribí al menos una letra: mientras tanto queda el último nombre.',
+    letra: 'Letra',
+    tamano: 'Tamaño de letra',
+    medidas: (x: number, y: number) => `Queda de ${mm(x)} × ${mm(y)} mm`,
+    largo: 'Es largo para un llavero: probá con una letra más chica o más angosta.',
+    colorLetras: 'Color de las letras',
+    colorBase: 'Color de la base',
+    argolla: 'Argolla',
+    argollas: { izquierda: 'A la izquierda', arriba: 'Arriba', sin: 'Sin argolla' },
+    listo: 'Descargar mi llavero',
+  },
+
   avisos: {
     titulo: (n: number) => (n === 1 ? '1 aviso' : `${n} avisos`),
     bloqueante: 'Hay que arreglar esto antes de descargar.',
@@ -222,6 +240,7 @@ export const es = {
 
   marco: {
     llaveros: 'Llaveros',
+    nombres: 'Nombres',
     vector: 'Vectorizar',
     calculadora: 'Calculadora',
     sellos: 'Sellos',

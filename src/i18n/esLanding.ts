@@ -41,7 +41,7 @@ export const esLanding = {
 
   herramientas: {
     titulo: 'Las herramientas de la casa',
-    bajada: 'Cuatro, y todas gratis. La misma cuenta te sirve para todas.',
+    bajada: 'Cinco, y todas gratis. La misma cuenta te sirve para todas.',
     lista: [
       {
         id: 'llaveros',
@@ -51,12 +51,20 @@ export const esLanding = {
         figura: 'Un llavero hecho con esta herramienta',
       },
       {
+        id: 'nombres',
+        nombre: 'Llavero con nombre',
+        texto:
+          'Escribís un nombre y elegís la letra y los dos colores. Las letras salen unidas y con la argolla al costado.',
+        boton: 'Escribir un nombre',
+        figura: 'Un llavero con un nombre escrito',
+      },
+      {
         id: 'vector',
         nombre: 'Vectorizar',
         texto:
           'Le saca el fondo a una imagen y la convierte en formas. Después borrás a mano lo que sobró y te llevás el SVG.',
         boton: 'Limpiar un dibujo',
-        figura: 'El editor con una parte del dibujo marcada para borrar',
+        figura: 'Un logo ya convertido en formas, en el editor',
       },
       {
         id: 'sellos',

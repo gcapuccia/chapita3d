@@ -7,6 +7,7 @@ import { ir, useRuta, type Ruta } from './ruta.ts'
 // que la landing precarga apenas se muestra.
 const Crear = lazy(() => import('./paginas/Crear.tsx'))
 const Descargar = lazy(() => import('./paginas/Descargar.tsx'))
+const Nombres = lazy(() => import('./paginas/Nombres.tsx'))
 const MisLlaveros = lazy(() => import('./paginas/MisLlaveros.tsx'))
 const Calculadora = lazy(() => import('./paginas/Calculadora.tsx'))
 const Sellos = lazy(() => import('./paginas/Sellos.tsx'))
@@ -26,6 +27,7 @@ function Pagina() {
     ir(('/llaveros' + ruta) as Ruta, hash)
     return null
   }
+  if (ruta === '/nombres/crear') return <Nombres />
   if (ruta === '/sellos/crear') return <Sellos />
   if (ruta === '/vector/crear') return <Vector />
   if (ruta === '/calculadora') return <Calculadora />

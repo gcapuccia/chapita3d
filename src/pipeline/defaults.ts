@@ -123,6 +123,18 @@ export const ESPESOR = { delgado: 1.6, estandar: 3.0, reforzado: 4.0 } as const
 export const OFFSET_CONTORNO = 1.5
 
 /**
+ * mm. Borde alrededor de un nombre. Mas ancho que el del dibujo para que las letras queden unidas
+ * entre si: el espacio entre dos letras de palo ronda 1 a 2 mm con letra de 14 mm.
+ */
+export const OFFSET_CONTORNO_NOMBRE = 2.5
+
+/** mm. Tamaño de fuente (em) con que nace un llavero de nombre: las mayusculas miden ~10 mm. */
+export const TAMANO_NOMBRE_MM = 14
+
+/** Alto de la franja que une las partes sueltas de un nombre, sobre el alto de las letras. */
+export const FRANJA_NOMBRE = 0.3
+
+/**
  * mm. Diametro del agujero por tipo de argolla: nominal + 0,2 de compensacion.
  * Fuente: audit-02 §6.4 y plan §9.5.
  */

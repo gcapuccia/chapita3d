@@ -43,6 +43,12 @@ export type Pieza = {
 
 export type TipoArgolla = 'bola' | 'comun' | 'gruesa' | 'sin'
 
+/** auto: arriba al centro (un dibujo). izquierda: a media altura (un nombre, que es ancho). */
+export type PosicionArgolla = 'auto' | 'izquierda' | [number, number]
+
+/** De que pantalla salio el diseño: decide a donde se vuelve. Sin campo, un llavero desde imagen. */
+export type Producto = 'nombre'
+
 export type Diseno = {
   version: 1
   id: string
@@ -60,8 +66,15 @@ export type Diseno = {
     impresoraId: string
   }
   cuerpo: { espesor: number; alturaColor: number }
-  contorno: { activo: boolean; offset: number; filamentoId: string }
-  argolla: { tipo: TipoArgolla; posicion: 'auto' | [number, number] }
+  contorno: {
+    activo: boolean
+    offset: number
+    filamentoId: string
+    /** Si el borde queda en varias partes (letras sueltas), una franja las une en un solo cuerpo. */
+    unir?: boolean
+  }
+  argolla: { tipo: TipoArgolla; posicion: PosicionArgolla }
+  producto?: Producto
   filamentos: Filamento[]
   piezas: Pieza[]
   imagenOrigen?: { assetId: string; parametros: Record<string, unknown> }
