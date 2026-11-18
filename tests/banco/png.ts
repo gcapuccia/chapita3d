@@ -1,6 +1,6 @@
-// Escritor PNG minimo (RGBA 8 bits, sin filtros) para poder mirar el banco. Sin dependencias.
+// PNG minimo (escribe RGBA 8 bits sin filtros, lee RGB y RGBA) para poder mirar el banco. Sin dependencias.
 
-import { deflateSync } from 'node:zlib'
+import { deflateSync, inflateSync } from 'node:zlib'
 import type { ImagenRGBA } from '../../src/pipeline/tipos.ts'
 
 const TABLA = new Int32Array(256).map((_, n) => {
@@ -42,4 +42,59 @@ export function escribirPng(img: ImagenRGBA): Buffer {
     bloque('IDAT', deflateSync(filas, { level: 9 })),
     bloque('IEND', new Uint8Array()),
   ])
+}
+
+/** Lee un PNG de 8 bits RGB o RGBA sin entrelazar: alcanza para las imagenes de prueba del repo. */
+export function leerPng(archivo: Buffer): ImagenRGBA {
+  const idat: Buffer[] = []
+  let [ancho, alto, canales] = [0, 0, 0]
+  for (let p = 8; p < archivo.length;) {
+    const largo = archivo.readUInt32BE(p)
+    const tipo = archivo.toString('ascii', p + 4, p + 8)
+    const datos = archivo.subarray(p + 8, p + 8 + largo)
+    if (tipo === 'IHDR') {
+      ancho = datos.readUInt32BE(0)
+      alto = datos.readUInt32BE(4)
+      if (datos[8] !== 8 || (datos[9] !== 2 && datos[9] !== 6) || datos[12] !== 0)
+        throw new Error('PNG no soportado')
+      canales = datos[9] === 6 ? 4 : 3
+    }
+    if (tipo === 'IDAT') idat.push(datos)
+    p += 12 + largo
+  }
+  const crudo = inflateSync(Buffer.concat(idat))
+  const paso = ancho * canales
+  const pixeles = new Uint8ClampedArray(ancho * alto * 4)
+  let previa = new Uint8Array(paso)
+  for (let y = 0; y < alto; y++) {
+    const inicio = y * (paso + 1)
+    const filtro = crudo[inicio]!
+    const fila = new Uint8Array(paso)
+    for (let x = 0; x < paso; x++) {
+      const a = x >= canales ? fila[x - canales]! : 0
+      const b = previa[x]!
+      const c = x >= canales ? previa[x - canales]! : 0
+      const predicho = [
+        0,
+        a,
+        b,
+        (a + b) >> 1,
+        Math.abs(b - c) <= Math.abs(a - c) && Math.abs(b - c) <= Math.abs(a + b - 2 * c)
+          ? a
+          : Math.abs(a - c) <= Math.abs(a + b - 2 * c)
+            ? b
+            : c,
+      ][filtro]!
+      fila[x] = crudo[inicio + 1 + x]! + predicho
+    }
+    for (let x = 0; x < ancho; x++) {
+      const i = (y * ancho + x) * 4
+      pixeles[i] = fila[x * canales]!
+      pixeles[i + 1] = fila[x * canales + 1]!
+      pixeles[i + 2] = fila[x * canales + 2]!
+      pixeles[i + 3] = canales === 4 ? fila[x * canales + 3]! : 255
+    }
+    previa = fila
+  }
+  return { ancho, alto, pixeles }
 }

@@ -316,6 +316,9 @@ function medirLineas(
   return { px, largoMm: largo * p.mmPorPixel, mascara, esqueleto: esqueletoOk }
 }
 
+/** Fraccion del borde de una linea contra el fondo a partir de la cual esta suelta: no puede ser halo. */
+const FRACCION_SUELTA = 0.9
+
 const d3 = (a: ArrayLike<number>, ao: number, b: ArrayLike<number>, bo: number) =>
   Math.hypot(a[ao]! - b[bo]!, a[ao + 1]! - b[bo + 1]!, a[ao + 2]! - b[bo + 2]!)
 
@@ -328,11 +331,6 @@ function esHalo(
 ): boolean {
   const { lab, fondoLab } = p.guardaHalo!
   const propio = p.paleta[color]!.oklab
-  // 1 · Nucleo: alguna parte de la linea tiene de verdad el color de su etiqueta
-  let nucleo = 0
-  for (const i of miembros) if (d3(lab, i * 3, propio, 0) < 0.06) nucleo++
-  if (nucleo < Math.max(2, miembros.length * 0.1)) return true
-  // 2 · Entre vecinos: el color queda en el segmento entre los dos vecinos mas frecuentes
   const cuenta = new Map<number, number>()
   let total = 0
   const n = antes.length
@@ -346,6 +344,16 @@ function esHalo(
       total++
     }
   }
+  // 1 · Nucleo: alguna parte de la linea tiene de verdad el color de su etiqueta. Un trazo que cae
+  // entre dos pixeles no llega nunca a ese color, pero tampoco es halo si esta suelto sobre el fondo:
+  // un halo siempre va pegado a otra forma (medido: la T de "TIENDA" en La Ronda, nucleo 14 de 267)
+  let nucleo = 0
+  for (const i of miembros) if (d3(lab, i * 3, propio, 0) < 0.06) nucleo++
+  if (nucleo < Math.max(2, miembros.length * 0.1)) {
+    const contraFondo = cuenta.get(FONDO) ?? 0
+    if (contraFondo < total * FRACCION_SUELTA) return true
+  }
+  // 2 · Entre vecinos: el color queda en el segmento entre los dos vecinos mas frecuentes
   const orden = [...cuenta.entries()].sort((a, b) => b[1] - a[1])
   if (orden.length < 2 || orden[1]![1] < total * 0.15) return false
   const colorDe = (e: number) => (e >= 254 ? fondoLab : (p.paleta[e]?.oklab ?? null))

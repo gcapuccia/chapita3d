@@ -1,11 +1,13 @@
 // Arreglos de F2 portados desde spikes/08-arreglos: fondo encerrado, engrosar lineas, caja sin
 // motas y polaridad de Silueta. Imagenes chicas dibujadas aca: cada test aisla un arreglo.
 
+import { readFileSync } from 'node:fs'
 import { describe, expect, test } from 'vitest'
 import { cajaSinMotas, tintaClara } from '../src/pipeline/fondo.ts'
 import { convertir, convertirAutomatico, paramsPorDefecto } from '../src/pipeline/index.ts'
 import { encerrados, esqueleto } from '../src/pipeline/morfologia.ts'
 import { FONDO, type ImagenRGBA } from '../src/pipeline/tipos.ts'
+import { leerPng } from './banco/png.ts'
 
 type RGB = [number, number, number]
 
@@ -119,6 +121,19 @@ describe('engrosar lineas', () => {
     let ancha = 0
     for (let y = 0; y < alto / 3; y++) if (etiquetas[y * ancho + x] !== FONDO) ancha++
     expect(ancha * mmPorPixel).toBeGreaterThanOrEqual(0.8)
+  })
+
+  test('una letra suelta que no llega al color de la paleta no se confunde con un halo', () => {
+    // La T de "TIENDA" en el logo de la portada: el trazo cae entre dos pixeles y queda mas claro que
+    // la tinta. Antes de arreglar la guarda anti-halo se borraba y el llavero decia "IENDA".
+    const logo = leerPng(readFileSync('public/marca/hero-antes.png'))
+    const r = convertir(logo, paramsPorDefecto('dibujo'))
+    const { etiquetas, ancho } = r.diagnostico
+    const tinta = r.paleta.findIndex((c) => c.hex === '#585858')
+    let letra = 0
+    for (let y = 389; y <= 418; y++)
+      for (let x = 184; x <= 209; x++) if (etiquetas[y * ancho + x] === tinta) letra++
+    expect(letra).toBeGreaterThan(200)
   })
 
   test('con grosor null las lineas finas se borran (comportamiento anterior)', () => {
