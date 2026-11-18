@@ -12,6 +12,15 @@ import type { SimplePolygon } from '../geometria/manifold.ts'
 import { empaquetarSello } from '../export/paqueteSello.ts'
 import { sello, type ParamsSello } from '../sellos/placas.ts'
 import type { ParamsBisagra } from '../sellos/bisagra.ts'
+import { cortante, type ParamsCortante, type RegionCortante } from '../cortantes/cortante.ts'
+import { empaquetarCortante } from '../export/paqueteCortante.ts'
+
+/** Lo que hace falta para armar un cortante: el dibujo por color, en mm, y las medidas. */
+export type PedidoCortante = {
+  nombre: string
+  regiones: RegionCortante[]
+  params: ParamsCortante
+}
 
 /** Lo que hace falta para armar un sello: el dibujo (contornos o texto) y las medidas. */
 export type PedidoSello = {
@@ -131,6 +140,33 @@ const api = {
       p.vertices.buffer,
       p.indices.buffer,
     ])
+    if (paquete) buffers.push(paquete.zip.buffer)
+    return Comlink.transfer({ resultado, paquete, msConstruir }, buffers as ArrayBuffer[])
+  },
+
+  /** El cortante de galletitas y su marcador, y el ZIP si se pide. */
+  async construirCortante(pedido: PedidoCortante, fecha: string, conZip = true) {
+    await cargarManifold()
+    const t0 = performance.now()
+    const resultado = withScope((m) => {
+      const c = cortante(m, pedido.regiones, pedido.params)
+      return {
+        cortante: aPiezaExport(c.cortante, 'cortante', 1),
+        marcador: c.marcador ? aPiezaExport(c.marcador, 'marcador', 1) : null,
+        alLado: c.alLado,
+        medidas: c.medidas,
+        galletitaMm: c.galletitaMm,
+        galletita: c.galletita,
+        avisos: c.avisos,
+      }
+    })
+    const msConstruir = performance.now() - t0
+    const paquete = conZip
+      ? empaquetarCortante(resultado, pedido.nombre, pedido.params.marcado, fecha)
+      : null
+    const buffers = [resultado.cortante, resultado.marcador].flatMap((p) =>
+      p ? [p.vertices.buffer, p.indices.buffer] : [],
+    )
     if (paquete) buffers.push(paquete.zip.buffer)
     return Comlink.transfer({ resultado, paquete, msConstruir }, buffers as ArrayBuffer[])
   },

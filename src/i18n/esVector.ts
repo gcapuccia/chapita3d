@@ -46,6 +46,8 @@ export const esVector = {
     seguir: '¿Lo seguimos acá?',
     enLlavero: 'Usar en el llavero',
     enSello: 'Usar en el sello',
+    enCortante: 'Usar en el cortante',
+    volverCortante: 'Volver al cortante con esto',
     enSelloAyuda:
       'El sello gofra la silueta de todo lo que haya quedado. Si querés solo las líneas, borrá el relleno antes de mandarlo.',
     cerrar: 'Ahora no',

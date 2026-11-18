@@ -41,7 +41,7 @@ export const esLanding = {
 
   herramientas: {
     titulo: 'Las herramientas de la casa',
-    bajada: 'Cinco, y todas gratis. La misma cuenta te sirve para todas.',
+    bajada: 'Seis, y todas gratis. La misma cuenta te sirve para todas.',
     lista: [
       {
         id: 'llaveros',
@@ -74,6 +74,14 @@ export const esLanding = {
           'Dos placas con bisagra que se imprime armada. Lo cerrás como un libro y el dibujo queda marcado en el papel.',
         boton: 'Armar un sello',
         figura: 'Un sello abierto, con el relieve y su hueco',
+      },
+      {
+        id: 'cortantes',
+        nombre: 'Cortantes de galletitas',
+        texto:
+          'Tu dibujo convertido en un cortante, con un marcador que deja los detalles hundidos en la masa.',
+        boton: 'Armar un cortante',
+        figura: 'Un cortante con forma de gato y su marcador',
       },
       {
         id: 'calculadora',
@@ -201,7 +209,7 @@ export const esLanding = {
   },
 
   pie: {
-    descripcion: 'Herramientas para imprimir en 3D: llaveros, dibujos, sellos y costos.',
+    descripcion: 'Herramientas para imprimir en 3D: llaveros, dibujos, sellos, cortantes y costos.',
     enlaces: ['Privacidad', 'Términos', 'Contacto', 'Instagram'],
     lugar: 'Hecho en Argentina',
   },

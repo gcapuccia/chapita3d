@@ -51,6 +51,8 @@ type Estado = {
   trazando: boolean
   /** Ya se bajo el SVG: se ofrece seguir en otra app. Vive aca para sobrevivir a irse y volver. */
   ofrecido: boolean
+  /** Si se vino a limpiar desde otra app: se ofrece volver directo, sin bajar el SVG. */
+  origen: 'cortante' | null
   error: ErrorVector | null
 }
 
@@ -70,6 +72,7 @@ export const useVector = create<Estado>(() => ({
   procesando: false,
   trazando: false,
   ofrecido: false,
+  origen: null,
   error: null,
 }))
 
@@ -185,8 +188,16 @@ export function elegirArchivo(archivo: File): boolean {
     historial: [],
     futuro: [],
     ofrecido: false,
+    origen: null,
   })
   void procesar()
+  return true
+}
+
+/** Abre la imagen para limpiarla y volver despues a la app de la que se vino. */
+export function limpiarPara(origen: 'cortante', archivo: File): boolean {
+  if (!elegirArchivo(archivo)) return false
+  set({ origen })
   return true
 }
 

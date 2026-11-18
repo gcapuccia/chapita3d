@@ -6,6 +6,7 @@
 import { useEffect, useRef } from 'react'
 import { BotonPrimario, BotonSecundario, Grupo, Opciones } from '../crear/controles.tsx'
 import { bajarArchivo } from '../crear/util.ts'
+import { ponerRegiones } from '../estado/cortante.ts'
 import { usarDesdeEditor } from '../estado/documento.ts'
 import { ponerContornos } from '../estado/sello.ts'
 import {
@@ -56,6 +57,7 @@ export default function Vector() {
     futuro,
     procesando,
     ofrecido,
+    origen,
     error,
   } = useVector()
 
@@ -103,6 +105,12 @@ export default function Vector() {
       silueta.flatMap((r) => r.contornos),
     )
     ir('/sellos/crear')
+  }
+
+  const alCortante = () => {
+    if (!conversion || !regiones.length) return
+    ponerRegiones(nombre, regiones, conversion.diagnostico.mmPorPixel)
+    ir('/cortantes/crear')
   }
 
   return (
@@ -298,6 +306,11 @@ export default function Vector() {
                 <p className="text-sm text-tiza-suave">
                   {t.salida.medidas(anchoMm, altoMm)} · {t.salida.formas(regiones.length)}
                 </p>
+                {origen === 'cortante' && (
+                  <BotonPrimario onClick={alCortante} disabled={!regiones.length}>
+                    {t.salida.volverCortante}
+                  </BotonPrimario>
+                )}
                 {ofrecido ? (
                   <div className="flex flex-col gap-2 rounded-xl border border-borde bg-grafito p-3">
                     <p className="text-sm font-bold">{t.salida.bajado}</p>
@@ -310,6 +323,13 @@ export default function Vector() {
                         className="min-h-11 rounded-lg border border-borde-fuerte px-4 text-sm font-bold text-tiza"
                       >
                         {t.salida.enSello}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={alCortante}
+                        className="min-h-11 rounded-lg border border-borde-fuerte px-4 text-sm font-bold text-tiza"
+                      >
+                        {t.salida.enCortante}
                       </button>
                       <BotonSecundario onClick={() => ofrecerSeguir(false)}>
                         {t.salida.cerrar}

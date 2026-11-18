@@ -16,5 +16,6 @@ export const APPS: App[] = [
   { id: 'nombres', nombre: es.marco.nombres, ruta: '/nombres/crear' },
   { id: 'vector', nombre: es.marco.vector, ruta: '/vector/crear' },
   { id: 'sellos', nombre: es.marco.sellos, ruta: '/sellos/crear' },
+  { id: 'cortantes', nombre: es.marco.cortantes, ruta: '/cortantes/crear' },
   { id: 'calculadora', nombre: es.marco.calculadora, ruta: '/calculadora' },
 ]

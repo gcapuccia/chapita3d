@@ -2,7 +2,7 @@
 // grilla que los llaveros. La geometria la arma el worker; acá solo se piden los cambios.
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { BotonPrimario, Grupo, Opciones } from '../crear/controles.tsx'
+import { BotonPrimario, Deslizador, Grupo, Opciones } from '../crear/controles.tsx'
 import { bajarArchivo } from '../crear/util.ts'
 import Vista3D from '../crear/Vista3D.tsx'
 import { FUENTES, type IdFuente } from '../datos/fuentes.ts'
@@ -37,48 +37,6 @@ const acomodar = (texto: string) =>
 
 /** Vista: el relieve va en lima y el hueco en gris, para no tener dos claros pegados. */
 const COLORES = ['#B5D36A', '#98A0AD']
-
-/** Un deslizador con su número al lado. */
-function Deslizador({
-  etiqueta,
-  valor,
-  min,
-  max,
-  paso = 0.1,
-  unidad = 'mm',
-  ayuda,
-  alCambiar,
-}: {
-  etiqueta: string
-  valor: number
-  min: number
-  max: number
-  paso?: number
-  unidad?: string
-  ayuda?: string
-  alCambiar: (n: number) => void
-}) {
-  return (
-    <Grupo titulo={etiqueta}>
-      <div className="flex items-center gap-3">
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={paso}
-          value={valor}
-          onChange={(e) => alCambiar(Number(e.target.value))}
-          className="h-11 flex-1 accent-lima"
-          aria-label={etiqueta}
-        />
-        <span className="w-20 text-right text-sm font-semibold tabular-nums">
-          {String(Math.round(valor * 100) / 100).replace('.', ',')} {unidad}
-        </span>
-      </div>
-      {ayuda && <p className="text-xs leading-relaxed text-tenue">{ayuda}</p>}
-    </Grupo>
-  )
-}
 
 export default function Sellos() {
   const { dibujo, params, bisagra, construccion, construyendo, error } = useSello()

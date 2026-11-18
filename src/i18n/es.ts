@@ -269,6 +269,7 @@ export const es = {
     vector: 'Vectorizar',
     calculadora: 'Calculadora',
     sellos: 'Sellos',
+    cortantes: 'Cortantes',
     acaEstas: 'acá estás',
     masApps: 'Más herramientas',
     pronto: 'pronto',

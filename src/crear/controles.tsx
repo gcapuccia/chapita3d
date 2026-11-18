@@ -103,3 +103,45 @@ export function BotonSecundario({
     </button>
   )
 }
+
+/** Un deslizador con su número al lado. */
+export function Deslizador({
+  etiqueta,
+  valor,
+  min,
+  max,
+  paso = 0.1,
+  unidad = 'mm',
+  ayuda,
+  alCambiar,
+}: {
+  etiqueta: string
+  valor: number
+  min: number
+  max: number
+  paso?: number
+  unidad?: string
+  ayuda?: string
+  alCambiar: (n: number) => void
+}) {
+  return (
+    <Grupo titulo={etiqueta}>
+      <div className="flex items-center gap-3">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={paso}
+          value={valor}
+          onChange={(e) => alCambiar(Number(e.target.value))}
+          className="h-11 flex-1 accent-lima"
+          aria-label={etiqueta}
+        />
+        <span className="w-20 text-right text-sm font-semibold tabular-nums">
+          {String(Math.round(valor * 100) / 100).replace('.', ',')} {unidad}
+        </span>
+      </div>
+      {ayuda && <p className="text-xs leading-relaxed text-tenue">{ayuda}</p>}
+    </Grupo>
+  )
+}
