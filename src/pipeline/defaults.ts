@@ -122,6 +122,34 @@ export const ESPESOR = { delgado: 1.6, estandar: 3.0, reforzado: 4.0 } as const
 /** mm. Borde alrededor del dibujo. Fuente: audit-02 §6.2 (corrige el 2,0 de audit-01 §6.4). */
 export const OFFSET_CONTORNO = 1.5
 
+// Iman de heladera: un hueco abierto en la cara de abajo, donde se pega un iman de disco.
+// ---------------------------------------------------------------------------------------
+
+/** Imanes de neodimio de disco [diametro, alto] en mm: las medidas mas comunes en venta. */
+export const IMANES = [
+  [8, 2],
+  [10, 2],
+  [12, 3],
+  [15, 3],
+] as const
+
+export const IMAN_POR_DEFECTO = { diametro: 10, alto: 2 } as const
+
+/** mm sobre el diametro. Los agujeros FDM salen mas chicos: con esto el iman entra a mano y se pega. */
+export const HOLGURA_IMAN_MM = 0.4
+
+/** mm de material entre el hueco y el borde de la pieza. */
+export const PARED_IMAN_MM = 1.2
+
+/**
+ * mm arriba del hueco: 4 capas, la primera como puente sobre el vacio. Con 0,8 un iman de 10 × 2
+ * entra en el espesor estandar (3 mm) y uno de 12 × 3 o 15 × 3 en el reforzado (4 mm).
+ */
+export const TECHO_IMAN_MM = 0.8
+
+/** mm. Chaflan a 45° en la boca del hueco: la primera capa sale aplastada y achicaria la entrada. */
+export const CHAFLAN_IMAN_MM = 0.4
+
 /**
  * mm. Borde alrededor de un nombre. Mas ancho que el del dibujo para que las letras queden unidas
  * entre si: el espacio entre dos letras de palo ronda 1 a 2 mm con letra de 14 mm.

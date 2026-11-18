@@ -18,6 +18,7 @@ export type CodigoAviso =
   | 'mas-colores-que-slots'
   | 'altura-redondeada'
   | 'texto-ilegible'
+  | 'espesor-del-iman'
 
 export type Aviso = {
   codigo: CodigoAviso

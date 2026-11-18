@@ -15,7 +15,7 @@ export function escribirInstrucciones(
   fecha: string,
 ): string {
   const l: string[] = []
-  l.push(`LLAVERO "${d.nombre}" — generado el ${fecha}`, '')
+  l.push(`${d.iman ? 'IMÁN' : 'LLAVERO'} "${d.nombre}" — generado el ${fecha}`, '')
 
   l.push('QUÉ ARCHIVO ABRIR')
   l.push(`  Bambu Studio u OrcaSlicer .... ${archivo3mf}`)
@@ -35,7 +35,11 @@ export function escribirInstrucciones(
   l.push('')
 
   l.push('MEDIDAS')
-  const agujero = r.agujero ? `  ·  agujero Ø${(r.agujero.radio * 2).toFixed(1)} mm` : ''
+  const agujero = r.agujero
+    ? `  ·  agujero Ø${(r.agujero.radio * 2).toFixed(1)} mm`
+    : r.iman
+      ? `  ·  hueco del imán Ø${r.iman.diametro.toFixed(1)} x ${r.iman.profundidad.toFixed(1)} mm`
+      : ''
   l.push(
     `  ${r.medidas.map(mm).join(' x ')} mm${agujero}  ·  ~${g(r.estimacion.gramosPieza)} g de pieza`,
     '',
@@ -48,6 +52,15 @@ export function escribirInstrucciones(
   l.push(`  Relleno ${r.medidas[2] <= 3.0001 ? '100%' : '30% o más'}`)
   l.push('  Brim de 5 mm si tiene puntas finas')
   l.push('  PLA para exhibición; PETG o ASA si va a estar al sol o en el auto', '')
+
+  if (d.iman && r.iman) {
+    l.push('IMÁN')
+    l.push(
+      `  Lleva un imán de disco de ${d.iman.diametro} x ${d.iman.alto} mm, en el hueco de atrás.`,
+    )
+    l.push('  Imprimilo con el hueco hacia abajo, como viene en el archivo.')
+    l.push('  Después pegá el imán con una gota de adhesivo instantáneo o de epoxi.', '')
+  }
 
   if (r.modoColor === 'a_ras') {
     l.push('PURGA (importante)')

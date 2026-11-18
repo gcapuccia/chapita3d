@@ -50,7 +50,11 @@ export default function Descargar() {
     <div className="min-h-svh">
       <Encabezado
         appActual={esNombre ? 'nombres' : 'llaveros'}
-        accion={<BotonSecundario onClick={volver}>← {es.descargar.volver}</BotonSecundario>}
+        accion={
+          <BotonSecundario onClick={volver}>
+            ← {diseno.iman ? es.descargar.volverIman : es.descargar.volver}
+          </BotonSecundario>
+        }
       />
       <div className="mx-auto flex max-w-3xl flex-col gap-6 px-5 py-6">
         {!r ? (
@@ -64,7 +68,9 @@ export default function Descargar() {
                 <Vista3D piezas={r.piezas} colores={colores} modo="3d" />
               </div>
               <div className="flex flex-col gap-1.5">
-                <h1 className="text-2xl font-bold tracking-tight">{es.descargar.listo}</h1>
+                <h1 className="text-2xl font-bold tracking-tight">
+                  {diseno.iman ? es.descargar.listoIman : es.descargar.listo}
+                </h1>
                 <p>
                   {es.descargar.medidas(
                     r.medidas[0],
@@ -106,7 +112,17 @@ export default function Descargar() {
                 {r.modoColor === 'a_ras' && r.estimacion.cambios > 0 && (
                   <p className="rounded-xl bg-aviso p-4 text-aviso-texto">
                     💡{' '}
-                    {es.descargar.consejoPurga(r.estimacion.gramosPurga, r.estimacion.gramosPieza)}
+                    {es.descargar.consejoPurga(
+                      r.estimacion.gramosPurga,
+                      r.estimacion.gramosPieza,
+                      !!diseno.iman,
+                    )}
+                  </p>
+                )}
+
+                {diseno.iman && r.iman && (
+                  <p className="rounded-xl bg-grafito p-4 text-tiza">
+                    🧲 {es.descargar.pegarIman(diseno.iman.diametro, diseno.iman.alto)}
                   </p>
                 )}
 
@@ -116,7 +132,11 @@ export default function Descargar() {
                   disabled={!paquete}
                   className="min-h-14 rounded-2xl bg-lima px-6 text-lg font-bold text-carbon hover:bg-lima-claro disabled:opacity-40"
                 >
-                  {paquete ? es.descargar.boton(paquete.zip.byteLength) : es.descargar.preparando}
+                  {!paquete
+                    ? es.descargar.preparando
+                    : diseno.iman
+                      ? es.descargar.botonIman(paquete.zip.byteLength)
+                      : es.descargar.boton(paquete.zip.byteLength)}
                 </button>
 
                 {fallo && paquete && (
@@ -265,7 +285,11 @@ export default function Descargar() {
             </div>
           </>
         )}
-        {!r && <BotonPrimario onClick={volver}>{es.descargar.volver}</BotonPrimario>}
+        {!r && (
+          <BotonPrimario onClick={volver}>
+            {diseno.iman ? es.descargar.volverIman : es.descargar.volver}
+          </BotonPrimario>
+        )}
       </div>
     </div>
   )

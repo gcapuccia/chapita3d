@@ -6,7 +6,8 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import type { PiezaExport } from '../export/tipos.ts'
 
-export type ModoVista = 'arriba' | '3d' | 'capas'
+/** atras: de tres cuartos desde abajo, para ver el hueco del iman. */
+export type ModoVista = 'arriba' | '3d' | 'capas' | 'atras'
 
 type Props = {
   piezas: PiezaExport[]
@@ -74,7 +75,9 @@ function encuadrar(e: Escena, modo: ModoVista) {
     Math.sin(THREE.MathUtils.degToRad(e.camera.fov / 2)) * Math.min(1, e.camera.aspect)
   const distancia = (radio / alcance) * 1.05
   const direccion =
-    modo === 'arriba' ? new THREE.Vector3(0, -0.001, 1) : new THREE.Vector3(0.35, -1, 0.9)
+    modo === 'arriba'
+      ? new THREE.Vector3(0, -0.001, 1)
+      : new THREE.Vector3(0.35, -1, modo === 'atras' ? -0.9 : 0.9)
   e.camera.position.copy(centro).add(direccion.normalize().multiplyScalar(distancia))
   e.controles.target.copy(centro)
   e.controles.update()

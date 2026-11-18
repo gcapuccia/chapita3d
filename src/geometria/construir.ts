@@ -18,11 +18,20 @@ import {
 } from './drc.ts'
 import { estimarApilado, estimarAras, type Estimacion } from './estimar.ts'
 import { franjasApilado, franjasAras, type SeccionDeColor, type SolidoDeColor } from './franjas.ts'
+import {
+  espesorParaIman,
+  lugarParaIman,
+  profundidadDelHueco,
+  solidoDelHueco,
+  type Iman,
+} from './iman.ts'
 import { cuerpoDelLlavero, type Agujero } from './llavero.ts'
 import { aPiezaExport } from './malla.ts'
 import { withScope, type CrossSection, type ManifoldToplevel } from './manifold.ts'
 import { resolverSolapes, type RegionColor } from './regiones.ts'
 import { contornosDeTexto } from './texto.ts'
+
+const mm = (n: number) => String(Math.round(n * 10) / 10).replace('.', ',')
 
 export type ResultadoConstruccion = {
   modoColor: Diseno['impresion']['modoColor']
@@ -35,6 +44,8 @@ export type ResultadoConstruccion = {
   estimacion: Estimacion
   medidas: [number, number, number]
   agujero: Agujero | null
+  /** El hueco del iman de heladera, ya ubicado. */
+  iman: Iman | null
   /** Filamentos en orden de uso: por slot (a ras) o de abajo hacia arriba (apilado). */
   filamentos: Filamento[]
   cambiosDeCapa: CambioDeCapa[]
@@ -62,8 +73,8 @@ function contornosDePieza(m: ManifoldToplevel, pieza: Pieza): [number, number][]
 export function construir(d: Diseno): ResultadoConstruccion {
   return withScope((m) => {
     const avisos: Aviso[] = []
+    const capa = d.impresion.alturaCapa
     const redondear = (valor: number, que: string) => {
-      const capa = d.impresion.alturaCapa
       const r = Math.max(capa, Math.round(valor / capa) * capa)
       if (Math.abs(r - valor) > 1e-6) {
         avisos.push({
@@ -74,9 +85,21 @@ export function construir(d: Diseno): ResultadoConstruccion {
       }
       return r
     }
-    const espesor = redondear(d.cuerpo.espesor, 'El espesor')
+    let espesor = redondear(d.cuerpo.espesor, 'El espesor')
+    const medidaIman = d.iman ? `${mm(d.iman.diametro)} × ${mm(d.iman.alto)} mm` : ''
+    if (d.iman) {
+      const minimo = espesorParaIman(d.iman.alto, capa, d.cuerpo.alturaColor)
+      if (espesor < minimo - 1e-6) {
+        avisos.push({
+          codigo: 'espesor-del-iman',
+          nivel: 'aviso',
+          mensaje: `Para que entre el imán de ${medidaIman}, el espesor pasó de ${mm(espesor)} a ${mm(minimo)} mm.`,
+        })
+        espesor = minimo
+      }
+    }
     const alturaColor = redondear(
-      Math.min(d.cuerpo.alturaColor, espesor - d.impresion.alturaCapa),
+      Math.min(d.cuerpo.alturaColor, espesor - capa),
       'La capa de color',
     )
 
@@ -111,6 +134,24 @@ export function construir(d: Diseno): ResultadoConstruccion {
         ])
       : null
 
+    // El iman puede ensanchar el cuerpo (un disco atras del centro): desde aca se usa `cuerpo`
+    let cuerpo = llavero.cuerpo
+    let iman: Iman | null = null
+    if (d.iman) {
+      const diametro = d.iman.diametro + D.HOLGURA_IMAN_MM
+      const lugar = lugarParaIman(m, cuerpo, diametro)
+      cuerpo = lugar.cuerpo
+      iman = {
+        cx: lugar.centro[0],
+        cy: lugar.centro[1],
+        diametro,
+        profundidad: profundidadDelHueco(d.iman.alto, capa),
+      }
+    }
+    const hueco = iman ? solidoDelHueco(m, iman) : null
+    const conHueco = (ss: SolidoDeColor[]) =>
+      hueco ? ss.map((s) => ({ ...s, solido: s.solido.subtract(hueco) })) : ss
+
     // Agrupar por filamento; lo que usa el filamento de la base se funde con la base
     const porFilamento = new Map<string, { secciones: CrossSection[]; prioridad: number }>()
     resueltas.forEach((r) => {
@@ -139,10 +180,10 @@ export function construir(d: Diseno): ResultadoConstruccion {
     let filamentos: Filamento[]
 
     if (d.impresion.modoColor === 'a_ras') {
-      solidos = franjasAras(m, llavero.cuerpo, base, colores, espesor, alturaColor)
+      solidos = conHueco(franjasAras(m, cuerpo, base, colores, espesor, alturaColor))
       const zonaBaseArriba = colores.length
-        ? llavero.cuerpo.subtract(m.CrossSection.union(colores.map((c) => c.seccion)))
-        : llavero.cuerpo
+        ? cuerpo.subtract(m.CrossSection.union(colores.map((c) => c.seccion)))
+        : cuerpo
       const filamentosArriba = colores.length + (zonaBaseArriba.area() > 0.001 ? 1 : 0)
       const volumen = solidos.reduce((t, s) => t + s.solido.volume(), 0)
       estimacion = estimarAras(
@@ -156,8 +197,8 @@ export function construir(d: Diseno): ResultadoConstruccion {
         ...drcSlots(filamentos.length, d.impresion.slots, 'a_ras'),
       )
     } else {
-      const apilado = franjasApilado(m, llavero.cuerpo, base, colores, espesor, alturaColor)
-      solidos = apilado.solidos
+      const apilado = franjasApilado(m, cuerpo, base, colores, espesor, alturaColor)
+      solidos = conHueco(apilado.solidos)
       cambiosDeCapa = apilado.cambios.map((c) => ({
         z: c.z + D.DESPLAZAMIENTO_TOP_Z,
         hex: c.filamento.hex,
@@ -166,7 +207,7 @@ export function construir(d: Diseno): ResultadoConstruccion {
       estimacion = estimarApilado(volumen, apilado.cambios.length)
       filamentos = [base, ...apilado.cambios.map((c) => c.filamento)]
       avisos.push(
-        ...drcFlotantes(apilado.franjas, llavero.cuerpo),
+        ...drcFlotantes(apilado.franjas, cuerpo),
         ...drcSlots(filamentos.length, 1, 'apilado'),
       )
     }
@@ -175,7 +216,7 @@ export function construir(d: Diseno): ResultadoConstruccion {
     avisos.push(
       ...drcAnillo(m, llavero.cuerpoRelleno, llavero.agujero),
       ...drcDetalle(conNombre, D.ANCHO_MINIMO_DETALLE_MM),
-      ...drcIslas(conNombre, llavero.cuerpo, D.AREA_MINIMA_ISLA_MM2.estandar),
+      ...drcIslas(conNombre, cuerpo, D.AREA_MINIMA_ISLA_MM2.estandar),
     )
 
     const entera = m.Manifold.union(solidos.map((s) => s.solido))
@@ -193,6 +234,7 @@ export function construir(d: Diseno): ResultadoConstruccion {
       estimacion,
       medidas: [caja.max[0] - caja.min[0], caja.max[1] - caja.min[1], caja.max[2] - caja.min[2]],
       agujero: llavero.agujero,
+      iman,
       filamentos,
       cambiosDeCapa,
     }

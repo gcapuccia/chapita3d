@@ -7,6 +7,8 @@ const kb = (bytes: number) =>
 const g = (gramos: number) =>
   gramos < 10 ? gramos.toFixed(1).replace('.', ',') : String(Math.round(gramos))
 const mm = (n: number) => n.toFixed(1).replace('.', ',')
+/** Sin decimales de mas: "10" y no "10,0" (medidas de un iman, que se venden en mm enteros). */
+const mm1 = (n: number) => String(Math.round(n * 10) / 10).replace('.', ',')
 
 export const es = {
   marca: 'Chapita3d',
@@ -76,7 +78,7 @@ export const es = {
     atras: 'Atrás',
     tuLlavero: 'Tu llavero',
     girar: 'Arrastrá para girar',
-    vistas: { arriba: 'Arriba', tresD: '3D', capas: 'Capas' },
+    vistas: { arriba: 'Arriba', tresD: '3D', capas: 'Capas', atras: 'Dorso', adelante: 'Frente' },
     actualizando: 'Actualizando…',
     sinImagen:
       'Este proyecto se abrió sin la imagen original: el fondo y los colores no se pueden cambiar.',
@@ -128,8 +130,9 @@ export const es = {
           : 'como la palma de la mano',
     espesor: 'Espesor',
     espesores: { delgado: 'Delgado', estandar: 'Estándar', reforzado: 'Reforzado' },
-    argolla: 'Argolla',
-    argollas: { bola: 'Bolitas', comun: 'Común', gruesa: 'Gruesa', sin: 'Sin' },
+    argolla: 'Argolla o imán',
+    argollas: { bola: 'Bolitas', comun: 'Común', gruesa: 'Gruesa', sin: 'Sin', iman: 'Imán' },
+    atras: 'atrás',
     borde: 'Borde',
     texto: 'Texto',
     agregarTexto: 'Agregar texto',
@@ -137,6 +140,17 @@ export const es = {
     fuente: 'Letra',
     quitarTexto: 'Sacar el texto',
     listo: 'Descargar mi llavero',
+    listoIman: 'Descargar mi imán',
+  },
+
+  iman: {
+    medida: 'Medida del imán',
+    otra: 'Otra',
+    diametro: 'Diámetro',
+    alto: 'Alto',
+    ayuda: (diametro: number, profundidad: number) =>
+      `Atrás queda un hueco de ${mm1(diametro)} mm de ancho y ${mm1(profundidad)} de hondo. El imán se pega después de imprimir.`,
+    comoMedir: 'Medí tu imán o fijate en la publicación: suele decir algo como «10 × 2 mm».',
   },
 
   nombres: {
@@ -152,9 +166,15 @@ export const es = {
     largo: 'Es largo para un llavero: probá con una letra más chica o más angosta.',
     colorLetras: 'Color de las letras',
     colorBase: 'Color de la base',
-    argolla: 'Argolla',
-    argollas: { izquierda: 'A la izquierda', arriba: 'Arriba', sin: 'Sin argolla' },
+    argolla: 'Argolla o imán',
+    argollas: {
+      izquierda: 'Argolla a la izquierda',
+      arriba: 'Argolla arriba',
+      iman: 'Imán atrás',
+      sin: 'Ninguno',
+    },
     listo: 'Descargar mi llavero',
+    listoIman: 'Descargar mi imán',
   },
 
   avisos: {
@@ -164,7 +184,11 @@ export const es = {
 
   descargar: {
     volver: 'Volver al llavero',
+    volverIman: 'Volver al imán',
     listo: 'Tu llavero está listo',
+    listoIman: 'Tu imán está listo',
+    pegarIman: (diametro: number, alto: number) =>
+      `Después de imprimir, pegá un imán de ${mm1(diametro)} × ${mm1(alto)} mm en el hueco de atrás, con una gota de adhesivo instantáneo o de epoxi.`,
     medidas: (x: number, y: number, z: number, colores: number) =>
       `${mm(x)} × ${mm(y)} × ${mm(z)} mm · ${colores} ${colores === 1 ? 'color' : 'colores'}`,
     pieza: (gramos: number) => `Filamento de la pieza: ~${g(gramos)} g`,
@@ -173,10 +197,11 @@ export const es = {
     cebado: (cambios: number, gramos: number) =>
       `Cambios de filamento: ${cambios} ${cambios === 1 ? 'pausa' : 'pausas'} · ~${g(gramos)} g de cebado cada una`,
     // Texto 9
-    consejoPurga: (purga: number, pieza: number) =>
-      `Vas a gastar unos ${g(purga)} g de filamento en purga${purga > pieza ? `: más que el llavero, que pesa ${g(pieza)} g` : ''}. Imprimí 6 juntos en la misma placa y la purga se reparte entre todos.`,
+    consejoPurga: (purga: number, pieza: number, iman = false) =>
+      `Vas a gastar unos ${g(purga)} g de filamento en purga${purga > pieza ? `: más que ${iman ? 'el imán' : 'el llavero'}, que pesa ${g(pieza)} g` : ''}. Imprimí 6 juntos en la misma placa y la purga se reparte entre todos.`,
     // Texto 10
     boton: (bytes: number) => `Descargar mi llavero (ZIP · ${kb(bytes)})`,
+    botonIman: (bytes: number) => `Descargar mi imán (ZIP · ${kb(bytes)})`,
     preparando: 'Preparando el archivo…',
     slicer: '¿Con qué vas a imprimir?',
     slicers: { bambu: 'Bambu Studio u OrcaSlicer', prusa: 'PrusaSlicer', otro: 'Otra / No sé' },

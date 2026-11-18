@@ -46,7 +46,8 @@ export const esLanding = {
       {
         id: 'llaveros',
         nombre: 'Llaveros',
-        texto: 'Tu logo o tu dibujo convertido en un llavero multicolor, listo para el AMS.',
+        texto:
+          'Tu logo o tu dibujo convertido en un llavero multicolor o en un imán para la heladera, listo para el AMS.',
         boton: 'Probar con mi imagen',
         figura: 'Un llavero hecho con esta herramienta',
       },
@@ -54,7 +55,7 @@ export const esLanding = {
         id: 'nombres',
         nombre: 'Llavero con nombre',
         texto:
-          'Escribís un nombre y elegís la letra y los dos colores. Las letras salen unidas y con la argolla al costado.',
+          'Escribís un nombre y elegís la letra y los dos colores. Las letras salen unidas, como llavero o como imán para la heladera.',
         boton: 'Escribir un nombre',
         figura: 'Un llavero con un nombre escrito',
       },

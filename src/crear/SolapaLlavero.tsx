@@ -3,12 +3,14 @@
 
 import { useState } from 'react'
 import { FUENTES, type IdFuente } from '../datos/fuentes.ts'
+import { conIman } from '../diseno/iman.ts'
 import { agregarTexto } from '../diseno/texto.ts'
 import type { Diseno, TipoArgolla } from '../diseno/tipos.ts'
 import { cambiarDiseno, useDocumento } from '../estado/documento.ts'
 import { es } from '../i18n/es.ts'
 import * as D from '../pipeline/defaults.ts'
 import { Grupo, Opciones } from './controles.tsx'
+import { MedidaDelIman } from './MedidaDelIman.tsx'
 
 const LADO_BASE = D.LADO_MAYOR_MM
 
@@ -84,16 +86,28 @@ export function PanelLlavero() {
       </Grupo>
 
       <Grupo titulo={es.llavero.argolla}>
-        <Opciones<TipoArgolla>
+        <Opciones<TipoArgolla | 'iman'>
           nombre="argolla"
-          valor={diseno.argolla.tipo}
-          alCambiar={(tipo) => cambiarDiseno((d) => ({ ...d, argolla: { ...d.argolla, tipo } }))}
-          opciones={(['bola', 'comun', 'gruesa', 'sin'] as const).map((k) => ({
+          valor={diseno.iman ? 'iman' : diseno.argolla.tipo}
+          alCambiar={(tipo) =>
+            cambiarDiseno((d) =>
+              tipo === 'iman'
+                ? conIman(d, true)
+                : { ...conIman(d, false), argolla: { ...d.argolla, tipo } },
+            )
+          }
+          opciones={(['bola', 'comun', 'gruesa', 'sin', 'iman'] as const).map((k) => ({
             valor: k,
             etiqueta: es.llavero.argollas[k],
-            detalle: k === 'sin' ? '—' : `Ø${String(D.DIAMETRO_AGUJERO[k]).replace('.', ',')}`,
+            detalle:
+              k === 'iman'
+                ? es.llavero.atras
+                : k === 'sin'
+                  ? '—'
+                  : `Ø${String(D.DIAMETRO_AGUJERO[k]).replace('.', ',')}`,
           }))}
         />
+        <MedidaDelIman />
       </Grupo>
 
       <Grupo titulo={es.llavero.borde}>

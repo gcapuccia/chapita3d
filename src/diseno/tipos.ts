@@ -74,6 +74,8 @@ export type Diseno = {
     unir?: boolean
   }
   argolla: { tipo: TipoArgolla; posicion: PosicionArgolla }
+  /** Iman de heladera: medidas del iman de disco, en mm. Atras le queda un hueco para pegarlo. */
+  iman?: { diametro: number; alto: number }
   producto?: Producto
   filamentos: Filamento[]
   piezas: Pieza[]

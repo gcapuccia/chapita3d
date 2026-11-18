@@ -54,21 +54,26 @@ export default function Crear({ hash }: { hash: string }) {
     )
   }
 
+  // Sin iman no hay "atras" que mirar: si lo sacaron estando ahi, vuelve a la vista 3D
+  const modoVisible = modo === 'atras' && !diseno?.iman ? '3d' : modo
   const vista3D = resultado && (
     <div className="relative size-full min-h-64">
-      <Vista3D piezas={resultado.piezas} colores={colores} modo={modo} />
+      <Vista3D piezas={resultado.piezas} colores={colores} modo={modoVisible} />
       {construyendo && (
         <span className="absolute top-3 right-3 rounded-full bg-grafito/95 px-3 py-1 text-xs text-tiza-suave shadow-sm">
           {es.crear.actualizando}
         </span>
       )}
       <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1 rounded-full bg-grafito/95 p-1 shadow-sm">
-        {(['arriba', '3d', 'capas'] as const).map((m) => (
+        {(diseno?.iman
+          ? (['arriba', '3d', 'atras', 'capas'] as const)
+          : (['arriba', '3d', 'capas'] as const)
+        ).map((m) => (
           <button
             key={m}
             type="button"
             onClick={() => setModo(m)}
-            className={`min-h-9 rounded-full px-3 text-xs ${modo === m ? 'bg-lima text-carbon' : 'text-tiza-suave'}`}
+            className={`min-h-9 rounded-full px-3 text-xs ${modoVisible === m ? 'bg-lima text-carbon' : 'text-tiza-suave'}`}
           >
             {es.crear.vistas[m === '3d' ? 'tresD' : m]}
           </button>
@@ -163,7 +168,9 @@ export default function Crear({ hash }: { hash: string }) {
             ? es.fondo.listo
             : solapa === 'colores'
               ? es.colores.listo
-              : es.llavero.listo}{' '}
+              : diseno?.iman
+                ? es.llavero.listoIman
+                : es.llavero.listo}{' '}
           →
         </BotonPrimario>
       </footer>

@@ -32,7 +32,7 @@ export function empaquetar(d: Diseno, r: ResultadoConstruccion, fecha: string): 
     const errores = r.avisos.filter((a) => a.nivel === 'error').map((a) => a.mensaje)
     throw new Error(`No se puede descargar: ${errores.join(' ')}`)
   }
-  const base = `llavero-${slug(d.nombre)}`
+  const base = `${d.iman ? 'iman' : 'llavero'}-${slug(d.nombre)}`
   const archivo3mf = `${base}_bambu-orca.3mf`
 
   // A ras: un color por slot declarado (los que sobran van en gris, el archivo describe la impresora).

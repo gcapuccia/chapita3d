@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import FranjaAvisos from '../crear/FranjaAvisos.tsx'
+import { MedidaDelIman } from '../crear/MedidaDelIman.tsx'
 import Vista3D from '../crear/Vista3D.tsx'
 import { BotonPrimario, Grupo, Opciones } from '../crear/controles.tsx'
 import { coloresDePiezas } from '../crear/util.ts'
@@ -16,6 +17,7 @@ import {
   leerNombre,
   type CambioDeNombre,
 } from '../diseno/nombre.ts'
+import { conIman } from '../diseno/iman.ts'
 import type { Diseno } from '../diseno/tipos.ts'
 import {
   cambiarColorDeFilamento,
@@ -33,9 +35,10 @@ const t = es.nombres
 /** Mas largo que esto ya no es un llavero comodo (una tarjeta SUBE mide 85 mm). */
 const LARGO_MAXIMO_MM = 85
 
-type Argolla = 'izquierda' | 'arriba' | 'sin'
+type Argolla = 'izquierda' | 'arriba' | 'iman' | 'sin'
 
 function argollaDe(d: Diseno): Argolla {
+  if (d.iman) return 'iman'
   if (d.argolla.tipo === 'sin') return 'sin'
   return d.argolla.posicion === 'auto' ? 'arriba' : 'izquierda'
 }
@@ -100,6 +103,7 @@ export default function Nombres() {
 
   const actual = diseno && esNombre ? leerNombre(diseno) : null
   const [borrador, setBorrador] = useState<string | null>(null)
+  const [atras, setAtras] = useState(false)
   const resultado = construccion?.resultado
   const colores = useMemo(() => (resultado ? coloresDePiezas(resultado) : []), [resultado])
 
@@ -118,7 +122,27 @@ export default function Nombres() {
 
   const vista = (
     <div className="relative size-full min-h-64">
-      {resultado && <Vista3D piezas={resultado.piezas} colores={colores} modo="3d" />}
+      {resultado && (
+        <Vista3D
+          piezas={resultado.piezas}
+          colores={colores}
+          modo={diseno.iman && atras ? 'atras' : '3d'}
+        />
+      )}
+      {diseno.iman && (
+        <div className="absolute top-3 left-3 flex gap-1 rounded-full bg-grafito/95 p-1 shadow-sm">
+          {[false, true].map((a) => (
+            <button
+              key={String(a)}
+              type="button"
+              onClick={() => setAtras(a)}
+              className={`min-h-9 rounded-full px-3 text-xs ${atras === a ? 'bg-lima text-carbon' : 'text-tiza-suave'}`}
+            >
+              {a ? es.crear.vistas.atras : es.crear.vistas.adelante}
+            </button>
+          ))}
+        </div>
+      )}
       {construyendo && (
         <span className="absolute top-3 right-3 rounded-full bg-grafito/95 px-3 py-1 text-xs text-tiza-suave shadow-sm">
           {es.crear.actualizando}
@@ -214,7 +238,7 @@ export default function Nombres() {
                 {actual.tamano} mm
               </span>
             </div>
-            {resultado && resultado.medidas[0] > LARGO_MAXIMO_MM && (
+            {resultado && !diseno.iman && resultado.medidas[0] > LARGO_MAXIMO_MM && (
               <p className="text-xs text-aviso-texto">{t.largo}</p>
             )}
           </Grupo>
@@ -238,22 +262,27 @@ export default function Nombres() {
               nombre="argolla"
               valor={argollaDe(diseno)}
               alCambiar={(a) =>
-                cambiarDiseno((d) => ({
-                  ...d,
-                  argolla:
-                    a === 'sin'
-                      ? { ...d.argolla, tipo: 'sin' }
-                      : {
-                          tipo: d.argolla.tipo === 'sin' ? 'comun' : d.argolla.tipo,
-                          posicion: a === 'arriba' ? 'auto' : 'izquierda',
-                        },
-                }))
+                cambiarDiseno((d) => {
+                  if (a === 'iman') return conIman(d, true)
+                  const sinIman = conIman(d, false)
+                  return {
+                    ...sinIman,
+                    argolla:
+                      a === 'sin'
+                        ? { ...d.argolla, tipo: 'sin' }
+                        : {
+                            tipo: d.argolla.tipo === 'sin' ? 'comun' : d.argolla.tipo,
+                            posicion: a === 'arriba' ? 'auto' : 'izquierda',
+                          },
+                  }
+                })
               }
-              opciones={(['izquierda', 'arriba', 'sin'] as const).map((a) => ({
+              opciones={(['izquierda', 'arriba', 'iman', 'sin'] as const).map((a) => ({
                 valor: a,
                 etiqueta: t.argollas[a],
               }))}
             />
+            <MedidaDelIman />
           </Grupo>
 
           <Grupo titulo={es.llavero.espesor}>
@@ -291,7 +320,7 @@ export default function Nombres() {
 
       <footer className="fixed inset-x-0 bottom-0 flex items-center justify-end gap-3 border-t border-borde bg-grafito px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:static">
         <BotonPrimario onClick={descargar} disabled={!listo}>
-          {t.listo} →
+          {diseno.iman ? t.listoIman : t.listo} →
         </BotonPrimario>
       </footer>
     </div>
